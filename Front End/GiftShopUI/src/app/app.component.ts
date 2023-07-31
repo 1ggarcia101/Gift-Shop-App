@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { GiftShopUser } from './models/giftShopUser';
+import { GiftShopUserService } from './services/gift-shop-user.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'GiftShopUI';
+  users: GiftShopUser[] = [];
+
+  constructor(private giftShopUserService: GiftShopUserService){}
+
+  ngOnInit() : void{
+    this.users = this.giftShopUserService.getGiftShopUsers();
+    console.log(this.users);
+  }
 }
