@@ -14,7 +14,8 @@ export class AppComponent {
   constructor(private giftShopUserService: GiftShopUserService){}
 
   ngOnInit() : void{
-    this.users = this.giftShopUserService.getGiftShopUsers();
-    console.log(this.users);
+    this.giftShopUserService
+    .getGiftShopUsers()
+    .subscribe((result: GiftShopUser[]) => (this.users = result));
   }
 }
