@@ -13,6 +13,6 @@ export class GiftShopUserService {
   constructor(private http: HttpClient) { }
 
   public getGiftShopUsers() : Observable<GiftShopUser[]> {
-    return this.http.get<GiftShopUser[]>(`${environment}/${this.url}`);
+    return this.http.get<GiftShopUser[]>(`${environment.apiURL}/${this.url}`);
   }
 }

@@ -1,5 +1,7 @@
+using GiftShopAPI.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GiftShopAPI.Controllers
 {
@@ -7,20 +9,17 @@ namespace GiftShopAPI.Controllers
     [ApiController]
     public class GiftShopUsersController : ControllerBase
     {
+        private readonly DataContext _context;
+
+        public GiftShopUsersController(DataContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<GiftShopUser>>> GetGiftShopUsers()
         {
-            return new List<GiftShopUser>
-            {
-                new GiftShopUser
-                {
-                    FirstName = "George",
-                    LastName = "Smith",
-                    Email = "dsfg@gift.com",
-                    Password = "sdfhdfgh",
-                    UserType = "Customer"
-                }
-            };
+            return Ok(await _context.GiftShopUsers.ToListAsync());
         }
     }
 }
