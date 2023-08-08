@@ -6,6 +6,6 @@ namespace GiftShopAPI.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<GiftShopUser> GiftShopUsers => Set<GiftShopUser>();
+        public DbSet<GiftShopUser> GiftShopUsers { get; set; }
     }
 }
