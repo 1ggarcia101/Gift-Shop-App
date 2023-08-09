@@ -1,30 +1,21 @@
-// import { Injectable } from '@angular/core';
-// import { GiftShopUser } from '../models/giftShopUser';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { Observable } from 'rxjs';
-// import { environment } from 'src/environments/environment.development';
+import { Injectable } from '@angular/core';
+import { GiftShopUser } from '../models/giftShopUser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class UserSignupService {
+@Injectable({
+  providedIn: 'root'
+})
+export class UserSignupService {
 
-//   private url = environment.apiURL;
+  private url = environment.apiURL;
+  private _register = "/GiftShopUsers/register"
 
-//   signupObj: any = {
-//     Id: 0,
-//     FirstName: '',
-//     LastName: '',
-//     Email: '',
-//     Password: ''
-//   }
+  constructor(private http: HttpClient) { }
 
-//   constructor(private http: HttpClient) { }
-
-//   addUser(user:GiftShopUser): Observable<any> {
-//     const headers = { 'content-type': 'application/json'}  
-//     const body=JSON.stringify(user);
-//     console.log(body)
-//     return this.http.post(this.url + 'people', body,{'headers':headers})
-//   }
-// }
+  addUser(user:GiftShopUser): Observable<any> {
+    const headers = { 'content-type': 'application/json'}  
+    return this.http.post(this.url + this._register, user, {'headers':headers})
+  }
+}
