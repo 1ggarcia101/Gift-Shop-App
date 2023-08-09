@@ -12,7 +12,6 @@ import { UserSignupService } from 'src/app/services/user-signup.service';
 export class SignupPageComponent implements OnInit{
 
   signupObj: GiftShopUser = {
-    id: '',
     firstName: '',
     lastName: '',
     email: '',
