@@ -15,7 +15,7 @@ export class UserLoginService {
   constructor(private http: HttpClient) { }
 
   getUsers():Observable<GiftShopUser[]> {
-    return this.http.get<GiftShopUser[]>(`${environment.apiURL}/${this.url}`)
+    return this.http.get<GiftShopUser[]>(this.url)
       .pipe(catchError(this.handleError<GiftShopUser[]>('getUsers', [])))
   }
 

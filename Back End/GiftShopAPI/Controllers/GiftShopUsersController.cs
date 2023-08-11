@@ -27,6 +27,21 @@ namespace GiftShopAPI.Controllers
             return obj;
         }
 
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult<GiftShopUser>> LoginUser(GiftShopUser obj)
+        {
+            var dbUser = await _context.GiftShopUsers.FindAsync(obj.Email);
+            if (dbUser == null)
+            {
+                return BadRequest("User not found.");
+            }
+            else
+            {
+                return Ok("User Found.");
+            }
+        }
+
         //[HttpGet]
         //public async Task<ActionResult<List<GiftShopUser>>> GetGiftShopUsers()
         //{
