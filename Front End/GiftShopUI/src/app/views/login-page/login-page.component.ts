@@ -35,7 +35,7 @@ export class LoginPageComponent {
   public onLogin(){
     this._userLoginService.getUsers().subscribe(
       res => {
-        console.log(res)
+        console.log("login succesful")
         // redirect
         // msg succefull
         // ...

@@ -1,8 +1,12 @@
 using GiftShopAPI.Data;
+using GiftShopAPI.Entities;
+using GiftShopAPI.models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace GiftShopAPI.Controllers
 {
@@ -12,10 +16,14 @@ namespace GiftShopAPI.Controllers
     public class GiftShopUsersController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly UserManager<GiftShopUser> _userManager;
+        private readonly SignInManager<GiftShopUser> _signInManager;
 
-        public GiftShopUsersController(DataContext context)
+        public GiftShopUsersController(DataContext context, UserManager<GiftShopUser> userManager, SignInManager<GiftShopUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost]
@@ -29,18 +37,46 @@ namespace GiftShopAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<GiftShopUser>> LoginUser(GiftShopUser obj)
+       public async Task<IActionResult> Login([FromBody]UserLoginRequestDto model)
         {
-            var dbUser = await _context.GiftShopUsers.FindAsync(obj.Email);
-            if (dbUser == null)
+            var status = LoginStatus.NotAllowed;
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
             {
-                return BadRequest("User not found.");
+                if (user.Email == null)
+                {
+                    status = LoginStatus.NotConfirmed;
+                }
+                else
+                {
+                    status = await DoLogin(user, model);
+                }
             }
-            else
-            {
-                return Ok("User Found.");
-            }
+
+            return Ok(new LoginResult { Status = status });
         }
+
+        private async Task<LoginStatus> DoLogin(GiftShopUser user, UserLoginRequestDto model)
+        {
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, false);
+                return LoginStatus.Success;
+            }
+
+
+            if (result == SignInResult.Failed)
+            {
+                return LoginStatus.Failed;
+            }
+
+            throw new Exception("bad request");
+
+        }
+
+
 
         //[HttpGet]
         //public async Task<ActionResult<List<GiftShopUser>>> GetGiftShopUsers()
