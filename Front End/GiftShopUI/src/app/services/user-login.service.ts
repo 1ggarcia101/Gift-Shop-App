@@ -11,19 +11,13 @@ import { catchError } from 'rxjs';
 export class UserLoginService {
 
   private url = environment.apiURL
+  private _login = "/GiftShopUsers/login"
 
   constructor(private http: HttpClient) { }
 
-  getUsers():Observable<GiftShopUser[]> {
-    return this.http.get<GiftShopUser[]>(this.url)
-      .pipe(catchError(this.handleError<GiftShopUser[]>('getUsers', [])))
-  }
-
-  private handleError<T>(operation = 'operation', result?: T){
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    }
+  loginUser(user: GiftShopUser): Observable<any> {
+    const headers = { 'content-type': 'application/json'}  
+    return this.http.post(this.url + this._login, user, {'headers':headers})
   }
 
 

@@ -15,6 +15,7 @@ import { SignupPageComponent } from './views/signup-page/signup-page.component';
 import { SingleProductPageComponent } from './views/single-product-page/single-product-page.component';
 import { ShoppingCartPageComponent } from './views/shopping-cart-page/shopping-cart-page.component';
 import { CheckoutPageComponent } from './views/checkout-page/checkout-page.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CheckoutPageComponent } from './views/checkout-page/checkout-page.compo
     SignupPageComponent,
     SingleProductPageComponent,
     ShoppingCartPageComponent,
-    CheckoutPageComponent
+    CheckoutPageComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

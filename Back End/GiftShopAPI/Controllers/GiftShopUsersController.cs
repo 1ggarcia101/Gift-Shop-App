@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace GiftShopAPI.Controllers
@@ -16,14 +17,10 @@ namespace GiftShopAPI.Controllers
     public class GiftShopUsersController : ControllerBase
     {
         private readonly DataContext _context;
-        private readonly UserManager<GiftShopUser> _userManager;
-        private readonly SignInManager<GiftShopUser> _signInManager;
 
-        public GiftShopUsersController(DataContext context, UserManager<GiftShopUser> userManager, SignInManager<GiftShopUser> signInManager)
+        public GiftShopUsersController(DataContext context)
         {
             _context = context;
-            _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         [HttpPost]
@@ -37,96 +34,81 @@ namespace GiftShopAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-       public async Task<IActionResult> Login([FromBody]UserLoginRequestDto model)
+        public IActionResult Login(UserLoginRequestDto request)
         {
-            var status = LoginStatus.NotAllowed;
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            GiftShopUser user = _context.GiftShopUsers.SingleOrDefault(u => u.Email == request.Email);
+
+
+            if (user == null)
             {
-                if (user.Email == null)
-                {
-                    status = LoginStatus.NotConfirmed;
-                }
-                else
-                {
-                    status = await DoLogin(user, model);
-                }
+                return NotFound(new { Success = false, Message = "User not found" });
             }
 
-            return Ok(new LoginResult { Status = status });
+            if (user.Password != request.Password)
+            {
+                return Unauthorized(new { Success = false, Message = "Invalid credentials" });
+            }
+
+            // User is authenticated, you can generate a token or perform other actions here
+            string token = GenerateTokenForUser(user);
+
+            return Ok(request);
         }
 
-        private async Task<LoginStatus> DoLogin(GiftShopUser user, UserLoginRequestDto model)
+        private string GenerateTokenForUser(GiftShopUser user)
         {
-            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-                return LoginStatus.Success;
-            }
-
-
-            if (result == SignInResult.Failed)
-            {
-                return LoginStatus.Failed;
-            }
-
-            throw new Exception("bad request");
-
+            // Generate and return a token (you'll need to implement this)
+            // Example using a JWT library: return JwtService.GenerateToken(user);
+            return "your_generated_token_here";
         }
-
-
-
-        //[HttpGet]
-        //public async Task<ActionResult<List<GiftShopUser>>> GetGiftShopUsers()
-        //{
-        //    return Ok(await _context.GiftShopUsers.ToListAsync());
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult<List<GiftShopUser>>> CreateGiftShopUser(GiftShopUser user)
-        //{
-        //    _context.GiftShopUsers.Add(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok(await _context.GiftShopUsers.ToListAsync());
-        //}
-
-        //[HttpPut]
-        //public async Task<ActionResult<List<GiftShopUser>>> UpdateGiftShopUser(GiftShopUser user)
-        //{
-        //    var dbUser = await _context.GiftShopUsers.FindAsync(user.Id);
-        //    if (dbUser == null)
-        //    {
-        //        return BadRequest("User not found.");
-        //    }
-
-        //    dbUser.Id = user.Id;
-        //    dbUser.FirstName = user.FirstName;
-        //    dbUser.LastName = user.LastName;
-        //    dbUser.Email = user.Email;
-        //    dbUser.UserType = user.UserType;
-        //    dbUser.Password = user.Password;
-
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok(await _context.GiftShopUsers.ToListAsync());
-        //}
-
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<List<GiftShopUser>>> DeleteGiftShopUser(int id)
-        //{
-        //    var dbuser = await _context.GiftShopUsers.FindAsync(id);
-        //    if (dbuser == null)
-        //    {
-        //        return BadRequest("User not found.");
-        //    }
-
-        //    _context.GiftShopUsers.Remove(dbuser);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok(await _context.GiftShopUsers.ToListAsync());
-        //}
     }
+
+
+
+
+    // [HttpPost]
+    // [Route("login")]
+    //public async Task<IActionResult> Login([FromBody]UserLoginRequestDto model)
+    // {
+    //     var status = LoginStatus.NotAllowed;
+    //     var user = await _userManager.FindByEmailAsync(model.Email);
+    //     if (user != null)
+    //     {
+    //         if (user.Email == null)
+    //         {
+    //             status = LoginStatus.NotConfirmed;
+    //         }
+    //         else
+    //         {
+    //             status = await DoLogin(user, model);
+    //         }
+    //     }
+
+    //     return Ok(new LoginResult { Status = status });
+    // }
+
+    // private async Task<LoginStatus> DoLogin(GiftShopUser user, UserLoginRequestDto model)
+    // {
+    //     var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+    //     if (result.Succeeded)
+    //     {
+    //         await _signInManager.SignInAsync(user, false);
+    //         return LoginStatus.Success;
+    //     }
+
+
+    //     if (result == SignInResult.Failed)
+    //     {
+    //         return LoginStatus.Failed;
+    //     }
+
+    //     throw new Exception("bad request");
+
+    // }
+
+
+
+    
 }
+

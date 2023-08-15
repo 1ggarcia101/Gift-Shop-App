@@ -9,7 +9,7 @@ namespace GiftShopAPI.Entities
         public int ProductId { get; set; }
         public string ProductName { get; set; } = string.Empty;
         public string ProductDescription { get; set; } = string.Empty;
-        public string ProductCategory { get; set; } = string.Empty;
+        public ProductType ProductCategory { get; set; } 
         public decimal ProductPrice { get; set; } = decimal.Zero;
         public decimal ProductQuantity { get; set; } = decimal.Zero;
 
