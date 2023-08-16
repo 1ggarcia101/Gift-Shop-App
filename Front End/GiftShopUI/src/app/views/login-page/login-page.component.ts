@@ -4,7 +4,6 @@ import { GiftShopUser } from 'src/app/models/giftShopUser';
 import { UserLoginService } from 'src/app/services/user-login.service';
 import { catchError } from 'rxjs';
 import { throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -18,14 +17,12 @@ export class LoginPageComponent implements OnInit{
   }
 
   loginObj: GiftShopUser = {
-    firstName: '',
+     firstName: '',
     lastName: '',
     email: '',
     password: '',
     userType: 1
   }
-
-  errorMessage: string = '';
 
   constructor (
     private router: Router,
@@ -39,26 +36,15 @@ export class LoginPageComponent implements OnInit{
 
   public onLogin(){
     this._userLoginService.loginUser(this.loginObj)
-      .subscribe(
-        (response) => {
-          if (response.Success) {
-            console.log('Login successful:', response.Message);
-
-            // Extract the token from the response
-            const token = response.Token;
-
-            // Store the token, navigate to another page, etc.
-          } else {
-            // Handle unsuccessful login (incorrect credentials, user not found, etc.)
-            console.error('Login error:', response.Message);
-            this.errorMessage = response.Message; // Display the error message to the user
-          }
-        },
-        (error: HttpErrorResponse) => {
-          // Handle network or other errors
+      .pipe(
+        catchError(error => {
           console.error('Login error:', error);
-          this.errorMessage = 'An error occurred. Please try again later.';
-        }
-      );
+          return throwError(error);
+        })
+      )
+      .subscribe(() => {
+        console.log('Login successful');
+        // Redirect to another page or perform other actions
+      });
   }
 }
