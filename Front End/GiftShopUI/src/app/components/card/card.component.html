@@ -1,0 +1,10 @@
+<div class="card">
+    <img class="card-img-top" src="{{ productObj.productImage }}" alt="Card image cap" width="100" height="300">
+    <div class="card-body">
+      <h5 class="card-title">{{ productObj.productName }}</h5>
+      <p>{{ productObj.productDescription }}</p>
+      <p>Price: {{ productObj.productPrice | currency }}</p>
+      <button type="button" class="btn btn-info">Update</button>
+      <button type="button" class="btn btn-danger">Delete</button>
+    </div>
+</div>

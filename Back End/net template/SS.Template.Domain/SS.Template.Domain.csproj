@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <AssemblyName>SS.Template.Domain</AssemblyName>
-    <RootNamespace>SS.Template.Domain</RootNamespace>
-  </PropertyGroup>
-</Project>

@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="border">
+    <button class="btn btn-md btn-outline-primary" (click)="open(content)">Add Product</button>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>ProductName</th>
+      <th>ProductDescription</th>
+      <th>productImage</th>
+      <th>productPrice</th>
+      <th>productCategory</th>
+      <td>
+        <button class="btn btn-sm btn-info">
+          <i class="fa fa-search"></i>Details</button>
+        <button class="btn btn-sm btn-warning">
+          <i class="fa fa-edit"></i>Edit</button>
+        <button class="btn btn-sm btn-danger">
+          <i class="fa fa-remove"></i>Delete</button>
+      </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products">
+      <td><span>{{productObj.productId}}</span></td>
+      <td><span>{{productObj.productName}}</span></td>
+      <td><span>{{productObj.productDescription}}</span></td>
+      <td><span>{{productObj.productImage}}</span></td>
+      <td><span>{{productObj.productCategory}}</span></td>
+      <td><span>{{productObj.productPrice}}</span></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Product</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+      <div class="form-group">
+        <label for="productname">Product Name</label>
+        <div class="input-group">
+          <input id="productname" name="productname" class="form-control" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productdescription">Product Description</label>
+        <div class="input-group">
+          <input id="productdescription" name="productdescription" class="form-control" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productimage">Product Image</label>
+        <div class="input-group">
+          <input id="productimage" name="productimage" class="form-control" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productprice">Product Price</label>
+        <div class="input-group">
+          <input id="productprice" name="productprice" class="form-control" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productcategory">Product Category</label>
+        <div class="input-group">
+          <input id="productcategory" name="productcategory" class="form-control" >
+        </div>
+      </div>
+      <div class="border text-center">
+        <button data-dismiss="modal" class="btn btn-info">Submit</button>
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>

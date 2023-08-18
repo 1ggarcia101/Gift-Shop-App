@@ -7,6 +7,7 @@ import { SignupPageComponent } from './views/signup-page/signup-page.component';
 import { SingleProductPageComponent } from './views/single-product-page/single-product-page.component';
 import { ShoppingCartPageComponent } from './views/shopping-cart-page/shopping-cart-page.component';
 import { CheckoutPageComponent } from './views/checkout-page/checkout-page.component';
+import { AdminPageComponent } from './views/admin-page/admin-page.component';
 
 const routes: Routes = [
     { path: 'app-root', component: AppComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
     { path: 'app-single-product-page', component: SingleProductPageComponent},
     { path: 'app-shopping-cart-page', component: ShoppingCartPageComponent},
     { path: 'app-checkout-page', component: CheckoutPageComponent},
+    { path: 'app-admin-page', component: AdminPageComponent},
     { path: '', redirectTo: 'app-homepage', pathMatch: 'full'}
 ];
 

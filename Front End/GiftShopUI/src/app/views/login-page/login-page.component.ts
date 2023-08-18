@@ -42,9 +42,10 @@ export class LoginPageComponent implements OnInit{
           return throwError(error);
         })
       )
-      .subscribe(() => {
-        console.log('Login successful');
-        // Redirect to another page or perform other actions
+      .subscribe((res) => {
+        console.log('Login successful', res);
+
+        this.router.navigate(['app-homepage']);
       });
   }
 }
