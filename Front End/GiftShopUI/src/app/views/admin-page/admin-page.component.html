@@ -13,24 +13,30 @@
       <th>productCategory</th>
       <th>productQuantity</th>
       <td>
-        <button class="btn btn-sm btn-info">
-          <i class="fa fa-search"></i>Details</button>
-        <button class="btn btn-sm btn-warning">
-          <i class="fa fa-edit"></i>Edit</button>
-        <button class="btn btn-sm btn-danger">
-          <i class="fa fa-remove"></i>Delete</button>
+        Options
       </td>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let product of products">
-      <td><span>{{productObj.productId}}</span></td>
-      <td><span>{{productObj.productName}}</span></td>
-      <td><span>{{productObj.productDescription}}</span></td>
-      <td><span>{{productObj.productImage}}</span></td>
-      <td><span>{{productObj.productCategory}}</span></td>
-      <td><span>{{productObj.productPrice}}</span></td>
-      <td><span>{{productObj.productQuantity}}</span></td>
+      <td><span>{{product.productId}}</span></td>
+      <td><span>{{product.productName}}</span></td>
+      <td><span>{{product.productDescription}}</span></td>
+      <td><span>{{product.productImage}}</span></td>
+      <td><span>{{product.productCategory}}</span></td>
+      <td><span>{{product.productPrice}}</span></td>
+      <td><span>{{product.productQuantity}}</span></td>
+      <td>
+        <button class="btn btn-sm btn-info">
+          <i class="fa fa-search"></i>Details
+        </button>
+        <button class="btn btn-sm btn-warning" >
+          <i class="fa fa-edit"></i>Edit
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="deleteProducts()">
+          <i class="fa fa-remove"></i>Delete
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>
@@ -44,46 +50,51 @@
     </button>
   </div>
   <div class="modal-body">
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <form [formGroup]="productForm">
       <div class="form-group">
         <label for="productname">Product Name</label>
         <div class="input-group">
-          <input id="productname" name="productName" class="form-control" >
+          <input id="productname" formControlName="ProductName" class="form-control">
         </div>
       </div>
       <div class="form-group">
         <label for="productdescription">Product Description</label>
         <div class="input-group">
-          <input id="productdescription" name="productDescription" class="form-control" >
+          <input id="productdescription" formControlName="ProductDescription" class="form-control">
         </div>
       </div>
       <div class="form-group">
         <label for="productimage">Product Image</label>
         <div class="input-group">
-          <input id="productimage" name="productImage" class="form-control" >
+          <input id="productimage" formControlName="ProductImage" class="form-control">
         </div>
       </div>
       <div class="form-group">
         <label for="productprice">Product Price</label>
         <div class="input-group">
-          <input id="productprice" name="productPrice" class="form-control" >
+          <input id="productprice" formControlName="ProductPrice" class="form-control" type="number">
         </div>
       </div>
       <div class="form-group">
         <label for="productcategory">Product Category</label>
         <div class="input-group">
-          <input id="productcategory" name="productCategory" class="form-control" >
+          <!-- <input id="productcategory" formControlName="ProductCategory" class="form-control"> -->
+          <select class="form-control" formControlName="ProductCategory">
+            <option *ngFor="let categories of categoryList" [value]="categories">
+              {{'enums.productCategory.'+categories | translate}}
+            </option>
+          </select>
         </div>
       </div>
       <div class="form-group">
         <label for="productcategory">Product Quantity</label>
         <div class="input-group">
-          <input id="productquantity" name="productQuantity" class="form-control" >
+          <input id="productquantity" formControlName="ProductQuantity" class="form-control" type="number">
         </div>
       </div>
       <div class="border text-center">
-        <button type="submit" data-dismiss="modal" class="btn btn-info">Submit</button>
-        </div>
+        <button type="submit" data-dismiss="modal" class="btn btn-info" (click)="onSubmit()">Submit</button>
+      </div>
     </form>
   </div>
   <div class="modal-footer">

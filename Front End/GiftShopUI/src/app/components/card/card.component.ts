@@ -11,13 +11,13 @@ import { ProductCategory } from 'src/app/models/adminProducts';
 export class CardComponent {
 
   productObj : AdminProduct = {
-    productId: '',
-    productName: '',
-    productDescription: '',
-    productImage: '',
-    productCategory: 0,
-    productPrice: 0,
-    productQuantity: 0
+    ProductId: '',
+    ProductName: '',
+    ProductDescription: '',
+    ProductImage: '',
+    ProductCategory: 0,
+    ProductPrice: 0,
+    ProductQuantity: 0
   }
 
   constructor (

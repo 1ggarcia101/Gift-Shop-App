@@ -25,14 +25,12 @@ namespace GiftShopAPI.Controllers
 
 
         [HttpGet]
-        [Route("get")]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
             return Ok(await _context.Products.ToListAsync());
         }
 
         [HttpPost]
-        [Route("post")]
         public async Task<ActionResult<List<Product>>> CreateProduct(Product product)
         {
             _context.Products.Add(product);
@@ -42,7 +40,6 @@ namespace GiftShopAPI.Controllers
         }
 
         [HttpPut]
-        [Route("put")]
         public async Task<ActionResult<List<Product>>> UpdateProduct(Product product)
         {
             var dbProduct = await _context.Products.FindAsync(product.ProductId);
@@ -65,7 +62,6 @@ namespace GiftShopAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("delete")]
         public async Task<ActionResult<List<Product>>> DeleteProducts(int ProductId)
         {
             var dbProduct = await _context.Products.FindAsync(ProductId);

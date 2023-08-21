@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminProduct } from 'src/app/models/adminProducts';
+import { AdminProduct, ProductCategory } from 'src/app/models/adminProducts';
 import { AdminService } from 'src/app/services/admin.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 
@@ -14,46 +14,51 @@ import { environment } from 'src/environments/environment.development';
   styleUrls: ['./admin-page.component.scss']
 })
 export class AdminPageComponent {
+
+  productForm: FormGroup;
+  closeResult: string = "";
+  products: any[] = [];
+  categoryList: number[] = [
+    ProductCategory.Appliances,
+    ProductCategory.Clothing,
+    ProductCategory.Electronics,
+    ProductCategory.Toys
+  ]
+
   constructor (
     private router: Router,
     protected _adminService: AdminService,
     private modalService: NgbModal,
-    private http: HttpClient, 
-    ){}
-
-  productObj : AdminProduct = {
-    productId: '',
-    productName: '',
-    productDescription: '',
-    productImage: '',
-    productCategory: 0,
-    productPrice: 0,
-    productQuantity: 0
+    private formBuilder: FormBuilder,
+    
+    ){
+      this.productForm = this.formBuilder.group({
+        ProductName: ['', Validators.required],
+        ProductDescription: [''],
+        ProductImage: [''],
+        ProductPrice: [null],
+        ProductCategory: [ProductCategory.Appliances],
+        ProductQuantity: [0]
+    });
   }
-
-  private url = environment.apiURL
-  private _login = "/Products/post"
-
-  closeResult: string = "";
-  products: AdminProduct[] = [];
 
   navigateToHomepage(){
     this.router.navigate(['app-homepage']);
   }
 
   ngOnInit(): void {
-  
+    this.fetchProducts();
   }
 
-  public getProductCardInfo(){
-    this._adminService.getAdminProducts().subscribe(
-      (product: AdminProduct) => {
-        this.productObj = product;
-      },
-      error => {
-        console.error('Error fetching product:', error);
-      }
-  )}
+  // public getProductCardInfo(){
+  //   this._adminService.getAdminProducts().subscribe(
+  //     (product: AdminProduct) => {
+  //       this.productObj = product;
+  //     },
+  //     error => {
+  //       console.error('Error fetching product:', error);
+  //     }
+  // )}
 
   open(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -73,22 +78,46 @@ export class AdminPageComponent {
     }
   }
 
-  onSubmit(f: NgForm) {
+  public onSubmit() {
 
-    const formData = {
-      productName: this.productObj.productName,
-      productDescription: this.productObj.productDescription,
-      productImage: this.productObj.productImage,
-      productPrice: this.productObj.productPrice,
-      productCategory: this.productObj.productCategory
+    // validations
+    if (!this.productForm.valid) {
+      console.log(this.productForm.errors)
+      return
     }
 
-    this.http.post(this.url + this._login, formData)
-      .subscribe((result) => {
-        this.ngOnInit(); //reload the table
-        console.log(result)
-      });
-    this.modalService.dismissAll(); //dismiss the modal
+    // Get the form values using this.productForm.value
+    const productData = this.productForm.value;
+    console.log(productData)
+    this._adminService.submitNewProduct(productData).subscribe(
+      res => {
+        console.log(res);
+        this.modalService.dismissAll(); //dismiss the modal
+      },
+    );
   }
 
+  fetchProducts() {
+    this._adminService.getAdminProducts().subscribe(
+      (products: AdminProduct[]) => {
+        this.products = products;
+      },
+      error => {
+        console.error('Error fetching products:', error);
+      }
+    );
+  }
+
+  deleteProducts(){
+    this._adminService.deleteAdminProduct().subscribe(
+      (res) => {
+        this.ngOnInit
+      },
+      error => {
+        console.error("Error deleting product", error);
+      }
+    );
+  }
+
+  
 }

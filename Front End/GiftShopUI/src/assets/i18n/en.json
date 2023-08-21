@@ -89,6 +89,14 @@
       "EDIT": "Edit Example",
       "DELETE": "Delete Example",
       "CONFIRM_DELETE": "Are you sure you want to delete the example {{name}}?"
-    }
+    },
+    "enums" : {
+      "productCategory" : {
+        "0": "Electronics",
+        "1": "Clothing",
+        "2": "Appliances",
+        "3": "Toys"
+      } 
+    } 
   }
   
