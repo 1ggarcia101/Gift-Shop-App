@@ -31,7 +31,12 @@ export class AdminService implements OnInit{
       return this.http.post(this.url + this._product, product, {'headers':headers})
   }
 
-  deleteAdminProduct(): Observable<any> {
-    return this.http.delete(this.url + this._product)
+  deleteAdminProduct(productId: number): Observable<any> {
+    return this.http.delete(this.url + this._product + `/${productId}`)
+  }
+
+  editAdminProduct(product: AdminProduct): Observable<any> {
+    const headers = { 'content-type': 'application/json'}
+    return this.http.put(this.url + this._product, product, {'headers':headers})
   }
 }

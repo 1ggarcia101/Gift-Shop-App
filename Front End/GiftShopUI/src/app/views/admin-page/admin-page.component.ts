@@ -6,6 +6,8 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
+import { ModalComponent } from 'src/app/components/modal/modal.component';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 
 
 @Component({
@@ -18,25 +20,31 @@ export class AdminPageComponent {
   productForm: FormGroup;
   closeResult: string = "";
   products: any[] = [];
+  selectedProduct: AdminProduct = {};
   categoryList: number[] = [
     ProductCategory.Appliances,
     ProductCategory.Clothing,
     ProductCategory.Electronics,
     ProductCategory.Toys
   ]
+  currentPage = 1; 
+  itemsPerPage = 5; 
+  totalPages = 5;
+  displayedProducts: AdminProduct[] = []; 
 
   constructor (
     private router: Router,
     protected _adminService: AdminService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
+    private _editModal: ModalComponent
     
     ){
       this.productForm = this.formBuilder.group({
-        ProductName: ['', Validators.required],
+        ProductName: [''],
         ProductDescription: [''],
         ProductImage: [''],
-        ProductPrice: [null],
+        ProductPrice: [0],
         ProductCategory: [ProductCategory.Appliances],
         ProductQuantity: [0]
     });
@@ -88,11 +96,14 @@ export class AdminPageComponent {
 
     // Get the form values using this.productForm.value
     const productData = this.productForm.value;
+    productData.ProductCategory = Number(productData.ProductCategory);
     console.log(productData)
     this._adminService.submitNewProduct(productData).subscribe(
       res => {
         console.log(res);
-        this.modalService.dismissAll(); //dismiss the modal
+        this.products.push(res);
+        this.modalService.dismissAll(); 
+        location.reload();
       },
     );
   }
@@ -101,6 +112,7 @@ export class AdminPageComponent {
     this._adminService.getAdminProducts().subscribe(
       (products: AdminProduct[]) => {
         this.products = products;
+        this.updateDisplayedProducts();
       },
       error => {
         console.error('Error fetching products:', error);
@@ -108,10 +120,12 @@ export class AdminPageComponent {
     );
   }
 
-  deleteProducts(){
-    this._adminService.deleteAdminProduct().subscribe(
+  deleteProducts(productId: number){
+    this._adminService.deleteAdminProduct(productId).subscribe(
       (res) => {
-        this.ngOnInit
+        console.log(res);
+        this.products = this.products.filter(product => product.id !== productId);
+        location.reload();
       },
       error => {
         console.error("Error deleting product", error);
@@ -119,5 +133,37 @@ export class AdminPageComponent {
     );
   }
 
+  editProduct(product: AdminProduct) {
+    this.selectedProduct = product; // Set the selected product
+    this._editModal.onEdit();
+    // Populate the form with the selected product's data
+    this.productForm.patchValue({
+      ProductName: product.ProductName,
+      ProductDescription: product.ProductDescription,
+      ProductImage: product.ProductImage,
+      ProductPrice: product.ProductPrice,
+      ProductCategory: product.ProductCategory,
+      ProductQuantity: product.ProductQuantity
+    });
+  
+    // Open the modal for editing
+    const modalRef = this.modalService.open(ModalComponent, { ariaLabelledBy: 'modal-basic-title' });
+    modalRef.componentInstance.product = this.selectedProduct; // Pass the selected product to the modal
+  }
+
+  updateDisplayedProducts() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+  
+    this.displayedProducts = this.products.slice(startIndex, endIndex);
+  }
+
+  changePage(newPage: number): void {
+    if (newPage >= 1 && newPage <= this.totalPages) {
+      this.currentPage = newPage;
+      this.updateDisplayedProducts(); 
+    }
+  }
+  
   
 }

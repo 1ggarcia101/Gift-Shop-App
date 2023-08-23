@@ -8,28 +8,22 @@ import { PaginatedResult } from 'src/app/models/paginated-response';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class PaginationComponent {
-
-  private _page: PaginatedResult<any> | null = null
-
-  @Input() set page(value: PaginatedResult<any>) {
-    this._page = value;
-    if (value && value.total > 0) {
-      this.from = (value.current - 1) * value.pageSize + 1;
-      this.to = Math.min(value.current * value.pageSize, value.total);
-    } else {
-      this.from = 0;
-      this.to = 0;
-    }
-  }
-
-  get page(): PaginatedResult<any> | null {
-    return this._page;
-  }
-
-  from: number = 0;
-  to: number = 0;
-
+  @Input() currentPage: number = 1;
+  @Input() totalPages: number = 1;
   @Output() pageChange = new EventEmitter<number>();
 
+  changePage(newPage: number): void {
+    if (newPage >= 1 && newPage <= this.totalPages) {
+      this.currentPage = newPage;
+      this.pageChange.emit(newPage);
+    }
+  }
 }
+
+
+
+
+
+

@@ -9,8 +9,8 @@
       <th>ProductName</th>
       <th>ProductDescription</th>
       <th>productImage</th>
-      <th>productPrice</th>
       <th>productCategory</th>
+      <th>productPrice</th>
       <th>productQuantity</th>
       <td>
         Options
@@ -30,10 +30,10 @@
         <button class="btn btn-sm btn-info">
           <i class="fa fa-search"></i>Details
         </button>
-        <button class="btn btn-sm btn-warning" >
+        <button class="btn btn-sm btn-warning" (click)="editProduct(product)">
           <i class="fa fa-edit"></i>Edit
         </button>
-        <button class="btn btn-sm btn-danger" (click)="deleteProducts()">
+        <button class="btn btn-sm btn-danger" (click)="deleteProducts(product.productId)">
           <i class="fa fa-remove"></i>Delete
         </button>
       </td>
@@ -101,3 +101,13 @@
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
   </div>
 </ng-template>
+
+<app-modal [product]="selectedProduct"></app-modal>
+
+<app-pagination
+[currentPage]="currentPage"
+[totalPages]="totalPages"
+(pageChange)="changePage($event)"
+></app-pagination>
+
+

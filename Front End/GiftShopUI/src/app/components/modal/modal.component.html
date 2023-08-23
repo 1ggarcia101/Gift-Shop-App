@@ -1,52 +1,58 @@
-<!-- <form (ngSubmit)="submitForm()">
-    <label for="productName">Product Name</label>
-    <input type="text" id="productName" formControlName="productName" required>
-    <button type="submit">Add</button>
-</form>
-
-<form class="mx-1 mx-md-4" (ngSubmit)="submitForm()">
-  
-    <div class="d-flex flex-row align-items-center mb-4">
-      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-      <div class="form-outline flex-fill mb-0">
-        <input type="text" id="form3Example1c" class="form-control" [(ngModel)]="productObj.productName" name="First"/>
-        <label class="form-label" for="form3Example1c">Product Name</label>
+<ng-template #editContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Product</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="productForm" *ngIf="product">
+      <div class="form-group">
+        <label for="productname">Product Name</label>
+        <div class="input-group">
+          <input id="productname" formControlName="ProductName" class="form-control">
+        </div>
       </div>
-    </div>
-
-    <div class="d-flex flex-row align-items-center mb-4">
-      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-      <div class="form-outline flex-fill mb-0">
-        <input type="text" id="form3Example3c" class="form-control" [(ngModel)]="productObj.productDescription" name="Last"/>
-        <label class="form-label" for="form3Example3c">Description</label>
+      <div class="form-group">
+        <label for="productdescription">Product Description</label>
+        <div class="input-group">
+          <input id="productdescription" formControlName="ProductDescription" class="form-control">
+        </div>
       </div>
-    </div>
-
-    <div class="d-flex flex-row align-items-center mb-4">
-      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-      <div class="form-outline flex-fill mb-0">
-        <input type="email" id="form3Example4c" class="form-control" [(ngModel)]="productObj.productImage" name="Email"/>
-        <label class="form-label" for="form3Example4c">Image</label>
+      <div class="form-group">
+        <label for="productimage">Product Image</label>
+        <div class="input-group">
+          <input id="productimage" formControlName="ProductImage" class="form-control">
+        </div>
       </div>
-    </div>
-
-    <div class="d-flex flex-row align-items-center mb-4">
-      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-      <div class="form-outline flex-fill mb-0">
-        <input type="password" id="form3Example4cd" class="form-control" [(ngModel)]="productObj.productPrice" name="Password"/>
-        <label class="form-label" for="form3Example4cd">Price</label>
+      <div class="form-group">
+        <label for="productprice">Product Price</label>
+        <div class="input-group">
+          <input id="productprice" formControlName="ProductPrice" class="form-control" type="number">
+        </div>
       </div>
-    </div>
-
-    <div class="form-check d-flex justify-content-center mb-5">
-      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-      <label class="form-check-label" for="form2Example3">
-        I agree all statements in <a href="#!">Terms of service</a>
-      </label>
-    </div>
-
-    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-      <button type="button" class="btn btn-primary btn-lg" (click)="submitForm()">Add Product</button>
-    </div>
-
-  </form> -->
+      <div class="form-group">
+        <label for="productcategory">Product Category</label>
+        <div class="input-group">
+          <select class="form-control" formControlName="ProductCategory">
+            <option *ngFor="let category of categoryList" [value]="category">
+              {{'enums.productCategory.' + category | translate}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productquantity">Product Quantity</label>
+        <div class="input-group">
+          <input id="productquantity" formControlName="ProductQuantity" class="form-control" type="number">
+        </div>
+      </div>
+      <div class="border text-center">
+        <button type="submit" data-dismiss="modal" class="btn btn-info" (click)="onEdit()">Save Changes</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel click')">Cancel</button>
+  </div>
+</ng-template>

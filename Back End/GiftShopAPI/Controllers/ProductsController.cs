@@ -61,7 +61,7 @@ namespace GiftShopAPI.Controllers
             return Ok(await _context.Products.ToListAsync());
         }
 
-        [HttpDelete]
+        [HttpDelete("{ProductId}")]
         public async Task<ActionResult<List<Product>>> DeleteProducts(int ProductId)
         {
             var dbProduct = await _context.Products.FindAsync(ProductId);
