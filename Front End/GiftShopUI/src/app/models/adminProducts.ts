@@ -1,11 +1,11 @@
 export interface AdminProduct {
-    ProductId?: string;
-    ProductName?: string;
-    ProductDescription?: string;
-    ProductImage?: string;
-    ProductCategory?: ProductCategory;
-    ProductPrice?: number;
-    ProductQuantity?: number;
+    productId?: string;
+    productName?: string;
+    productDescription?: string;
+    productImage?: string;
+    productCategory?: ProductCategory;
+    productPrice?: number;
+    productQuantity?: number;
 }
 
 export enum ProductCategory{

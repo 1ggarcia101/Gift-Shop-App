@@ -1,6 +1,8 @@
 <div class="container">
   <div class="border">
-    <button class="btn btn-md btn-outline-primary" (click)="open(content)">Add Product</button>
+    <button class="btn btn-md btn-outline-primary" (click)="open(content)">
+      Add Product
+    </button>    
   </div>
   <table class="table table-bordered table-striped">
     <thead>
@@ -19,21 +21,21 @@
     </thead>
     <tbody>
     <tr *ngFor="let product of displayedProducts">
-      <td><span>{{product.ProductId}}</span></td>
-      <td><span>{{product.ProductName}}</span></td>
-      <td><span>{{product.ProductDescription}}</span></td>
-      <td><span>{{product.ProductImage}}</span></td>
-      <td><span>{{product.ProductCategory}}</span></td>
-      <td><span>{{product.ProductPrice}}</span></td>
-      <td><span>{{product.ProductQuantity}}</span></td>
+      <td><span>{{product.productId}}</span></td>
+      <td><span>{{product.productName}}</span></td>
+      <td><span>{{product.productDescription}}</span></td>
+      <td><span>{{product.productImage}}</span></td>
+      <td><span>{{'enums.productCategory.'+ product.productCategory | translate}}</span></td>
+      <td><span>{{product.productPrice}}</span></td>
+      <td><span>{{product.productQuantity}}</span></td>
       <td>
         <button class="btn btn-sm btn-info">
           <i class="fa fa-search"></i>Details
         </button>
-        <button class="btn btn-sm btn-warning" (click)="editProduct(product)">
+        <button class="btn btn-sm btn-warning" (click)="open(editContent, true, product)">
           <i class="fa fa-edit"></i>Edit
-        </button>
-        <button class="btn btn-sm btn-danger" (click)="deleteProducts(product.ProductId)">
+        </button>        
+        <button class="btn btn-sm btn-danger" (click)="deleteProducts(product.productId)">
           <i class="fa fa-remove"></i>Delete
         </button>
       </td>
@@ -102,12 +104,74 @@
   </div>
 </ng-template>
 
-<app-modal [product]="selectedProduct"></app-modal>
+<ng-template #editContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Product</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="productForm" *ngIf="product">
+      <input type="hidden" formControlName="ProductId" value="{{selectedProduct?.productId}}">
+      <div class="form-group">
+        <label for="productname">Product Name</label>
+        <div class="input-group">
+          <input id="productname" formControlName="ProductName" class="form-control" placeholder="{{product.productName}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productdescription">Product Description</label>
+        <div class="input-group">
+          <input id="productdescription" formControlName="ProductDescription" class="form-control" placeholder="{{product.productDescription}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productimage">Product Image</label>
+        <div class="input-group">
+          <input id="productimage" formControlName="ProductImage" class="form-control" placeholder="{{product.productImage}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productprice">Product Price</label>
+        <div class="input-group">
+          <input id="productprice" formControlName="ProductPrice" class="form-control" type="number" placeholder="{{product.productPrice}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productcategory">Product Category</label>
+        <div class="input-group">
+          <select class="form-control" formControlName="ProductCategory">
+            <option *ngFor="let category of categoryList" [value]="category">
+              {{'enums.productCategory.' + category | translate}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productquantity">Product Quantity</label>
+        <div class="input-group">
+          <input id="productquantity" formControlName="ProductQuantity" class="form-control" type="number" placeholder="{{product.productQuantity}}">
+        </div>
+      </div>
+      <div class="border text-center">
+        <button type="submit" data-dismiss="modal" class="btn btn-info" (click)="onEdit()">Save Changes</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel click')">Cancel</button>
+  </div>
+</ng-template>
 
-<app-pagination
-[currentPage]="currentPage"
-[totalPages]="totalPages"
-(pageChange)="changePage($event)"
-></app-pagination>
+<div class="pag-container">
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="changePage($event)"
+  ></app-pagination>
+</div>
+
+
 
 

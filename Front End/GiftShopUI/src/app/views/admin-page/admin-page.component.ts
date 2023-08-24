@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminProduct, ProductCategory } from 'src/app/models/adminProducts';
 import { AdminService } from 'src/app/services/admin.service';
@@ -17,10 +17,12 @@ import { PaginationComponent } from 'src/app/components/pagination/pagination.co
 })
 export class AdminPageComponent {
 
+  @Input() product: AdminProduct = {};
+
   productForm: FormGroup;
   closeResult: string = "";
   products: any[] = [];
-  selectedProduct: AdminProduct = {};
+  selectedProduct: AdminProduct | null = {};
   categoryList: number[] = [
     ProductCategory.Appliances,
     ProductCategory.Clothing,
@@ -68,12 +70,28 @@ export class AdminPageComponent {
   //     }
   // )}
 
-  open(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  open(content: any, isEditing: boolean = false, product: AdminProduct | null = null) {
+    if (isEditing) {
+      // Handle editing logic here, e.g., populate the form fields with the product data
+      this.selectedProduct = product;
+      this.productForm.patchValue({
+        ProductName: product?.productName || '',
+        ProductDescription: product?.productDescription || '',
+        ProductImage: product?.productImage || '',
+        ProductPrice: product?.productPrice || 0,
+        ProductCategory: product?.productCategory || ProductCategory.Appliances,
+        ProductQuantity: product?.productQuantity || 0
+      });
+    }
+    
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
   
   private getDismissReason(reason: any): string {
@@ -108,16 +126,35 @@ export class AdminPageComponent {
     );
   }
 
+  onEdit() {
+    debugger
+    if (!this.productForm.valid) {
+      console.log(this.productForm.errors);
+      return;
+    }
+  
+    const editedProductData = this.productForm.value;
+    this._adminService.editAdminProduct(editedProductData).subscribe(
+      res => {
+        console.log(res);
+        this.modalService.dismissAll(); // Dismiss the modal
+  
+        // Update the products array with the edited product
+        const editedProductIndex = this.products.findIndex(product => product.productId === editedProductData.productId);
+        if (editedProductIndex !== -1) {
+          this.products[editedProductIndex] = editedProductData;
+        }
+      },
+      // Handle errors if needed
+    );
+  }
+
   fetchProducts() {
     this._adminService.getAdminProducts().subscribe(
       (response: any) => {
-        if (response && response.items) {
-          this.products = response.items; // Assign the items array to this.products
-          this.totalPages = response.totalPages; // Update totalPages based on response
+        if (response) {
+          this.products = response; // Assign the items array to this.products
           this.updateDisplayedProducts(); // Update the displayed products after fetching
-          
-          console.log(this.products);
-          console.log(this.displayedProducts);
         }
       },
       error => {
@@ -139,24 +176,6 @@ export class AdminPageComponent {
     );
   }
 
-  editProduct(product: AdminProduct) {
-    this.selectedProduct = product; // Set the selected product
-    this._editModal.onEdit();
-    // Populate the form with the selected product's data
-    this.productForm.patchValue({
-      ProductName: product.ProductName,
-      ProductDescription: product.ProductDescription,
-      ProductImage: product.ProductImage,
-      ProductPrice: product.ProductPrice,
-      ProductCategory: product.ProductCategory,
-      ProductQuantity: product.ProductQuantity
-    });
-  
-    // Open the modal for editing
-    const modalRef = this.modalService.open(ModalComponent, { ariaLabelledBy: 'modal-basic-title' });
-    modalRef.componentInstance.product = this.selectedProduct; // Pass the selected product to the modal
-  }
-
   updateDisplayedProducts() {
     // Using slice to create a new array with a subset of items
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -167,10 +186,6 @@ export class AdminPageComponent {
       // If endIndex exceeds array length, display remaining items
       this.displayedProducts = this.products.slice(startIndex);
     }
-    console.log(startIndex);
-    console.log(endIndex);
-    console.log(this.products);
-    console.log(this.displayedProducts);
   }
 
   changePage(newPage: number): void {
@@ -179,6 +194,6 @@ export class AdminPageComponent {
       this.updateDisplayedProducts(); 
     }
   }
-  
+
   
 }

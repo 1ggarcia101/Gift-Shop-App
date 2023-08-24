@@ -2,9 +2,9 @@
   <div *ngFor="let product of products" class="card-column">
     <app-card
       [product]="product"
-      [imageUrl]="product.ProductImage ?? ''"
-      [title]="product.ProductName ?? ''"
-      [text]="product.ProductDescription ?? ''"
+      [imageUrl]="product.productImage ?? ''"
+      [title]="product.productName ?? ''"
+      [text]="product.productDescription ?? ''"
     ></app-card>
   </div>
 

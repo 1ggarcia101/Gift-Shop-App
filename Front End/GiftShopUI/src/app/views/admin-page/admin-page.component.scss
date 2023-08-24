@@ -1,9 +1,19 @@
 .border{
     padding: 10px;
   }
-  .btn{
+.btn{
     margin-right: 10px;
   }
-  .fa {
+.fa {
     margin-right: 10px;
   }
+.pag-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff; /* Optional: Add a background color */
+    padding: 10px; /* Optional: Add padding for better spacing */
+    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for separation */
+  }
+  

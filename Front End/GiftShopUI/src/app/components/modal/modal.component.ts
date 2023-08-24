@@ -70,12 +70,12 @@ export class ModalComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.product && this.product) {
       this.productForm.patchValue({
-        ProductName: this.product.ProductName,
-        ProductDescription: this.product.ProductDescription,
-        ProductImage: this.product.ProductImage,
-        ProductPrice: this.product.ProductPrice,
-        ProductCategory: this.product.ProductCategory,
-        ProductQuantity: this.product.ProductQuantity
+        ProductName: this.product.productName,
+        ProductDescription: this.product.productDescription,
+        ProductImage: this.product.productImage,
+        ProductPrice: this.product.productPrice,
+        ProductCategory: this.product.productCategory,
+        ProductQuantity: this.product.productQuantity
       });
     }
   }

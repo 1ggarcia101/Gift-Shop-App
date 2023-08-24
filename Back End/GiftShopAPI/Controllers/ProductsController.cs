@@ -26,29 +26,13 @@ namespace GiftShopAPI.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<PaginatedResult<Product>>> GetProducts(int pageNumber = 1, int pageSize = 5)
+        public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            int totalProducts = await _context.Products.CountAsync();
-            int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
+            List<Product> products = await _context.Products.ToListAsync();
 
-            int startIndex = (pageNumber - 1) * pageSize;
-
-            List<Product> products = await _context.Products
-                .Skip(startIndex)
-                .Take(pageSize)
-                .ToListAsync();
-
-            var paginatedResult = new PaginatedResult<Product>
-            {
-                CurrentPage = pageNumber,
-                TotalPages = totalPages,
-                ItemsPerPage = pageSize,
-                TotalItems = totalProducts,
-                Items = products
-            };
-
-            return Ok(paginatedResult);
+            return Ok(products);
         }
+
 
 
 
