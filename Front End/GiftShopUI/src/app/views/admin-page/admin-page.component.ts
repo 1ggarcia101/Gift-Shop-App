@@ -110,9 +110,15 @@ export class AdminPageComponent {
 
   fetchProducts() {
     this._adminService.getAdminProducts().subscribe(
-      (products: AdminProduct[]) => {
-        this.products = products;
-        this.updateDisplayedProducts();
+      (response: any) => {
+        if (response && response.items) {
+          this.products = response.items; // Assign the items array to this.products
+          this.totalPages = response.totalPages; // Update totalPages based on response
+          this.updateDisplayedProducts(); // Update the displayed products after fetching
+          
+          console.log(this.products);
+          console.log(this.displayedProducts);
+        }
       },
       error => {
         console.error('Error fetching products:', error);
@@ -120,7 +126,7 @@ export class AdminPageComponent {
     );
   }
 
-  deleteProducts(productId: number){
+  deleteProducts(productId: number | any){
     this._adminService.deleteAdminProduct(productId).subscribe(
       (res) => {
         console.log(res);
@@ -152,10 +158,19 @@ export class AdminPageComponent {
   }
 
   updateDisplayedProducts() {
+    // Using slice to create a new array with a subset of items
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-  
-    this.displayedProducts = this.products.slice(startIndex, endIndex);
+    if (endIndex <= this.products.length) {
+      this.displayedProducts = this.products.slice(startIndex, endIndex);
+    } else {
+      // If endIndex exceeds array length, display remaining items
+      this.displayedProducts = this.products.slice(startIndex);
+    }
+    console.log(startIndex);
+    console.log(endIndex);
+    console.log(this.products);
+    console.log(this.displayedProducts);
   }
 
   changePage(newPage: number): void {

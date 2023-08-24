@@ -1,35 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
 
-namespace GiftShopAPI.Queries
-{
-    public class ListResult<T>
-    {
-        public virtual IList<T> Items { get; }
+//namespace GiftShopAPI.Queries
+//{
+//    public class ListResult<T>
+//    {
+//        public virtual IList<T> Items { get; }
 
-        public object Metadata { get; set; }
+//        public object Metadata { get; set; }
 
-        public ListResult(IEnumerable<T> items)
-        {
-            if (items is null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
+//        public ListResult(IEnumerable<T> items)
+//        {
+//            if (items is null)
+//            {
+//                throw new ArgumentNullException(nameof(items));
+//            }
 
-            Items = items as List<T> ?? items.ToList();
-        }
-    }
+//            Items = items as List<T> ?? items.ToList();
+//        }
+//    }
 
-    public static class ListResult
-    {
-        public static ListResult<T> From<T>(List<T> items, object metadata = null)
-        {
-            return new ListResult<T>(items)
-            {
-                Metadata = metadata
-            };
-        }
+//    public static class ListResult
+//    {
+//        public static ListResult<T> From<T>(List<T> items, object metadata = null)
+//        {
+//            return new ListResult<T>(items)
+//            {
+//                Metadata = metadata
+//            };
+//        }
 
-    }
-}
+//    }
+//}

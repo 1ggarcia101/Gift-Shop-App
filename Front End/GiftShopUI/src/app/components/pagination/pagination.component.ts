@@ -11,7 +11,7 @@ import { PaginatedResult } from 'src/app/models/paginated-response';
 
 export class PaginationComponent {
   @Input() currentPage: number = 1;
-  @Input() totalPages: number = 1;
+  @Input() totalPages: number = 5;
   @Output() pageChange = new EventEmitter<number>();
 
   changePage(newPage: number): void {

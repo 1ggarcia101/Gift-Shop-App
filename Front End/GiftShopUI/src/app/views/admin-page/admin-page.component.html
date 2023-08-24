@@ -8,24 +8,24 @@
       <th>ID</th>
       <th>ProductName</th>
       <th>ProductDescription</th>
-      <th>productImage</th>
-      <th>productCategory</th>
-      <th>productPrice</th>
-      <th>productQuantity</th>
+      <th>ProductImage</th>
+      <th>ProductCategory</th>
+      <th>ProductPrice</th>
+      <th>ProductQuantity</th>
       <td>
         Options
       </td>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let product of products">
-      <td><span>{{product.productId}}</span></td>
-      <td><span>{{product.productName}}</span></td>
-      <td><span>{{product.productDescription}}</span></td>
-      <td><span>{{product.productImage}}</span></td>
-      <td><span>{{product.productCategory}}</span></td>
-      <td><span>{{product.productPrice}}</span></td>
-      <td><span>{{product.productQuantity}}</span></td>
+    <tr *ngFor="let product of displayedProducts">
+      <td><span>{{product.ProductId}}</span></td>
+      <td><span>{{product.ProductName}}</span></td>
+      <td><span>{{product.ProductDescription}}</span></td>
+      <td><span>{{product.ProductImage}}</span></td>
+      <td><span>{{product.ProductCategory}}</span></td>
+      <td><span>{{product.ProductPrice}}</span></td>
+      <td><span>{{product.ProductQuantity}}</span></td>
       <td>
         <button class="btn btn-sm btn-info">
           <i class="fa fa-search"></i>Details
@@ -33,7 +33,7 @@
         <button class="btn btn-sm btn-warning" (click)="editProduct(product)">
           <i class="fa fa-edit"></i>Edit
         </button>
-        <button class="btn btn-sm btn-danger" (click)="deleteProducts(product.productId)">
+        <button class="btn btn-sm btn-danger" (click)="deleteProducts(product.ProductId)">
           <i class="fa fa-remove"></i>Delete
         </button>
       </td>
