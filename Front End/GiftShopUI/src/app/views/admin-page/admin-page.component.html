@@ -113,7 +113,6 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="productForm" *ngIf="product">
-      <input type="hidden" formControlName="ProductId" value="{{selectedProduct?.productId}}">
       <div class="form-group">
         <label for="productname">Product Name</label>
         <div class="input-group">

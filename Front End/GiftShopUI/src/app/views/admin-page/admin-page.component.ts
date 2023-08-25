@@ -60,16 +60,6 @@ export class AdminPageComponent {
     this.fetchProducts();
   }
 
-  // public getProductCardInfo(){
-  //   this._adminService.getAdminProducts().subscribe(
-  //     (product: AdminProduct) => {
-  //       this.productObj = product;
-  //     },
-  //     error => {
-  //       console.error('Error fetching product:', error);
-  //     }
-  // )}
-
   open(content: any, isEditing: boolean = false, product: AdminProduct | null = null) {
     if (isEditing) {
       // Handle editing logic here, e.g., populate the form fields with the product data
@@ -127,13 +117,15 @@ export class AdminPageComponent {
   }
 
   onEdit() {
-    debugger
     if (!this.productForm.valid) {
       console.log(this.productForm.errors);
       return;
     }
   
     const editedProductData = this.productForm.value;
+    editedProductData.productId = this.selectedProduct?.productId;
+    editedProductData.ProductCategory = Number(editedProductData.ProductCategory);
+    
     this._adminService.editAdminProduct(editedProductData).subscribe(
       res => {
         console.log(res);
@@ -145,8 +137,9 @@ export class AdminPageComponent {
           this.products[editedProductIndex] = editedProductData;
         }
       },
-      // Handle errors if needed
     );
+
+    location.reload();
   }
 
   fetchProducts() {
