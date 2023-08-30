@@ -39,4 +39,12 @@ export class AdminService implements OnInit{
     const headers = { 'content-type': 'application/json'}
     return this.http.put(this.url + this._product, editedProductData, {'headers':headers})
   }
+
+  getAdminProductsByCategory(category: string): Observable<AdminProduct[]> {
+    return this.http.get<AdminProduct[]>(this.url + this._product, { params: { category } });
+  }
+
+  searchAdminProducts(searchTerm: string): Observable<AdminProduct[]> {
+    return this.http.get<AdminProduct[]>(this.url + this._product, { params: { searchTerm } });
+  }
 }

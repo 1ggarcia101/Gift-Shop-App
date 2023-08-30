@@ -21,10 +21,11 @@
               Filter
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('All Categories')">All Categories</a></li>
+              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Appliances')">Appliances</a></li>
+              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Clothing')">Clothing</a></li>
+              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Electronics')">Electronics</a></li>
+              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Toys')">Toys</a></li>
             </ul>
           </li>
           <li class="nav-item">
@@ -34,6 +35,14 @@
             </svg>
           </li>
         </ul>
+        <div class="form-group d-flex mt-0" id="perPage">
+          <label for="perPage" class="me-2">Products per Page:</label>
+          <select class="form-control" id="perPage" [(ngModel)]="itemsPerPage" (ngModelChange)="updateDisplayedProducts()">
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+          </select>
+        </div>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>

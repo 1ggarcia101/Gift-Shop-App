@@ -33,9 +33,6 @@ namespace GiftShopAPI.Controllers
             return Ok(products);
         }
 
-
-
-
         [HttpPost]
         public async Task<ActionResult<List<Product>>> CreateProduct(Product product)
         {
@@ -80,6 +77,40 @@ namespace GiftShopAPI.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(await _context.Products.ToListAsync());
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<Product>>> GetFilteredProducts(string category)
+        {
+            if (string.IsNullOrEmpty(category) || category.Equals("All Categories", StringComparison.OrdinalIgnoreCase))
+            {
+                return await _context.Products.ToListAsync();
+            }
+            else
+            {
+                List<Product> filteredProducts = await _context.Products
+                    .Where(product => product.ProductCategory.ToString().Equals(category, StringComparison.OrdinalIgnoreCase))
+                    .ToListAsync();
+
+                return Ok(filteredProducts);
+            }
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Product>>> SearchProducts(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return BadRequest("Search term cannot be empty.");
+            }
+
+            List<Product> searchedProducts = await _context.Products
+                .Where(product =>
+                    product.ProductName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    product.ProductDescription.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToListAsync();
+
+            return Ok(searchedProducts);
         }
     }
 }

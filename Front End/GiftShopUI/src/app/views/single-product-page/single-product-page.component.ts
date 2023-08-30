@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-single-product-page',
   templateUrl: './single-product-page.component.html',
   styleUrls: ['./single-product-page.component.scss']
 })
-export class SingleProductPageComponent {
-  constructor (private router: Router){}
+export class SingleProductPageComponent implements OnInit {
+  product: any;
 
-  navigateToSingleProductPage(){
-    this.router.navigate(['app-single-product-page']);
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit(): void {
+    this.route.data.subscribe((data) => {
+      this.product = data.product;
+    });
   }
 }
