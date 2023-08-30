@@ -179,6 +179,8 @@ export class AdminPageComponent {
       // If endIndex exceeds array length, display remaining items
       this.displayedProducts = this.products.slice(startIndex);
     }
+
+    console.log(this.displayedProducts);
   }
 
   changePage(newPage: number): void {

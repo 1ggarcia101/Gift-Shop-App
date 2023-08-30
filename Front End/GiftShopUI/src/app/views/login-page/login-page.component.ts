@@ -17,7 +17,7 @@ export class LoginPageComponent implements OnInit{
   }
 
   loginObj: GiftShopUser = {
-     firstName: '',
+    firstName: '',
     lastName: '',
     email: '',
     password: '',

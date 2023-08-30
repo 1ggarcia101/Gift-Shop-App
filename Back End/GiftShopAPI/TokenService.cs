@@ -1,28 +1,27 @@
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
+//using Microsoft.AspNetCore.Identity;
+//using Microsoft.IdentityModel.Tokens;
+//using System.IdentityModel.Tokens.Jwt;
+//using System.Security.Claims;
+//using System.Text;
 
-namespace GiftShopAPI
-{
-    public class TokenService
-    {
-        public string GenerateJwtToken(string secretKey, string issuer, string audience, int expiryMinutes, ClaimsIdentity claimsIdentity)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+//namespace GiftShopAPI
+//{
+//    public class TokenService
+//    {
+//        private readonly JwtHandler _jwtHandler;
 
-            var token = new JwtSecurityToken(
-                issuer: issuer,
-                audience: audience,
-                claims: claimsIdentity.Claims,
-                expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
-                signingCredentials: creds
-            );
+//        public TokenService(JwtHandler jwtHandler)
+//        {
+//            _jwtHandler = jwtHandler;
+//        }
 
-            return tokenHandler.WriteToken(token);
-        }
-    }
-}
+//        public string GenerateJwtToken(string secretKey, string issuer, string audience, int expiryMinutes, ClaimsIdentity claimsIdentity)
+//        {
+//            var token = _jwtHandler.GenerateToken(secretKey, issuer, audience, expiryMinutes, claimsIdentity);
+//            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+//            return tokenString;
+//        }
+//    }
+//}
+

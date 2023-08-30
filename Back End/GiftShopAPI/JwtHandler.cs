@@ -1,7 +1,12 @@
-using Microsoft.AspNetCore.Identity;
+using GiftShopAPI.Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace GiftShopAPI
@@ -9,42 +14,53 @@ namespace GiftShopAPI
     public class JwtHandler
     {
         private readonly IConfiguration _configuration;
-        private readonly IConfigurationSection _jwtSettings;
 
         public JwtHandler(IConfiguration configuration)
         {
             _configuration = configuration;
-            _jwtSettings = _configuration.GetSection("JwtSettings");
         }
 
-        public SigningCredentials GetSigningCredentials()
+        public string GenerateToken(GiftShopUser user)
         {
-            var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value);
+            var jwtSettings = _configuration.GetSection("JWTSettings");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["securityKey"]));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Name, user.FirstName),
+                // Add more claims as needed
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: jwtSettings["validIssuer"],
+                audience: jwtSettings["validAudience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(jwtSettings["expiryInMinutes"])),
+                signingCredentials: credentials
+            );
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
+        }
+
+        private SigningCredentials GetSigningCredentials()
+        {
+            var key = GenerateRandomKey();
             var secret = new SymmetricSecurityKey(key);
 
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
-        public List<Claim> GetClaims(IdentityUser user)
+        private byte[] GenerateRandomKey()
         {
-            var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.Email)
-        };
-
-            return claims;
-        }
-
-        public JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
-        {
-            var tokenOptions = new JwtSecurityToken(
-                issuer: _jwtSettings["validIssuer"],
-                audience: _jwtSettings["validAudience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings["expiryInMinutes"])),
-                signingCredentials: signingCredentials);
-
-            return tokenOptions;
+            byte[] key = new byte[32]; // You can adjust the key size
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(key);
+            }
+            return key;
         }
     }
 }

@@ -1,13 +1,15 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using GiftShopAPI.Data;
 using GiftShopAPI.Entities;
 using GiftShopAPI.models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace GiftShopAPI.Controllers
 {
@@ -17,98 +19,71 @@ namespace GiftShopAPI.Controllers
     public class GiftShopUsersController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly UserDetailsService _userDetailsService;
+        private readonly JwtHandler _jwtHandler;
 
-        public GiftShopUsersController(DataContext context)
+        public GiftShopUsersController(DataContext context, IConfiguration configuration, UserDetailsService userDetailsService, JwtHandler jwtHandler)
         {
             _context = context;
+            _configuration = configuration;
+            _userDetailsService = userDetailsService;
+            _jwtHandler = jwtHandler;
+        }
+
+        [HttpGet("user-details")]
+        [Authorize] // Protect the endpoint
+        public IActionResult GetUserDetails()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the authenticated user's ID as a string
+
+            if (!int.TryParse(userIdString, out int userId)) // Try to parse the string to an int
+            {
+                return BadRequest("Invalid user ID");
+            }
+
+            var userDetails = _userDetailsService.GetUserDetailsById(userId);
+
+            if (userDetails == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userDetails);
         }
 
         [HttpPost]
         [Route("register")]
-        public GiftShopUser AddUser(GiftShopUser obj)
+        public IActionResult Register(GiftShopUser user)
         {
-            _context.GiftShopUsers.Add(obj);
+            // Validate user input and perform registration logic
+            // For example, check if the email is unique before registering
+
+            _context.GiftShopUsers.Add(user);
             _context.SaveChanges();
-            return obj;
+
+            return Ok(new { Success = true, Message = "Registration successful" });
         }
 
         [HttpPost]
         [Route("login")]
         public IActionResult Login(UserLoginRequestDto request)
         {
+            // Validate user credentials (replace with your logic)
             GiftShopUser user = _context.GiftShopUsers.SingleOrDefault(u => u.Email == request.Email);
 
-
-            if (user == null)
-            {
-                return NotFound(new { Success = false, Message = "User not found" });
-            }
-
-            if (user.Password != request.Password)
+            if (user == null || user.Password != request.Password)
             {
                 return Unauthorized(new { Success = false, Message = "Invalid credentials" });
             }
 
-            // User is authenticated, you can generate a token or perform other actions here
-            string token = GenerateTokenForUser(user);
+            var token = _jwtHandler.GenerateToken(user);
 
-            return Ok(request);
+            // Return token as part of the response
+            return Ok(new { Success = true, Token = token });
         }
 
-        private string GenerateTokenForUser(GiftShopUser user)
-        {
-            // Generate and return a token (you'll need to implement this)
-            // Example using a JWT library: return JwtService.GenerateToken(user);
-            return "your_generated_token_here";
-        }
+
+
     }
-
-
-
-
-    // [HttpPost]
-    // [Route("login")]
-    //public async Task<IActionResult> Login([FromBody]UserLoginRequestDto model)
-    // {
-    //     var status = LoginStatus.NotAllowed;
-    //     var user = await _userManager.FindByEmailAsync(model.Email);
-    //     if (user != null)
-    //     {
-    //         if (user.Email == null)
-    //         {
-    //             status = LoginStatus.NotConfirmed;
-    //         }
-    //         else
-    //         {
-    //             status = await DoLogin(user, model);
-    //         }
-    //     }
-
-    //     return Ok(new LoginResult { Status = status });
-    // }
-
-    // private async Task<LoginStatus> DoLogin(GiftShopUser user, UserLoginRequestDto model)
-    // {
-    //     var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
-    //     if (result.Succeeded)
-    //     {
-    //         await _signInManager.SignInAsync(user, false);
-    //         return LoginStatus.Success;
-    //     }
-
-
-    //     if (result == SignInResult.Failed)
-    //     {
-    //         return LoginStatus.Failed;
-    //     }
-
-    //     throw new Exception("bad request");
-
-    // }
-
-
-
-    
 }
-

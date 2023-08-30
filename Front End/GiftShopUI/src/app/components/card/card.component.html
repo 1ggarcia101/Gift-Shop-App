@@ -1,9 +1,10 @@
 <div class="card">
-  <img class="card-img-top" [src]="imageUrl" alt="Card image cap" width="100" height="300">
+  <img class="card-img-top" [src]="product.productImage" alt="Card image cap" width="100" height="300">
   <div class="card-body">
-    <h5 class="card-title">{{ title }}</h5>
-    <p class="card-text">{{ text }}</p>
+    <h5 class="card-title">{{ product.productName }}</h5>
+    <p class="card-text">{{ product.productDescription }}</p>
     <a href="/app-single-product-page" class="btn btn-primary">Button</a>
   </div>
 </div>
+
 

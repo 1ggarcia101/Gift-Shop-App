@@ -7,18 +7,12 @@
       [text]="product.productDescription ?? ''"
     ></app-card>
   </div>
-
-  <div *ngFor="let data of cardData" class="card-column">
-    <app-card
-      [imageUrl]="data.imageUrl"
-      [title]="data.title"
-      [text]="data.text"
-    ></app-card>
+  <div>
+    <br>
+    <br>
+    <br>
+    <app-pagination></app-pagination>
   </div>
-</div>
-<br>
-<br>
-<app-pagination></app-pagination>
 
 <!-- <div class="card-container">
   <div class="card-deck">
