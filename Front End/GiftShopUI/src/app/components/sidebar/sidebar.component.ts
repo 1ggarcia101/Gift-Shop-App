@@ -34,13 +34,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   updateFirstName() {
     const token = this.authService.getToken();
-    console.log('Token:', token); // Log the token here
+    console.log('Token:', token); 
   
     if (token) {
       try {
         const decodedToken = this.jwtService.decodeToken(token);
-        console.log('Decoded Token:', decodedToken); // Log the decoded token here
-        this.FirstName = decodedToken.FirstName || '';
+        console.log('Decoded Token:', decodedToken); 
+        let claims = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+        this.FirstName = claims[1];
       } catch (error) {
         console.error('Token Decoding Error:', error);
       }

@@ -4,6 +4,7 @@ import { GiftShopUser } from 'src/app/models/giftShopUser';
 import { UserLoginService } from 'src/app/services/user-login.service';
 import { catchError } from 'rxjs';
 import { throwError } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -26,7 +27,8 @@ export class LoginPageComponent implements OnInit{
 
   constructor (
     private router: Router,
-    private _userLoginService: UserLoginService
+    private _userLoginService: UserLoginService,
+    private _authService: AuthService
     ){}
 
 
@@ -35,6 +37,7 @@ export class LoginPageComponent implements OnInit{
   }
 
   public onLogin(){
+    debugger
     this._userLoginService.loginUser(this.loginObj)
       .pipe(
         catchError(error => {
@@ -44,6 +47,8 @@ export class LoginPageComponent implements OnInit{
       )
       .subscribe((res) => {
         console.log('Login successful', res);
+
+        this._authService.loginUser(res);
 
         this.router.navigate(['app-homepage']);
       });

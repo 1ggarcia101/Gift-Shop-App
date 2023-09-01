@@ -25,7 +25,6 @@ export class HomepageComponent implements OnInit {
   fetchProducts() {
     this._adminService.getAdminProducts().subscribe(
       (response: any) => {
-        console.log(response);
         if (response) {
           this.products = response;
           this.updateDisplayedProducts(); // Assign the array of products
