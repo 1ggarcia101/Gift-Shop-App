@@ -22,7 +22,6 @@ export class AuthService {
   }
 
   loginUser(response: any) {
-    debugger;
     if (!response.success) {
       return;
     }
@@ -65,8 +64,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     this.isAuthenticatedSubject.next(false);
-    // Optionally, you can also redirect the user to the login page
-    // or perform any other cleanup tasks.
   }
 
   getFirstName(): Observable<string> {

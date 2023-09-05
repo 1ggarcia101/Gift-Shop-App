@@ -11,6 +11,7 @@ export class HomepageComponent implements OnInit {
   products: AdminProduct[] = []; 
   displayedProducts: AdminProduct[] = []; 
   selectedCategory: ProductCategory | null = null; 
+  productCategories: (ProductCategory )[] = [...Object.values(ProductCategory) as ProductCategory[]];
   searchQuery: string = '';
   currentPage = 1; 
   itemsPerPage = 8; 
@@ -27,7 +28,7 @@ export class HomepageComponent implements OnInit {
       (response: any) => {
         if (response) {
           this.products = response;
-          this.updateDisplayedProducts(); // Assign the array of products
+          this.updateDisplayedProducts();
         }
       },
       error => {
@@ -36,37 +37,28 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  updateDisplayedProducts() {
+  updateDisplayedProducts(): void {
     // Filter products based on selected category and search query
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    let filteredProducts = this.products;
-
-    if (endIndex <= this.products.length) {
-      this.displayedProducts = this.products.slice(startIndex, endIndex);
-    } else {
-      // If endIndex exceeds array length, display remaining items
-      this.displayedProducts = this.products.slice(startIndex);
-    }
-
-    if (this.selectedCategory !== null) {
+    let filteredProducts = [...this.products];
+  
+    if (this.selectedCategory !== null && this.selectedCategory !== undefined) {
       filteredProducts = filteredProducts.filter(product => product.productCategory === this.selectedCategory);
     }
-
-    if (this.searchQuery !== '') {
+  
+    if (this.searchQuery.trim() !== '') {
       const lowerCaseQuery = this.searchQuery.toLowerCase();
       filteredProducts = filteredProducts.filter(product =>
         product.productName && product.productName.toLowerCase().includes(lowerCaseQuery)
       );
     }
-    
-
+  
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+  
     // Update displayed products based on pagination
-    this.displayedProducts = filteredProducts.slice(
-      (this.currentPage - 1) * this.itemsPerPage,
-      this.currentPage * this.itemsPerPage
-    );
+    this.displayedProducts = filteredProducts.slice(startIndex, endIndex);
   }
+  
 
   changePage(newPage: number): void {
     if (newPage >= 1 && newPage <= this.totalPages) {
@@ -75,12 +67,20 @@ export class HomepageComponent implements OnInit {
     }
   }
 
-  onCategoryChange(category: ProductCategory): void {
+  onCategoryChange(category: ProductCategory | null): void {
     this.selectedCategory = category;
     this.updateDisplayedProducts();
   }
+  
 
   onSearch(): void {
+    this.updateDisplayedProducts();
+  }
+
+  clearFilters(): void {
+    this.selectedCategory = null;
+    this.searchQuery = '';
+    this.itemsPerPage = 8;
     this.updateDisplayedProducts();
   }
 }

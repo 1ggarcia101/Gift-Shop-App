@@ -8,25 +8,12 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" routerLink="/app-login-page" routerLinkActive="active">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/app-signup-page" routerLinkActive="active">Signup</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Filter
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('All Categories')">All Categories</a></li>
-              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Appliances')">Appliances</a></li>
-              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Clothing')">Clothing</a></li>
-              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Electronics')">Electronics</a></li>
-              <li><a class="dropdown-item" href="#" (click)="applyCategoryFilter('Toys')">Toys</a></li>
-            </ul>
           </li>
           <li class="nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16" routerLink="/app-shopping-cart-page" routerLinkActive="active">
@@ -35,19 +22,6 @@
             </svg>
           </li>
         </ul>
-        <div class="form-group d-flex mt-0" id="perPage">
-          <label for="perPage" class="me-2">Products per Page:</label>
-          <select class="form-control" id="perPage" [(ngModel)]="itemsPerPage" (ngModelChange)="updateDisplayedProducts()">
-            <option [value]="5">5</option>
-            <option [value]="10">10</option>
-            <option [value]="20">20</option>
-          </select>
-        </div>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
     </div>
   </nav>
   

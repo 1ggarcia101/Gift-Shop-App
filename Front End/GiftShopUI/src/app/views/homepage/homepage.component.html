@@ -1,3 +1,40 @@
+<div class="page-controls">
+  <div class="pag-container">
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChange)="changePage($event)"
+    ></app-pagination>
+  </div>
+  <form class="d-flex" (submit)="onSearch()">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchQuery" name="searchQuery">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+  
+  <div class="category-filter">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Filter
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" (click)="onCategoryChange(null)">All Categories</a></li>
+        <li *ngFor="let category of productCategories" [ngClass]="{ 'selected': category === selectedCategory }">
+          <a class="dropdown-item" (click)="onCategoryChange(category)">{{ category }}</a>
+        </li>
+      </ul>
+    </li>
+  </div>
+  
+  <div class="form-group d-flex mt-0" id="perPage">
+    <label for="perPage" class="me-2">Products per Page:</label>
+    <select class="form-control" id="perPage" [(ngModel)]="itemsPerPage" (ngModelChange)="updateDisplayedProducts()">
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+    </select>
+  </div>
+  <button class="btn btn-outline-secondary" (click)="clearFilters()">Clear Filters</button>
+</div>
 <div class="card-container">
   <div *ngFor="let product of displayedProducts" class="card-column">
     <app-card
@@ -8,16 +45,9 @@
     ></app-card>
   </div>
 </div>
-
-<div class="pag-container">
-  <app-pagination
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    (pageChange)="changePage($event)"
-  ></app-pagination>
-</div>
-
-
+<br>
+<br>
+<br>
 
 
 

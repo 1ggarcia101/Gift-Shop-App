@@ -12,7 +12,6 @@ export class JwtService {
   }
 
   decodeToken(token: string): any {
-    debugger
     return this.jwtHelper.decodeToken(token);
   }
 }

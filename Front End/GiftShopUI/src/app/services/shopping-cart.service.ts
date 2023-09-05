@@ -13,7 +13,7 @@ export class ShoppingCartService {
   constructor(private http: HttpClient) { }
 
   createOrder(order: Order) {
-    return this.http.post<Order>('api/orders', order); // Replace with your API endpoint
+    return this.http.post<Order>('api/Orders', order); // Replace with your API endpoint
   }
 
   addToCart(item: any) {

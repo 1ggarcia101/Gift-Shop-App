@@ -37,7 +37,6 @@ export class LoginPageComponent implements OnInit{
   }
 
   public onLogin(){
-    debugger
     this._userLoginService.loginUser(this.loginObj)
       .pipe(
         catchError(error => {
