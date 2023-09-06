@@ -14,7 +14,7 @@ const routes: Routes = [
     { path: 'app-homepage', component: HomepageComponent},
     { path: 'app-login-page', component: LoginPageComponent},
     { path: 'app-signup-page', component: SignupPageComponent},
-    { path: 'app-single-product-page', component: SingleProductPageComponent},
+    { path: 'app-single-product-page/:productId', component: SingleProductPageComponent},
     { path: 'app-shopping-cart-page', component: ShoppingCartPageComponent},
     { path: 'app-checkout-page', component: CheckoutPageComponent},
     { path: 'app-admin-page', component: AdminPageComponent},

@@ -33,6 +33,19 @@ namespace GiftShopAPI.Controllers
             return Ok(products);
         }
 
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<Product>> GetProductById(int productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<List<Product>>> CreateProduct(Product product)
         {

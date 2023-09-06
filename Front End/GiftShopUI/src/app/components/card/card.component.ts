@@ -19,10 +19,12 @@ export class CardComponent {
 
   constructor(private router: Router) {}
 
-  navigateToSingleProductPage(productData: any) {
-    this.router.navigate(['app-single-product-page'], {
-      state: { product: productData }
-    });
+  navigateToSingleProductPage(productId: number | undefined) {
+    if (productId !== undefined) {
+      this.router.navigate(['/app-single-product-page', productId]);
+    }
   }
+  
+  
 
 }
