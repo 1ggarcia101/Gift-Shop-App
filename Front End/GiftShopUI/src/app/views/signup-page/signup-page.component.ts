@@ -7,40 +7,34 @@ import { UserSignupService } from 'src/app/services/user-signup.service';
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
-  styleUrls: ['./signup-page.component.scss']
+  styleUrls: ['./signup-page.component.scss'],
 })
-export class SignupPageComponent implements OnInit{
-
+export class SignupPageComponent implements OnInit {
   signupObj: GiftShopUser = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    userType: 1
-  }
+    userType: 1,
+  };
 
-  constructor (
+  constructor(
     private router: Router,
     private _userSignupService: UserSignupService
-    ){}
+  ) {}
 
-  navigateToSignupPage(){
+  navigateToSignupPage() {
     this.router.navigate(['app-signup-page']);
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
-  public onRegister(){
-    this._userSignupService.addUser(this.signupObj).subscribe(
-      res => {
-        console.log(res)
-        // redirect
-        // msg succefull
-        // ...
-      },
-    )
+  public onRegister() {
+    this._userSignupService.addUser(this.signupObj).subscribe((res) => {
+      console.log(res);
+      // redirect
+      // msg succefull
+      // ...
+    });
   }
-
 }

@@ -10,19 +10,22 @@ import { CheckoutPageComponent } from './views/checkout-page/checkout-page.compo
 import { AdminPageComponent } from './views/admin-page/admin-page.component';
 
 const routes: Routes = [
-    { path: 'app-root', component: AppComponent},
-    { path: 'app-homepage', component: HomepageComponent},
-    { path: 'app-login-page', component: LoginPageComponent},
-    { path: 'app-signup-page', component: SignupPageComponent},
-    { path: 'app-single-product-page/:productId', component: SingleProductPageComponent},
-    { path: 'app-shopping-cart-page', component: ShoppingCartPageComponent},
-    { path: 'app-checkout-page', component: CheckoutPageComponent},
-    { path: 'app-admin-page', component: AdminPageComponent},
-    { path: '', redirectTo: 'app-homepage', pathMatch: 'full'}
+  { path: 'app-root', component: AppComponent },
+  { path: 'app-homepage', component: HomepageComponent },
+  { path: 'app-login-page', component: LoginPageComponent },
+  { path: 'app-signup-page', component: SignupPageComponent },
+  {
+    path: 'app-single-product-page/:productId',
+    component: SingleProductPageComponent,
+  },
+  { path: 'app-shopping-cart-page', component: ShoppingCartPageComponent },
+  { path: 'app-checkout-page', component: CheckoutPageComponent },
+  { path: 'app-admin-page', component: AdminPageComponent },
+  { path: '', redirectTo: 'app-homepage', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

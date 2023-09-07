@@ -6,25 +6,23 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-shopping-cart-page',
   templateUrl: './shopping-cart-page.component.html',
-  styleUrls: ['./shopping-cart-page.component.scss']
+  styleUrls: ['./shopping-cart-page.component.scss'],
 })
 export class ShoppingCartPageComponent {
-  cartItems$: Observable<any[]>; 
+  cartItems$: Observable<any[]>;
 
   constructor(
     private router: Router,
     private _cartservice: ShoppingCartService
-  ){
+  ) {
     this.cartItems$ = this._cartservice.cartItems$;
   }
 
-  navigateToShoppingCartPage(){
+  navigateToShoppingCartPage() {
     this.router.navigate(['app-shopping-cart-page']);
   }
 
   removeFromCart(index: number) {
     this._cartservice.removeFromCart(index);
   }
-
-  
 }

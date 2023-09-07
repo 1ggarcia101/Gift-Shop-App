@@ -5,16 +5,18 @@ import { AdminService } from 'src/app/services/admin.service';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss']
+  styleUrls: ['./homepage.component.scss'],
 })
 export class HomepageComponent implements OnInit {
-  products: AdminProduct[] = []; 
-  displayedProducts: AdminProduct[] = []; 
-  selectedCategory: ProductCategory | null = null; 
-  productCategories: (ProductCategory )[] = [...Object.values(ProductCategory) as ProductCategory[]];
+  products: AdminProduct[] = [];
+  displayedProducts: AdminProduct[] = [];
+  selectedCategory: ProductCategory | null = null;
+  productCategories: ProductCategory[] = [
+    ...(Object.values(ProductCategory) as ProductCategory[]),
+  ];
   searchQuery: string = '';
-  currentPage = 1; 
-  itemsPerPage = 8; 
+  currentPage = 1;
+  itemsPerPage = 8;
   totalPages = 5;
 
   constructor(private _adminService: AdminService) {}
@@ -31,7 +33,7 @@ export class HomepageComponent implements OnInit {
           this.updateDisplayedProducts();
         }
       },
-      error => {
+      (error) => {
         console.error('Error fetching products:', error);
       }
     );
@@ -40,30 +42,33 @@ export class HomepageComponent implements OnInit {
   updateDisplayedProducts(): void {
     // Filter products based on selected category and search query
     let filteredProducts = [...this.products];
-  
+
     if (this.selectedCategory !== null && this.selectedCategory !== undefined) {
-      filteredProducts = filteredProducts.filter(product => product.productCategory === this.selectedCategory);
-    }
-  
-    if (this.searchQuery.trim() !== '') {
-      const lowerCaseQuery = this.searchQuery.toLowerCase();
-      filteredProducts = filteredProducts.filter(product =>
-        product.productName && product.productName.toLowerCase().includes(lowerCaseQuery)
+      filteredProducts = filteredProducts.filter(
+        (product) => product.productCategory === this.selectedCategory
       );
     }
-  
+
+    if (this.searchQuery.trim() !== '') {
+      const lowerCaseQuery = this.searchQuery.toLowerCase();
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          product.productName &&
+          product.productName.toLowerCase().includes(lowerCaseQuery)
+      );
+    }
+
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-  
+
     // Update displayed products based on pagination
     this.displayedProducts = filteredProducts.slice(startIndex, endIndex);
   }
-  
 
   changePage(newPage: number): void {
     if (newPage >= 1 && newPage <= this.totalPages) {
       this.currentPage = newPage;
-      this.updateDisplayedProducts(); 
+      this.updateDisplayedProducts();
     }
   }
 
@@ -71,7 +76,6 @@ export class HomepageComponent implements OnInit {
     this.selectedCategory = category;
     this.updateDisplayedProducts();
   }
-  
 
   onSearch(): void {
     this.updateDisplayedProducts();

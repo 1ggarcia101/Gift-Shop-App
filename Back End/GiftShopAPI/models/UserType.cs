@@ -3,7 +3,7 @@ namespace GiftShopAPI.models
     public enum UserType
     {
         Unregister = 0,
-        Customer = 1,
+        Registered = 1,
         Admin   = 2
     }
 }

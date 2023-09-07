@@ -9,11 +9,10 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  styleUrls: ['./login-page.component.scss'],
 })
-export class LoginPageComponent implements OnInit{
-
-  navigateToLoginPage(){
+export class LoginPageComponent implements OnInit {
+  navigateToLoginPage() {
     this.router.navigate(['app-login-page']);
   }
 
@@ -22,24 +21,22 @@ export class LoginPageComponent implements OnInit{
     lastName: '',
     email: '',
     password: '',
-    userType: 1
-  }
+    userType: 1,
+  };
 
-  constructor (
+  constructor(
     private router: Router,
     private _userLoginService: UserLoginService,
     private _authService: AuthService
-    ){}
+  ) {}
 
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    
-  }
-
-  public onLogin(){
-    this._userLoginService.loginUser(this.loginObj)
+  public onLogin() {
+    this._userLoginService
+      .loginUser(this.loginObj)
       .pipe(
-        catchError(error => {
+        catchError((error) => {
           console.error('Login error:', error);
           return throwError(error);
         })

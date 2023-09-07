@@ -7,34 +7,61 @@
     ></app-pagination>
   </div>
   <form class="d-flex" (submit)="onSearch()">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchQuery" name="searchQuery">
+    <input
+      class="form-control me-2"
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+      [(ngModel)]="searchQuery"
+      name="searchQuery"
+    />
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
-  
+
   <div class="category-filter">
     <div class="dropdown">
-      <button class="btn btn-outline-danger dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button
+        class="btn btn-outline-danger dropdown-toggle"
+        type="button"
+        id="categoryDropdown"
+        data-bs-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         Filter
       </button>
       <div class="dropdown-menu" aria-labelledby="categoryDropdown">
-        <a class="dropdown-item" (click)="onCategoryChange(null)">All Categories</a>
+        <a class="dropdown-item" (click)="onCategoryChange(null)"
+          >All Categories</a
+        >
         <div class="dropdown-divider"></div>
-        <a *ngFor="let category of productCategories" class="dropdown-item" (click)="onCategoryChange(category)">{{ category }}</a>
+        <a
+          *ngFor="let category of productCategories"
+          class="dropdown-item"
+          (click)="onCategoryChange(category)"
+          >{{ category }}</a
+        >
       </div>
     </div>
   </div>
-  
-  
+
   <div class="form-group d-flex mt-0" id="perPage">
     <label for="perPage" class="me-2">Products per Page:</label>
-    <select class="form-control" id="perPage" [(ngModel)]="itemsPerPage" (ngModelChange)="updateDisplayedProducts()">
+    <select
+      class="form-control"
+      id="perPage"
+      [(ngModel)]="itemsPerPage"
+      (ngModelChange)="updateDisplayedProducts()"
+    >
       <option [value]="5">5</option>
       <option [value]="10">10</option>
       <option [value]="20">20</option>
     </select>
   </div>
 
-  <button class="btn btn-outline-secondary" (click)="clearFilters()">Clear Filters</button>
+  <button class="btn btn-outline-secondary" (click)="clearFilters()">
+    Clear Filters
+  </button>
 </div>
 
 <div class="card-container">
@@ -47,9 +74,6 @@
     ></app-card>
   </div>
 </div>
-<br>
-<br>
-<br>
-
-
-
+<br />
+<br />
+<br />

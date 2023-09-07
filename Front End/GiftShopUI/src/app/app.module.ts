@@ -33,7 +33,6 @@ export function tokenGetter() {
   return localStorage.getItem('access_token'); // Adjust the storage method
 }
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +48,7 @@ export function tokenGetter() {
     PaginationComponent,
     AdminPageComponent,
     CardComponent,
-    ModalComponent
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,21 +63,20 @@ export function tokenGetter() {
           return localStorage.getItem('token');
         },
         allowedDomains: ['your-api-domain.com'], // Replace with your API domain
-        disallowedRoutes: ['your-api-domain.com/auth'] // Replace with routes that should not include the token
-      }
+        disallowedRoutes: ['your-api-domain.com/auth'], // Replace with routes that should not include the token
+      },
     }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
     }),
-
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 
 //loaded from main.ts file, makes angular aware of app component

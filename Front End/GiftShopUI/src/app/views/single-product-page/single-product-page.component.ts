@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminProduct } from 'src/app/models/adminProducts';
 import { AdminService } from 'src/app/services/admin.service';
+import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 
 @Component({
   selector: 'app-single-product-page',
@@ -14,7 +15,8 @@ export class SingleProductPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private shoppingCartService: ShoppingCartService
   ) {}
 
   ngOnInit(): void {
@@ -38,5 +40,9 @@ export class SingleProductPageComponent implements OnInit {
         }
       );
     }
+  }
+
+  addToCart(product: AdminProduct): void {
+    this.shoppingCartService.addToCart(product);
   }
 }

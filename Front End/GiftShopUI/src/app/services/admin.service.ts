@@ -53,11 +53,11 @@ export class AdminService implements OnInit {
 
   getProductById(productId: number): Observable<AdminProduct | null> {
     const productUrl = `${this.url}${this._product}/${productId}`;
-  
+
     return this.http.get<AdminProduct>(productUrl).pipe(
       catchError((error) => {
         console.error('Error fetching product by ID:', error);
-        return of(null); 
+        return of(null);
       })
     );
   }

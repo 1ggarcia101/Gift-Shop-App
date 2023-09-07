@@ -26,23 +26,10 @@ export class AuthService {
       return;
     }
 
-    const token = response.token; // adjust this based on your API response
+    const token = response.token;
     localStorage.setItem(this.TOKEN_KEY, token);
     this.isAuthenticatedSubject.next(true);
-    this.firstNameSubject.next(response.firstName); // Update the first name
-
-    // return this.userLoginService.loginUser(user).pipe(
-    //   tap((response) => {
-    //     const token = response.user.token; // adjust this based on your API response
-    //     localStorage.setItem(this.TOKEN_KEY, token);
-    //     this.isAuthenticatedSubject.next(true);
-    //     this.firstNameSubject.next(response.firstName); // Update the first name
-    //   }),
-    //   catchError(error => {
-    //     console.error('Login error:', error);
-    //     throw error;
-    //   })
-    // );
+    this.firstNameSubject.next(response.firstName);
   }
 
   signupUser(user: GiftShopUser): Observable<any> {
