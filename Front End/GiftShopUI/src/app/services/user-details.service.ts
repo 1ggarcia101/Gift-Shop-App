@@ -5,17 +5,13 @@ import { environment } from 'src/environments/environment.development';
 import { JwtService } from './jwt.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserDetailsService {
+  private url = environment.apiURL;
+  private _userDetails = '/GiftShopUsers/user-details';
 
-  private url = environment.apiURL
-  private _userDetails = "/GiftShopUsers/user-details"
-
-  constructor(
-    private http: HttpClient,
-    private jwtService: JwtService
-    ) { }
+  constructor(private http: HttpClient, private jwtService: JwtService) {}
 
   getUserDetails(): Observable<any> {
     return this.http.get(this.url + this._userDetails);
@@ -23,6 +19,6 @@ export class UserDetailsService {
 
   getFirstNameFromToken(token: string): string {
     const decodedToken = this.jwtService.decodeToken(token);
-    return decodedToken.FirstName; // Replace 'FirstName' with the actual key for the first name in your payload
+    return decodedToken.FirstName;
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JwtService {
   constructor(private jwtHelper: JwtHelperService) {}
@@ -15,4 +15,3 @@ export class JwtService {
     return this.jwtHelper.decodeToken(token);
   }
 }
-

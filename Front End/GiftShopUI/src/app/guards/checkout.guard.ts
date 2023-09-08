@@ -12,11 +12,11 @@ import { JwtService } from '../services/jwt.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGuard implements CanActivate {
+export class CheckoutGuard implements CanActivate {
   constructor(
     private authService: AuthService,
-    private jwtService: JwtService,
-    private router: Router
+    private router: Router,
+    private jwtService: JwtService
   ) {}
 
   unauthorizedAccess = false;
@@ -39,7 +39,7 @@ export class AdminGuard implements CanActivate {
         // Check if the user is an admin
         if (rolesClaim && rolesClaim.length >= 3) {
           const role = rolesClaim[2]; // Access the value at the 3rd index
-          if (role === 'Admin') {
+          if (role === 'Admin' || role === 'Registered') {
             // User is an admin, allow access to the admin page
             return true;
           }
@@ -54,7 +54,7 @@ export class AdminGuard implements CanActivate {
     // If not authenticated or not an admin, redirect to a different route (e.g., login)
     this.router.navigate(['/app-homepage']); // Change this route as needed
     if (this.unauthorizedAccess == true) {
-      console.log('You must be an admin to access this page.');
+      console.log('You must be a registered user to access this page.');
     }
     return false;
   }

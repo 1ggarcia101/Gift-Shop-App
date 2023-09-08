@@ -23,6 +23,7 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchProducts();
+    console.log(this.productCategories);
   }
 
   fetchProducts() {
