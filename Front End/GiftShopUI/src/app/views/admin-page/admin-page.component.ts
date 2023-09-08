@@ -31,6 +31,8 @@ export class AdminPageComponent {
   itemsPerPage = 5;
   totalPages = 5;
   displayedProducts: AdminProduct[] = [];
+  unauthorizedAccess = false;
+
 
   constructor(
     private router: Router,
@@ -63,7 +65,6 @@ export class AdminPageComponent {
     product: AdminProduct | null = null
   ) {
     if (isEditing) {
-      // Handle editing logic here, e.g., populate the form fields with the product data
       this.selectedProduct = product;
       this.productForm.patchValue({
         ProductName: product?.productName || '',

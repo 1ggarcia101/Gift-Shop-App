@@ -8,6 +8,8 @@ import { SingleProductPageComponent } from './views/single-product-page/single-p
 import { ShoppingCartPageComponent } from './views/shopping-cart-page/shopping-cart-page.component';
 import { CheckoutPageComponent } from './views/checkout-page/checkout-page.component';
 import { AdminPageComponent } from './views/admin-page/admin-page.component';
+import { AdminGuard } from './guards/admin.guard';
+import { CheckoutGuard } from './guards/checkout.guard';
 
 const routes: Routes = [
   { path: 'app-root', component: AppComponent },
@@ -19,8 +21,8 @@ const routes: Routes = [
     component: SingleProductPageComponent,
   },
   { path: 'app-shopping-cart-page', component: ShoppingCartPageComponent },
-  { path: 'app-checkout-page', component: CheckoutPageComponent },
-  { path: 'app-admin-page', component: AdminPageComponent },
+  { path: 'app-checkout-page', component: CheckoutPageComponent, canActivate: [CheckoutGuard] },
+  { path: 'app-admin-page', component: AdminPageComponent, canActivate: [AdminGuard] },
   { path: '', redirectTo: 'app-homepage', pathMatch: 'full' },
 ];
 

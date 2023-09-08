@@ -22,7 +22,7 @@ export class ShoppingCartPageComponent {
     this.router.navigate(['app-shopping-cart-page']);
   }
 
-  removeFromCart(index: number) {
-    this._cartservice.removeFromCart(index);
+  removeFromCart(item: any) {
+    this._cartservice.removeFromCart(item);
   }
 }

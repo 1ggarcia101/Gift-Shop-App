@@ -12,7 +12,6 @@ export class ShoppingCartService {
   cartItems$ = new BehaviorSubject<any[]>([]);
 
   constructor(private http: HttpClient) {
-    // Load cart items from Local Storage during service initialization
     const storedCartItems = localStorage.getItem(this.cartItemsKey);
     if (storedCartItems) {
       this.cartItems = JSON.parse(storedCartItems);
@@ -31,13 +30,13 @@ export class ShoppingCartService {
   addToCart(item: any) {
     this.cartItems.push(item);
     this.cartItems$.next(this.cartItems);
-    this.updateLocalStorage(); // Save to Local Storage
+    this.updateLocalStorage();
   }
 
-  removeFromCart(index: number) {
-    this.cartItems.splice(index, 1);
+  removeFromCart(itemToRemove: any) {
+    this.cartItems = this.cartItems.filter((item) => item !== itemToRemove);
     this.cartItems$.next(this.cartItems);
-    this.updateLocalStorage(); // Save to Local Storage
+    this.updateLocalStorage();
   }
 
   getTotalCost() {
