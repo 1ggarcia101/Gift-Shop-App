@@ -12,7 +12,9 @@ export class HomepageComponent implements OnInit {
   displayedProducts: AdminProduct[] = [];
   selectedCategory: ProductCategory | null = null;
   productCategories: ProductCategory[] = [
-    ...(Object.values(ProductCategory) as ProductCategory[]),
+    ...(Object.values(ProductCategory) as ProductCategory[]).filter(
+      (value) => typeof value === 'number'
+    ),
   ];
   searchQuery: string = '';
   currentPage = 1;

@@ -36,7 +36,7 @@
             *ngFor="let category of productCategories"
             class="dropdown-item"
             (click)="onCategoryChange(category)"
-            >{{ category }}</a
+            >{{  "enums.productCategory." + category | translate  }}</a
           >
         </div>
       </div>

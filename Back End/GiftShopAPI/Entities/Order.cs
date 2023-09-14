@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
+using GiftShopAPI.models;
 
 namespace GiftShopAPI.Entities
 {
@@ -8,29 +8,14 @@ namespace GiftShopAPI.Entities
     {
         [Key]
         public int OrderId { get; set; }
-
-        public int CustomerId { get; set; }
-
         public decimal TotalAmount { get; set; }
+        public GiftShopUser User { get; set; }
+        public int UserId { get; set; }
 
-        // Include a collection of items in the order
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
-    }
+        // Add a reference to the Cart entity
+        public Cart CartId { get; set; }
 
-    public class OrderItem
-    {
-        [Key]
-        public int OrderItemId { get; set; }
-
-        public int OrderId { get; set; }
-
-        public int ProductId { get; set; }
-
-        public int Quantity { get; set; }
-
-        public decimal UnitPrice { get; set; }
-
-        // Add navigation property to Product if needed
-        // public virtual Product Product { get; set; }
+        public Cart Cart { get; set; }
     }
 }
+

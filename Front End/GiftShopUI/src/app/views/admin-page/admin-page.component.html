@@ -37,7 +37,7 @@
           }}</span>
         </td>
         <td>
-          <span>{{ product.productPrice }}</span>
+          <span>{{ product.productPrice | currency }}</span>
         </td>
         <td>
           <span>{{ product.productQuantity }}</span>
@@ -85,8 +85,33 @@
             id="productname"
             formControlName="ProductName"
             class="form-control"
+            required
+            maxlength="200"
           />
+          
         </div>
+        <span
+            class="messages"
+            *ngIf="submitted && productForm.controls['ProductName'].invalid"
+          >
+            <p
+              *ngIf="productForm.controls['ProductName'].errors?.required"
+              class="text-danger error"
+            >
+              {{ "validations.REQUIRED" | translate }}
+            </p>
+            <p
+              *ngIf="productForm.controls['ProductName'].errors?.maxlength"
+              class="text-danger error"
+            >
+              {{
+                "validations.MAX_LENGTH" | translate : { 
+                        requiredLength: productForm.controls['ProductName'].errors?.maxlength.requiredLength,
+                        actualLength: productForm.controls['ProductName'].errors?.maxlength.actualLength
+                      }
+              }}
+            </p>
+          </span>
       </div>
       <div class="form-group">
         <label for="productdescription">Product Description</label>

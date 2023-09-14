@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
 })
 export class ShoppingCartPageComponent {
   cartItems$: Observable<any[]>;
+  subtotal: number = 0;
+  shipping: number = 5;
+  total: number = 0;
 
   constructor(
     private router: Router,
@@ -18,11 +21,49 @@ export class ShoppingCartPageComponent {
     this.cartItems$ = this._cartservice.cartItems$;
   }
 
+  ngOnInit() {
+    // Calculate subtotal based on cart items
+    this.cartItems$.subscribe((items) => {
+      this.subtotal = items.reduce((acc, item) => {
+        return acc + item.productPrice * item.productQuantity;
+      }, 0);
+
+      // Calculate total by adding subtotal and shipping
+      this.total = this.subtotal + this.shipping;
+    });
+  }
+
   navigateToShoppingCartPage() {
     this.router.navigate(['app-shopping-cart-page']);
   }
 
   removeFromCart(item: any) {
     this._cartservice.removeFromCart(item);
+  }
+
+  incrementQuantity(item: any): void {
+    item.productQuantity++;
+    this._cartservice.updateLocalStorage();
+    this.updateSubtotalAndTotal();
+  }
+
+  decrementQuantity(item: any): void {
+    if (item.productQuantity > 1) {
+      item.productQuantity--;
+      this._cartservice.updateLocalStorage();
+      this.updateSubtotalAndTotal();
+    }
+  }
+
+  private updateSubtotalAndTotal() {
+    // Calculate subtotal based on cart items
+    this.cartItems$.subscribe((items) => {
+      this.subtotal = items.reduce((acc, item) => {
+        return acc + item.productPrice * item.productQuantity;
+      }, 0);
+
+      // Calculate total by adding subtotal and shipping
+      this.total = this.subtotal + this.shipping;
+    });
   }
 }

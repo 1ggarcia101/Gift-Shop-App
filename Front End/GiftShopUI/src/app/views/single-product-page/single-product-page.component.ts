@@ -43,6 +43,7 @@ export class SingleProductPageComponent implements OnInit {
   }
 
   addToCart(product: AdminProduct): void {
-    this.shoppingCartService.addToCart(product);
+    //add if else to account for duplicate items 
+    this.shoppingCartService.addtoCartV2(product);
   }
 }

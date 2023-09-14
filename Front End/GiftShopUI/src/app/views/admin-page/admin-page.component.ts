@@ -3,7 +3,13 @@ import { Router } from '@angular/router';
 import { AdminProduct, ProductCategory } from 'src/app/models/adminProducts';
 import { AdminService } from 'src/app/services/admin.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
@@ -32,7 +38,7 @@ export class AdminPageComponent {
   totalPages = 5;
   displayedProducts: AdminProduct[] = [];
   unauthorizedAccess = false;
-
+  submitted: boolean = false;
 
   constructor(
     private router: Router,
@@ -42,12 +48,20 @@ export class AdminPageComponent {
     private _editModal: ModalComponent
   ) {
     this.productForm = this.formBuilder.group({
-      ProductName: [''],
-      ProductDescription: [''],
-      ProductImage: [''],
-      ProductPrice: [0],
+      ProductName: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(20),
+          Validators.minLength(1),
+          this.noWhitespaceValidator,
+        ],
+      ],
+      ProductDescription: ['', [Validators.required]],
+      ProductImage: ['', [Validators.required]],
+      ProductPrice: [0, [Validators.required, this.excludeCharacter('e')]],
       ProductCategory: [ProductCategory.Appliances],
-      ProductQuantity: [0],
+      ProductQuantity: [0, [Validators.required, this.excludeCharacter('e')]],
     });
   }
 
@@ -99,9 +113,10 @@ export class AdminPageComponent {
   }
 
   public onSubmit() {
+    this.submitted = true;
     // validations
     if (!this.productForm.valid) {
-      console.log(this.productForm.errors);
+      console.log(this.productForm.controls);
       return;
     }
 
@@ -114,6 +129,7 @@ export class AdminPageComponent {
       this.products.push(res);
       this.modalService.dismissAll();
       location.reload();
+      this.submitted = false;
     });
   }
 
@@ -193,5 +209,19 @@ export class AdminPageComponent {
       this.currentPage = newPage;
       this.updateDisplayedProducts();
     }
+  }
+
+  excludeCharacter(excludedChar: string) {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const forbidden = control.value && control.value.includes(excludedChar);
+      return forbidden ? { excludeCharacter: { value: control.value } } : null;
+    };
+  }
+
+  noWhitespaceValidator(
+    control: AbstractControl
+  ): { [key: string]: any } | null {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    return isWhitespace ? { whitespace: true } : null;
   }
 }
