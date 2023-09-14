@@ -15,7 +15,7 @@ namespace GiftShopAPI
         public UserDetailsDto GetUserDetailsById(int userId)
         {
             // Fetch user details by user ID
-            var user = _context.GiftShopUsers.FirstOrDefault(u => u.Id == userId);
+            var user = _context.GiftShopUsers.FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
             {

@@ -14,5 +14,7 @@ namespace GiftShopAPI.Entities
         public decimal ProductPrice { get; set; } = decimal.Zero;
         public decimal ProductQuantity { get; set; } = decimal.Zero;
 
+
+
     }
 }
