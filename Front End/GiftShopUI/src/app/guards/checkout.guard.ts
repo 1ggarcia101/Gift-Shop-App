@@ -38,7 +38,7 @@ export class CheckoutGuard implements CanActivate {
 
         // Check if the user is an admin
         if (rolesClaim && rolesClaim.length >= 3) {
-          const role = rolesClaim[2]; // Access the value at the 3rd index
+          const role = rolesClaim[3]; // Access the value at the 3rd index
           if (role === 'Admin' || role === 'Registered') {
             // User is an admin, allow access to the admin page
             return true;

@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GiftShopAPI.Data;
 using GiftShopAPI.Entities;
+using Microsoft.AspNetCore.Cors;
 
 namespace GiftShopAPI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("GiftShopOrigins")]
     [ApiController]
     public class OrdersController : ControllerBase
     {

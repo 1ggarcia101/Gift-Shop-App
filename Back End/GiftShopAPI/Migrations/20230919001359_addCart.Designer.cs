@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GiftShopAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230914214408_addCart")]
+    [Migration("20230919001359_addCart")]
     partial class addCart
     {
         /// <inheritdoc />
@@ -55,6 +55,9 @@ namespace GiftShopAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("CartItemId");
@@ -192,7 +195,7 @@ namespace GiftShopAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("GiftShopAPI.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("CartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -233,6 +236,11 @@ namespace GiftShopAPI.Migrations
                 });
 
             modelBuilder.Entity("GiftShopAPI.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("GiftShopAPI.Entities.Product", b =>
                 {
                     b.Navigation("CartItems");
                 });

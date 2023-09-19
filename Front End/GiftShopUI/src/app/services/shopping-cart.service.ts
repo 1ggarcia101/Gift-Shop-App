@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Order } from '../models/order';
 import { HttpClient } from '@angular/common/http';
 import { AdminProduct } from '../models/adminProducts';
+import { UserType } from '../models/giftShopUser';
+import { environment } from 'src/environments/environment.development';
+import { AddToCartRequest } from '../models/addToCartRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +14,10 @@ export class ShoppingCartService {
   private cartItemsKey = 'cartItems';
   private cartItems: any[] = [];
   cartItems$ = new BehaviorSubject<any[]>([]);
+
+  private url = environment.apiURL;
+  private _cart = '/Cart/add-to-cart';
+  private _cartItemsUrl = '/Cart/get-cart-items';
 
   constructor(private http: HttpClient) {
     const storedCartItems = localStorage.getItem(this.cartItemsKey);
@@ -28,7 +35,8 @@ export class ShoppingCartService {
     return this.http.post<Order>('api/Orders', order);
   }
 
-  addtoCartV2(product: AdminProduct) {
+  addToLocalStorage(product: AdminProduct) {
+    debugger
     let cartList: AdminProduct[] = [];
     // search in localstorge
     if (!localStorage.getItem('cartItems')) {
@@ -53,30 +61,17 @@ export class ShoppingCartService {
     localStorage.setItem('cartItems', JSON.stringify(cartList));
   }
 
-  addToCart(product: AdminProduct) {
-    const currentCartItems = this.cartItems$.value;
-    const existingItem = currentCartItems.find(
-      (item) => item.id === product.productId
-    );
-
-    if (existingItem) {
-      // Product already exists in the cart
-      if (existingItem.quantity < (product.productQuantity as number)) {
-        // Type assertion
-        // Check if there is enough available quantity
-        existingItem.quantity += 1; // Increment quantity
+  addToDatabaseCart(request: AddToCartRequest): void {
+    this.http.post(this.url + this._cart, request).subscribe(
+      (response) => {
+        // Handle the response as needed
+      },
+      (error) => {
+        console.error('Error adding to database cart:', error);
       }
-    } else {
-      // Product doesn't exist in the cart, add it with quantity 1
-      currentCartItems.push({ ...product, quantity: 1 });
-    }
-
-    // Update the cart items in the BehaviorSubject
-    this.cartItems$.next([...currentCartItems]);
-
-    // Update the local storage as well
-    this.updateLocalStorage();
+    );
   }
+  
 
   updateCartItems(newCartItems: any[]) {
     // Set the cart items to the new array of items
@@ -95,4 +90,15 @@ export class ShoppingCartService {
   getTotalCost() {
     return this.cartItems.reduce((total, item) => total + item.price, 0);
   }
+
+  getCartItemsFromLocalStorage(): any[] {
+    const cartItems = localStorage.getItem('cartItems');
+    return cartItems ? JSON.parse(cartItems) : [];
+  }
+
+  getCartItemsFromDatabase(userId: number): Observable<any[]> {
+    const url = `${this.url}${this._cartItemsUrl}/${userId}`; // Adjust the URL to include the user ID
+    return this.http.get<any[]>(url);
+  }
+  
 }

@@ -54,6 +54,9 @@ namespace GiftShopAPI.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("CartItemId");
 
                     b.HasIndex("CartId");
@@ -189,7 +192,7 @@ namespace GiftShopAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("GiftShopAPI.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("CartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -230,6 +233,11 @@ namespace GiftShopAPI.Migrations
                 });
 
             modelBuilder.Entity("GiftShopAPI.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("GiftShopAPI.Entities.Product", b =>
                 {
                     b.Navigation("CartItems");
                 });

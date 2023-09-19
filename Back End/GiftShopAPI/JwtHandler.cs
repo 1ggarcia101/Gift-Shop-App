@@ -30,6 +30,7 @@ namespace GiftShopAPI
             {
                 new Claim(ClaimTypes.Name, user.Email),
                 new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Name, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.UserType.ToString()),
                 // Add more claims as needed
             };

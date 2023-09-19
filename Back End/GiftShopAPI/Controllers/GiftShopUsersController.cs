@@ -54,16 +54,22 @@ namespace GiftShopAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public IActionResult Register(GiftShopUser user)
+        public IActionResult Register(UserSignupRequestDto registrationDto)
         {
-            // Validate user input and perform registration logic
-            // For example, check if the email is unique before registering
+            var user = new GiftShopUser
+            {
+                FirstName = registrationDto.FirstName,
+                LastName = registrationDto.LastName,
+                Email = registrationDto.Email,
+                Password = registrationDto.Password,
+            };
 
             _context.GiftShopUsers.Add(user);
             _context.SaveChanges();
 
             return Ok(new { Success = true, Message = "Registration successful" });
         }
+
 
         [HttpPost]
         [Route("login")]

@@ -15,37 +15,37 @@ namespace GiftShopAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure the one-to-one relationship between GiftShopUser and Cart
+            // one-to-one relationship between GiftShopUser and Cart
             modelBuilder.Entity<GiftShopUser>()
                 .HasOne(u => u.Cart)
                 .WithOne(c => c.User)
                 .HasForeignKey<Cart>(c => c.UserId);
 
-            // Configure the one-to-many relationship between GiftShopUser and Orders
+            // one-to-many relationship between GiftShopUser and Orders
             modelBuilder.Entity<GiftShopUser>()
                 .HasMany(u => u.Orders)
                 .WithOne(o => o.User)
                 .HasForeignKey(o => o.UserId);
 
-            // Configure the one-to-many relationship between Cart and CartItems
+            // one-to-many relationship between Cart and CartItems
             modelBuilder.Entity<Cart>()
                 .HasMany(c => c.CartItems)
                 .WithOne(ci => ci.Cart)
                 .HasForeignKey(ci => ci.CartId);
 
-            // Configure the one-to-many relationship between Order and OrderItems
+            // one-to-many relationship between Order and OrderItems
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.OrderItems)
                 .WithOne(oi => oi.Order)
                 .HasForeignKey(oi => oi.OrderId);
 
-            // Configure the many-to-one relationship between CartItem and Product
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.Product)
-                .WithMany()
-                .HasForeignKey(ci => ci.ProductId);
+            // many-to-one relationship between CartItem and Product
+            //modelBuilder.Entity<CartItem>()
+            //    .HasOne(ci => ci.Product)
+            //    .WithMany()
+            //    .HasForeignKey(ci => ci.ProductId);
 
-            // Configure the many-to-one relationship between OrderItem and Product
+            // many-to-one relationship between OrderItem and Product
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Product)
                 .WithMany()
