@@ -163,6 +163,9 @@ namespace GiftShopAPI.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderItemId");
 
                     b.HasIndex("OrderId");

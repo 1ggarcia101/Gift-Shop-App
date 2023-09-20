@@ -56,7 +56,6 @@
               <div style="width: 50px">
                 <h5 class="fw-normal mb-0">{{ item.productQuantity }}</h5>
               </div>
-              <!-- Add an Increment button -->
               <button
                 class="btn btn-success btn-sm"
                 (click)="incrementQuantity(item)"
@@ -72,7 +71,6 @@
               <div style="width: 80px">
                 <h5 class="mb-0">{{ item.productPrice | currency }}</h5>
               </div>
-              <!-- Add a Remove button with Bootstrap styling -->
               <button
                 class="btn btn-danger btn-sm"
                 (click)="removeFromCart(item)"
@@ -110,26 +108,24 @@
             <div style="width: 50px">
               <h5 class="fw-normal mb-0">{{ item.productQuantity }}</h5>
             </div>
-            <!-- Add an Increment button -->
             <button
               class="btn btn-success btn-sm"
-              (click)="incrementQuantity(item)"
+              (click)="incrementQuantityDatabase(userId, item.productId)"
             >
               +
             </button>
             <button
               class="btn btn-secondary btn-sm"
-              (click)="decrementQuantity(item)"
+              (click)="decrementQuantityDatabase(userId, item.productId)"
             >
               -
             </button>
             <div style="width: 80px">
               <h5 class="mb-0">{{ item.productPrice | currency }}</h5>
             </div>
-            <!-- Add a Remove button with Bootstrap styling -->
             <button
               class="btn btn-danger btn-sm"
-              (click)="removeFromCart(item)"
+              (click)="deleteItemDatabase(userId, item.productId)"
             >
               Remove
             </button>

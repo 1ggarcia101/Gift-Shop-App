@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GiftShopAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230919001359_addCart")]
-    partial class addCart
+    [Migration("20230920154313_addQuantityColumn")]
+    partial class addQuantityColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,6 +164,9 @@ namespace GiftShopAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("OrderItemId");

@@ -19,6 +19,10 @@ export class ShoppingCartService {
   private _cart = '/Cart/add-to-cart';
   private _cartItemsUrl = '/Cart/get-cart-items';
 
+  private _incrementCart = '/Cart/increment-cart-item';
+  private _decrementCart = '/Cart/decrement-cart-item';
+  private _deleteCart = '/Cart/delete-cart-item';
+
   constructor(private http: HttpClient) {
     const storedCartItems = localStorage.getItem(this.cartItemsKey);
     if (storedCartItems) {
@@ -28,6 +32,8 @@ export class ShoppingCartService {
   }
 
   updateLocalStorage() {
+    debugger;
+    console.log(this.cartItems);
     localStorage.setItem(this.cartItemsKey, JSON.stringify(this.cartItems));
   }
 
@@ -36,7 +42,6 @@ export class ShoppingCartService {
   }
 
   addToLocalStorage(product: AdminProduct) {
-    debugger
     let cartList: AdminProduct[] = [];
     // search in localstorge
     if (!localStorage.getItem('cartItems')) {
@@ -71,7 +76,6 @@ export class ShoppingCartService {
       }
     );
   }
-  
 
   updateCartItems(newCartItems: any[]) {
     // Set the cart items to the new array of items
@@ -82,12 +86,15 @@ export class ShoppingCartService {
   }
 
   removeFromCart(itemToRemove: any) {
-    this.cartItems = this.cartItems.filter((item) => item !== itemToRemove);
+    this.cartItems = this.cartItems.filter(
+      (item) => item.productId !== itemToRemove.productId
+    );
     this.cartItems$.next(this.cartItems);
     this.updateLocalStorage();
   }
 
   getTotalCost() {
+    debugger;
     return this.cartItems.reduce((total, item) => total + item.price, 0);
   }
 
@@ -100,5 +107,25 @@ export class ShoppingCartService {
     const url = `${this.url}${this._cartItemsUrl}/${userId}`; // Adjust the URL to include the user ID
     return this.http.get<any[]>(url);
   }
-  
+
+  incrementCartItemQuantity(
+    userId: number,
+    productId: number
+  ): Observable<any> {
+    const url = `${this.url}${this._incrementCart}/${userId}/${productId}`;
+    return this.http.post(url, null);
+  }
+
+  decrementCartItemQuantity(
+    userId: number,
+    productId: number
+  ): Observable<any> {
+    const url = `${this.url}${this._decrementCart}/${userId}/${productId}`;
+    return this.http.post(url, null);
+  }
+
+  deleteCartItem(userId: number, productId: number): Observable<any> {
+    const url = `${this.url}${this._deleteCart}/${userId}/${productId}`;
+    return this.http.delete(url);
+  }
 }

@@ -17,7 +17,7 @@ export class ShoppingCartPageComponent {
   shipping: number = 5;
   total: number = 0;
   isUserRegisteredOrAdmin: boolean = false;
-  userId: number | null = null;
+  userId: number = 0;
 
   constructor(
     private router: Router,
@@ -28,20 +28,24 @@ export class ShoppingCartPageComponent {
   }
 
   ngOnInit() {
-    debugger
     this.isUserRegisteredOrAdmin = this.authService.isUserRegisteredOrAdmin();
-    this.userId = this.authService.getUserId(); // Get the user ID from your authentication service
 
-    if (this.userId !== null) {
+    // Get the user ID from your authentication service
+    this.userId = this.authService.getUserId();
+
+    if (this.userId !== 0) {
       // Fetch cart items from the database here for registered users
-      this.cartItemsDatabase$ = this._cartservice.getCartItemsFromDatabase(this.userId);
+      this.cartItemsDatabase$ = this._cartservice.getCartItemsFromDatabase(
+        this.userId
+      );
     } else {
       // Fetch cart items from local storage here for unregistered users
-      this.cartItemsLocalStorage$ = of(this._cartservice.getCartItemsFromLocalStorage());
+      this.cartItemsLocalStorage$ = of(
+        this._cartservice.getCartItemsFromLocalStorage()
+      );
     }
 
     this.cartItems$.subscribe((items) => {
-      this.cartItems$ = of(items); // Assign the cartItems$ observable
       this.calculateSubtotalAndTotal(items);
     });
   }
@@ -51,19 +55,19 @@ export class ShoppingCartPageComponent {
   }
 
   removeFromCart(item: any) {
-    debugger
     this._cartservice.removeFromCart(item);
+    location.reload();
   }
 
   incrementQuantity(item: any): void {
-    debugger
+    debugger;
     item.productQuantity++;
     this._cartservice.updateLocalStorage();
     this.calculateSubtotalAndTotal(item);
   }
 
   decrementQuantity(item: any): void {
-    debugger
+    debugger;
     if (item.productQuantity > 1) {
       item.productQuantity--;
       this._cartservice.updateLocalStorage();
@@ -72,12 +76,41 @@ export class ShoppingCartPageComponent {
   }
 
   private calculateSubtotalAndTotal(items: any[]): void {
-    debugger
     this.subtotal = items.reduce((acc, item) => {
       return acc + item.productPrice * item.productQuantity;
     }, 0);
 
     // Calculate total by adding subtotal and shipping
     this.total = this.subtotal + this.shipping;
+  }
+
+  incrementQuantityDatabase(userId: number, productId: number) {
+    this._cartservice
+      .incrementCartItemQuantity(userId, productId)
+      .subscribe((response) => {
+        // Handle the response as needed
+        // You may want to update the cart items displayed in the component
+      });
+    location.reload();
+  }
+
+  decrementQuantityDatabase(userId: number, productId: number) {
+    this._cartservice
+      .decrementCartItemQuantity(userId, productId)
+      .subscribe((response) => {
+        // Handle the response as needed
+        // You may want to update the cart items displayed in the component
+      });
+    location.reload();
+  }
+
+  deleteItemDatabase(userId: number, productId: number) {
+    this._cartservice
+      .deleteCartItem(userId, productId)
+      .subscribe((response) => {
+        // Handle the response as needed
+        // You may want to update the cart items displayed in the component
+      });
+    location.reload();
   }
 }

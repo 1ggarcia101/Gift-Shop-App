@@ -96,6 +96,100 @@ namespace GiftShopAPI.Controllers
             return Ok(cartItemsWithProductInfo);
         }
 
+        [HttpDelete("delete-cart-item/{userId}/{productId}")]
+        public async Task<IActionResult> DeleteCartItem(int userId, int productId)
+        {
+            // Find the user's cart
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cart == null)
+            {
+                return NotFound("Cart not found.");
+            }
+
+            // Find the cart item with the specified product ID
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+
+            if (cartItem == null)
+            {
+                return NotFound("Cart item not found.");
+            }
+
+            // Remove the cart item from the cart
+            cart.CartItems.Remove(cartItem);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true, Message = "Cart item deleted successfully." });
+        }
+
+        [HttpPost("increment-cart-item/{userId}/{productId}")]
+        public async Task<IActionResult> IncrementCartItem(int userId, int productId)
+        {
+            // Find the user's cart
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cart == null)
+            {
+                return NotFound("Cart not found.");
+            }
+
+            // Find the cart item with the specified product ID
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+
+            if (cartItem == null)
+            {
+                return NotFound("Cart item not found.");
+            }
+
+            // Increment the quantity of the cart item
+            cartItem.Quantity++;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true, Message = "Cart item quantity incremented successfully." });
+        }
+
+        [HttpPost("decrement-cart-item/{userId}/{productId}")]
+        public async Task<IActionResult> DecrementCartItem(int userId, int productId)
+        {
+            // Find the user's cart
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cart == null)
+            {
+                return NotFound("Cart not found.");
+            }
+
+            // Find the cart item with the specified product ID
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+
+            if (cartItem == null)
+            {
+                return NotFound("Cart item not found.");
+            }
+
+            // Decrement the quantity of the cart item, but ensure it doesn't go below 1
+            if (cartItem.Quantity > 1)
+            {
+                cartItem.Quantity--;
+            }
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true, Message = "Cart item quantity decremented successfully." });
+        }
+
+
     }
 }
 

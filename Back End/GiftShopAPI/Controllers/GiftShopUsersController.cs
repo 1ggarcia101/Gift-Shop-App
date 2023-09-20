@@ -56,12 +56,14 @@ namespace GiftShopAPI.Controllers
         [Route("register")]
         public IActionResult Register(UserSignupRequestDto registrationDto)
         {
+            // Create a new GiftShopUser with UserType set to Registered (1)
             var user = new GiftShopUser
             {
                 FirstName = registrationDto.FirstName,
                 LastName = registrationDto.LastName,
                 Email = registrationDto.Email,
                 Password = registrationDto.Password,
+                UserType = UserType.Registered, 
             };
 
             _context.GiftShopUsers.Add(user);
@@ -69,6 +71,7 @@ namespace GiftShopAPI.Controllers
 
             return Ok(new { Success = true, Message = "Registration successful" });
         }
+
 
 
         [HttpPost]

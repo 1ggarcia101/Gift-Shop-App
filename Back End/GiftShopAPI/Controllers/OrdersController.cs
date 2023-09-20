@@ -1,8 +1,10 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GiftShopAPI.Data;
 using GiftShopAPI.Entities;
 using Microsoft.AspNetCore.Cors;
+using GiftShopAPI.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GiftShopAPI.Controllers
 {
@@ -18,68 +20,32 @@ namespace GiftShopAPI.Controllers
             _context = context;
         }
 
-        
-        [HttpGet]
-        public IActionResult GetOrders()
+        [HttpPost("create-order")]
+        public async Task<IActionResult> CreateOrder([FromBody] OrderDto orderDto)
         {
-            var orders = _context.Orders;
-            return Ok(orders);
-        }
-
-        
-        [HttpGet("{orderId}")]
-        public IActionResult GetOrder(int orderId)
-        {
-            var order = _context.Orders.Find(orderId);
-            if (order == null)
+            if (orderDto == null || orderDto.OrderItems == null || orderDto.OrderItems.Count == 0)
             {
-                return NotFound();
+                return BadRequest("Invalid order data.");
             }
-            return Ok(order);
-        }
 
-        
-        [HttpPost]
-        public IActionResult CreateOrder(Order order)
-        {
+            // Create an Order entity based on the orderDto
+            var order = new Order
+            {
+                UserId = orderDto.UserId,
+                OrderItems = orderDto.OrderItems.Select(oi => new OrderItem
+                {
+                    ProductId = oi.ProductId,
+                    Quantity = oi.Quantity
+                }).ToList()
+            };
+
+            // Add the order to the database
             _context.Orders.Add(order);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetOrder), new { orderId = order.OrderId }, order);
+            await _context.SaveChangesAsync();
+
+            // Return the newly created order as a response
+            return CreatedAtAction(nameof(CreateOrder), new { orderId = order.OrderId }, order);
         }
 
-        
-        [HttpPut("{orderId}")]
-        public IActionResult UpdateOrder(int orderId, Order updatedOrder)
-        {
-            var existingOrder = _context.Orders.Find(orderId);
-            if (existingOrder == null)
-            {
-                return NotFound();
-            }
-
-            // Update properties of the existing order based on the updatedOrder object
-            existingOrder.TotalAmount = updatedOrder.TotalAmount;
-            // Update other properties as needed
-
-            _context.Orders.Update(existingOrder);
-            _context.SaveChanges();
-            return NoContent();
-        }
-
-        
-        [HttpDelete("{orderId}")]
-        public IActionResult DeleteOrder(int orderId)
-        {
-            var order = _context.Orders.Find(orderId);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            _context.Orders.Remove(order);
-            _context.SaveChanges();
-            return NoContent();
-        }
     }
 }
-

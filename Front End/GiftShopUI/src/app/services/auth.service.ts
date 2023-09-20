@@ -86,7 +86,7 @@ export class AuthService {
     return false; // User is neither registered nor an admin
   }
 
-  getUserId(): number | null {
+  getUserId(): number {
     const token = localStorage.getItem('auth_token'); // Get the JWT token from local storage
     if (token) {
       // Decode the JWT token to access claims
@@ -106,6 +106,6 @@ export class AuthService {
       }
     }
 
-    return null; // User ID not found or not a valid number
+    return 0; // User ID not found or not a valid number
   }
 }

@@ -114,49 +114,53 @@ export class AdminPageComponent {
 
   public onSubmit() {
     this.submitted = true;
-    // validations
     if (!this.productForm.valid) {
-      console.log(this.productForm.controls);
       return;
     }
 
-    // Get the form values using this.productForm.value
     const productData = this.productForm.value;
     productData.ProductCategory = Number(productData.ProductCategory);
-    console.log(productData);
-    this._adminService.submitNewProduct(productData).subscribe((res) => {
-      console.log(res);
-      this.products.push(res);
-      this.modalService.dismissAll();
-      location.reload();
-      this.submitted = false;
-    });
+
+    this._adminService.submitNewProduct(productData).subscribe(
+      (res) => {
+        console.log(res);
+        this.products.push(res);
+        this.modalService.dismissAll();
+        this.submitted = false;
+        this.updateDisplayedProducts();
+      },
+      (error) => {
+        console.error('Error submitting product:', error);
+      }
+    );
+
+    location.reload();
   }
 
   onEdit() {
     if (!this.productForm.valid) {
-      console.log(this.productForm.errors);
       return;
     }
 
     const editedProductData = this.productForm.value;
     editedProductData.productId = this.selectedProduct?.productId;
-    editedProductData.ProductCategory = Number(
-      editedProductData.ProductCategory
-    );
+    editedProductData.ProductCategory = Number(editedProductData.ProductCategory);
 
-    this._adminService.editAdminProduct(editedProductData).subscribe((res) => {
-      console.log(res);
-      this.modalService.dismissAll(); // Dismiss the modal
-
-      // Update the products array with the edited product
-      const editedProductIndex = this.products.findIndex(
-        (product) => product.productId === editedProductData.productId
-      );
-      if (editedProductIndex !== -1) {
-        this.products[editedProductIndex] = editedProductData;
+    this._adminService.editAdminProduct(editedProductData).subscribe(
+      (res) => {
+        console.log(res);
+        this.modalService.dismissAll();
+        const editedProductIndex = this.products.findIndex(
+          (product) => product.productId === editedProductData.productId
+        );
+        if (editedProductIndex !== -1) {
+          this.products[editedProductIndex] = editedProductData;
+        }
+      },
+      (error) => {
+        console.error('Error editing product:', error);
       }
-    });
+    );
 
     location.reload();
   }
@@ -213,10 +217,15 @@ export class AdminPageComponent {
 
   excludeCharacter(excludedChar: string) {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const forbidden = control.value && control.value.includes(excludedChar);
+      if (typeof control.value !== 'string') {
+        return null; // If the control value is not a string, no validation needed
+      }
+  
+      const forbidden = control.value.includes(excludedChar);
       return forbidden ? { excludeCharacter: { value: control.value } } : null;
     };
   }
+  
 
   noWhitespaceValidator(
     control: AbstractControl
