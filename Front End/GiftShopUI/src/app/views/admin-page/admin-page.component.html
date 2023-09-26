@@ -54,7 +54,7 @@
           </button>
           <button
             class="btn btn-sm btn-danger"
-            (click)="deleteProducts(product.productId)"
+            (click)="showDeleteConfirmation(product.productId)"
           >
             <i class="fa fa-remove"></i>Delete
           </button>
@@ -206,11 +206,22 @@
             type="number"
           />
         </div>
-        <span class="messages" *ngIf="submitted && productForm.controls['ProductPrice'].invalid">
-          <p *ngIf="productForm.controls['ProductPrice'].errors?.required" class="text-danger error">
+        <span
+          class="messages"
+          *ngIf="submitted && productForm.controls['ProductPrice'].invalid"
+        >
+          <p
+            *ngIf="productForm.controls['ProductPrice'].errors?.required"
+            class="text-danger error"
+          >
             {{ "validations.REQUIRED" | translate }}
           </p>
-          <p *ngIf="productForm.controls['ProductPrice'].errors?.excludeCharacter" class="text-danger error">
+          <p
+            *ngIf="
+              productForm.controls['ProductPrice'].errors?.excludeCharacter
+            "
+            class="text-danger error"
+          >
             {{ "validations.EXCLUDE_CHARACTER" | translate }}
           </p>
         </span>

@@ -191,6 +191,16 @@ export class AdminPageComponent {
     );
   }
 
+  showDeleteConfirmation(productId: number | any): void {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this product?'
+    );
+    if (confirmed) {
+      // If the user confirms, delete the product
+      this.deleteProducts(productId);
+    }
+  }
+
   deleteProducts(productId: number | any) {
     this._adminService.deleteAdminProduct(productId).subscribe(
       (res) => {

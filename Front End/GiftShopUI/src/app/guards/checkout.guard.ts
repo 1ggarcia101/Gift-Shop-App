@@ -49,12 +49,16 @@ export class CheckoutGuard implements CanActivate {
       }
     }
 
-    this.unauthorizedAccess = true;
+    const confirmation = window.confirm(
+      'You need to create an account to access this page. Do you want to sign up now?'
+    );
 
-    // If not authenticated or not an admin, redirect to a different route (e.g., login)
-    this.router.navigate(['/app-homepage']); // Change this route as needed
-    if (this.unauthorizedAccess == true) {
-      console.log('You must be a registered user to access this page.');
+    if (confirmation) {
+      // Redirect to the signup page
+      this.router.navigate(['/app-signup-page']); // Adjust the actual route
+    } else {
+      // Redirect to another page or simply return false
+      this.router.navigate(['/']); // Redirect to the homepage or another page
     }
     return false;
   }
