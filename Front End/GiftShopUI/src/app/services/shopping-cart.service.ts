@@ -32,7 +32,6 @@ export class ShoppingCartService {
   }
 
   updateLocalStorage() {
-    debugger;
     console.log(this.cartItems);
     localStorage.setItem(this.cartItemsKey, JSON.stringify(this.cartItems));
   }
@@ -42,28 +41,55 @@ export class ShoppingCartService {
   }
 
   addToLocalStorage(product: AdminProduct) {
-    let cartList: AdminProduct[] = [];
-    // search in localstorge
-    if (!localStorage.getItem('cartItems')) {
-      cartList.push(product);
-      localStorage.setItem('cartItems', JSON.stringify(cartList));
-      return;
-    }
+    let cartList: AdminProduct[] = this.getCartItemsFromLocalStorage();
 
-    // Get from localStorage
-    cartList = JSON.parse(localStorage.getItem('cartItems') + '');
-    // it's the same item ??
-    let tempProd: any = cartList.find(
-      (prod) => prod.productId == product.productId
+    let tempProd: AdminProduct | undefined = cartList.find(
+      (prod) => prod.productId === product.productId
     );
+
     if (tempProd) {
-      // retrive the product and plus 1
-      tempProd.productQuantity += 1;
+      // Increment the product quantity if it already exists
+      tempProd.productQuantity = (tempProd.productQuantity || 0) + 1; // Use a default value of 0 if productQuantity is undefined
     } else {
+      // Add the product to the cart list
+      product.productQuantity = 1; // Initialize quantity to 1
       cartList.push(product);
     }
 
-    localStorage.setItem('cartItems', JSON.stringify(cartList));
+    // Update the cartItems array in the service
+    this.cartItems = cartList;
+
+    // Update both local storage and the cartItems$ BehaviorSubject
+    localStorage.setItem(this.cartItemsKey, JSON.stringify(cartList));
+    this.cartItems$.next(cartList);
+  }
+
+  subtractFromLocalStorage(product: AdminProduct) {
+    let cartList: AdminProduct[] = this.getCartItemsFromLocalStorage();
+
+    let tempProd: AdminProduct | undefined = cartList.find(
+      (prod) => prod.productId === product.productId
+    );
+
+    // Ensure tempProd and productQuantity are defined
+    if (tempProd && typeof tempProd.productQuantity === 'number') {
+      // Decrement the product quantity if it already exists and it's greater than 1
+      if (tempProd.productQuantity > 1) {
+        tempProd.productQuantity--;
+      } else {
+        // Remove the product from the cart list if quantity is 1
+        cartList = cartList.filter(
+          (prod) => prod.productId !== product.productId
+        );
+      }
+
+      // Update the cartItems array in the service
+      this.cartItems = cartList;
+
+      // Update both local storage and the cartItems$ BehaviorSubject
+      localStorage.setItem(this.cartItemsKey, JSON.stringify(cartList));
+      this.cartItems$.next(cartList);
+    }
   }
 
   addToDatabaseCart(request: AddToCartRequest): void {
@@ -94,7 +120,6 @@ export class ShoppingCartService {
   }
 
   getTotalCost() {
-    debugger;
     return this.cartItems.reduce((total, item) => total + item.price, 0);
   }
 

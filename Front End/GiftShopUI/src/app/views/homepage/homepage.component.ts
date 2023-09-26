@@ -20,19 +20,20 @@ export class HomepageComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 8;
   totalPages = 5;
+  totalProducts: number = 0;
 
   constructor(private _adminService: AdminService) {}
 
   ngOnInit(): void {
-    this.fetchProducts();
-    console.log(this.productCategories);
+    this.fetchProductsAndCount();
   }
 
-  fetchProducts() {
-    this._adminService.getAdminProducts().subscribe(
+  fetchProductsAndCount() {
+    this._adminService.getAdminProductsAndCount().subscribe(
       (response: any) => {
         if (response) {
-          this.products = response;
+          this.products = response.products;
+          this.totalProducts = response.totalProducts; // Store the total product count
           this.updateDisplayedProducts();
         }
       },
@@ -60,6 +61,9 @@ export class HomepageComponent implements OnInit {
           product.productName.toLowerCase().includes(lowerCaseQuery)
       );
     }
+
+    // Calculate the total number of pages dynamically
+    this.totalPages = Math.ceil(this.totalProducts / this.itemsPerPage);
 
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;

@@ -29,25 +29,27 @@ export class ShoppingCartPageComponent {
 
   ngOnInit() {
     this.isUserRegisteredOrAdmin = this.authService.isUserRegisteredOrAdmin();
-
-    // Get the user ID from your authentication service
     this.userId = this.authService.getUserId();
 
-    if (this.userId !== 0) {
-      // Fetch cart items from the database here for registered users
+    if (this.isUserRegisteredOrAdmin === true) {
       this.cartItemsDatabase$ = this._cartservice.getCartItemsFromDatabase(
         this.userId
       );
+
+      // Subscribe to cartItemsDatabase$ to calculate subtotal and total
+      this.cartItemsDatabase$.subscribe((items) => {
+        this.calculateSubtotalAndTotal(items);
+      });
     } else {
-      // Fetch cart items from local storage here for unregistered users
       this.cartItemsLocalStorage$ = of(
         this._cartservice.getCartItemsFromLocalStorage()
       );
-    }
 
-    this.cartItems$.subscribe((items) => {
-      this.calculateSubtotalAndTotal(items);
-    });
+      // Subscribe to cartItemsLocalStorage$ to calculate subtotal and total
+      this.cartItemsLocalStorage$.subscribe((items) => {
+        this.calculateSubtotalAndTotal(items);
+      });
+    }
   }
 
   navigateToShoppingCartPage() {
@@ -60,22 +62,35 @@ export class ShoppingCartPageComponent {
   }
 
   incrementQuantity(item: any): void {
-    debugger;
     item.productQuantity++;
-    this._cartservice.updateLocalStorage();
-    this.calculateSubtotalAndTotal(item);
+    this._cartservice.addToLocalStorage(item); // Use addToLocalStorage to update the quantity
+    // Calculate the new subtotal and total based on the updated local storage items
+    this.calculateSubtotalAndTotal(
+      this._cartservice.getCartItemsFromLocalStorage()
+    );
   }
 
   decrementQuantity(item: any): void {
-    debugger;
     if (item.productQuantity > 1) {
       item.productQuantity--;
-      this._cartservice.updateLocalStorage();
-      this.calculateSubtotalAndTotal(item);
+      console.log('Decremented item:', item);
+      this._cartservice.subtractFromLocalStorage(item); // Use subtractFromLocalStorage
+      // Calculate the new subtotal and total based on all items in the cart
+      const updatedItems = this._cartservice.getCartItemsFromLocalStorage();
+      console.log('Updated items after decrement:', updatedItems);
+      this.calculateSubtotalAndTotal(updatedItems);
+    } else {
+      // If the quantity is already 1, remove the item from the cart
+      this.removeFromCart(item);
     }
   }
 
   private calculateSubtotalAndTotal(items: any[]): void {
+    // Log each item individually for inspection
+    items.forEach((item, index) => {
+      console.log(`Item ${index + 1}:`, item);
+    });
+
     this.subtotal = items.reduce((acc, item) => {
       return acc + item.productPrice * item.productQuantity;
     }, 0);
@@ -84,12 +99,15 @@ export class ShoppingCartPageComponent {
     this.total = this.subtotal + this.shipping;
   }
 
+  calculateTotalQuantity(items: any[]): number {
+    return items.reduce((total, item) => total + item.productQuantity, 0);
+  }
+
   incrementQuantityDatabase(userId: number, productId: number) {
     this._cartservice
       .incrementCartItemQuantity(userId, productId)
       .subscribe((response) => {
-        // Handle the response as needed
-        // You may want to update the cart items displayed in the component
+        this.calculateSubtotalAndTotal(response);
       });
     location.reload();
   }
@@ -98,8 +116,7 @@ export class ShoppingCartPageComponent {
     this._cartservice
       .decrementCartItemQuantity(userId, productId)
       .subscribe((response) => {
-        // Handle the response as needed
-        // You may want to update the cart items displayed in the component
+        // Handle the response
       });
     location.reload();
   }
@@ -108,8 +125,7 @@ export class ShoppingCartPageComponent {
     this._cartservice
       .deleteCartItem(userId, productId)
       .subscribe((response) => {
-        // Handle the response as needed
-        // You may want to update the cart items displayed in the component
+        // Handle the response
       });
     location.reload();
   }

@@ -44,6 +44,7 @@
       "MIN_VALUE": "The field's min value is {{requiredValue}}, but actual value is {{actualValue}}.",
       "MIN_LENGTH": "The field's min length is {{requiredLength}}, but actual length is {{actualLength}}.",
       "MAX_LENGTH": "The field's max length is {{requiredLength}}, but actual length is {{actualLength}}.",
+      "EXCLUDE_CHARACTER": "This character is not allowed.",
       "INVALID_EMAIL": "Please enter a valid e-mail.",
       "INVALID_PHONE": "Invalid phone number.",
       "INVALID_FILE_EXTENSION": "Invalid file extension.",

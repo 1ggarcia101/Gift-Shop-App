@@ -36,6 +36,7 @@ export class AdminPageComponent {
   currentPage = 1;
   itemsPerPage = 5;
   totalPages = 5;
+  totalProducts: number = 0;
   displayedProducts: AdminProduct[] = [];
   unauthorizedAccess = false;
   submitted: boolean = false;
@@ -57,7 +58,15 @@ export class AdminPageComponent {
           this.noWhitespaceValidator,
         ],
       ],
-      ProductDescription: ['', [Validators.required]],
+      ProductDescription: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(20),
+          Validators.minLength(1),
+          this.noWhitespaceValidator,
+        ],
+      ],
       ProductImage: ['', [Validators.required]],
       ProductPrice: [0, [Validators.required, this.excludeCharacter('e')]],
       ProductCategory: [ProductCategory.Appliances],
@@ -70,7 +79,7 @@ export class AdminPageComponent {
   }
 
   ngOnInit(): void {
-    this.fetchProducts();
+    this.fetchProductsAndCount();
   }
 
   open(
@@ -144,7 +153,9 @@ export class AdminPageComponent {
 
     const editedProductData = this.productForm.value;
     editedProductData.productId = this.selectedProduct?.productId;
-    editedProductData.ProductCategory = Number(editedProductData.ProductCategory);
+    editedProductData.ProductCategory = Number(
+      editedProductData.ProductCategory
+    );
 
     this._adminService.editAdminProduct(editedProductData).subscribe(
       (res) => {
@@ -165,12 +176,13 @@ export class AdminPageComponent {
     location.reload();
   }
 
-  fetchProducts() {
-    this._adminService.getAdminProducts().subscribe(
+  fetchProductsAndCount() {
+    this._adminService.getAdminProductsAndCount().subscribe(
       (response: any) => {
         if (response) {
-          this.products = response; // Assign the items array to this.products
-          this.updateDisplayedProducts(); // Update the displayed products after fetching
+          this.products = response.products;
+          this.totalProducts = response.totalProducts; // Store the total product count
+          this.updateDisplayedProducts();
         }
       },
       (error) => {
@@ -195,17 +207,16 @@ export class AdminPageComponent {
   }
 
   updateDisplayedProducts() {
-    // Using slice to create a new array with a subset of items
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    if (endIndex <= this.products.length) {
+    if (endIndex <= this.totalProducts) {
       this.displayedProducts = this.products.slice(startIndex, endIndex);
     } else {
-      // If endIndex exceeds array length, display remaining items
       this.displayedProducts = this.products.slice(startIndex);
     }
 
-    console.log(this.displayedProducts);
+    // Calculate the total number of pages dynamically
+    this.totalPages = Math.ceil(this.totalProducts / this.itemsPerPage);
   }
 
   changePage(newPage: number): void {
@@ -220,12 +231,11 @@ export class AdminPageComponent {
       if (typeof control.value !== 'string') {
         return null; // If the control value is not a string, no validation needed
       }
-  
+
       const forbidden = control.value.includes(excludedChar);
       return forbidden ? { excludeCharacter: { value: control.value } } : null;
     };
   }
-  
 
   noWhitespaceValidator(
     control: AbstractControl

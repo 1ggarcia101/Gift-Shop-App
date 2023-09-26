@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, map } from 'rxjs';
 import { AdminProduct } from '../models/adminProducts';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
@@ -17,8 +17,13 @@ export class AdminService implements OnInit {
 
   ngOnInit(): void {}
 
-  getAdminProducts(): Observable<any> {
-    return this.http.get(this.url + this._login);
+  getAdminProductsAndCount() {
+    return this.http.get<AdminProduct[]>(this.url + this._login).pipe(
+      map((products) => ({
+        products,
+        totalProducts: products.length, // Assuming you return the total count from the server
+      }))
+    );
   }
 
   submitNewProduct(product: AdminProduct): Observable<any> {
