@@ -1,6 +1,5 @@
-import { CartItem } from "./cartItem";
+import { CartItem } from './cartItem';
 
 export class AddToCartRequest {
-    constructor(public userId: number, public cartItems: CartItem[]) {}
-  }
-  
+  constructor(public userId: number, public cartItems: CartItem[]) {}
+}

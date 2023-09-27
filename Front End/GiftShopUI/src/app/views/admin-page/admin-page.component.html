@@ -29,8 +29,13 @@
           <span>{{ product.productDescription }}</span>
         </td>
         <td>
-          <span>{{ product.productImage }}</span>
+          <img
+            [src]="product.productImage"
+            alt="Product Image"
+            class="product-image"
+          />
         </td>
+
         <td>
           <span>{{
             "enums.productCategory." + product.productCategory | translate
@@ -43,9 +48,13 @@
           <span>{{ product.productQuantity }}</span>
         </td>
         <td>
-          <button class="btn btn-sm btn-info">
-            <i class="fa fa-search"></i>Details
+          <button
+            class="btn btn-sm btn-info"
+            (click)="navigateToSingleProductPage(product.productId)"
+          >
+            Details
           </button>
+
           <button
             class="btn btn-sm btn-warning"
             (click)="open(editContent, true, product)"
@@ -121,11 +130,12 @@
       <div class="form-group">
         <label for="productdescription">Product Description</label>
         <div class="input-group">
-          <input
+          <textarea
             id="productdescription"
             formControlName="ProductDescription"
             class="form-control"
-          />
+          >
+          </textarea>
         </div>
         <span
           class="messages"
@@ -302,12 +312,13 @@
       <div class="form-group">
         <label for="productdescription">Product Description</label>
         <div class="input-group">
-          <input
+          <textarea
             id="productdescription"
             formControlName="ProductDescription"
             class="form-control"
             placeholder="{{ product.productDescription }}"
-          />
+          >
+          </textarea>
         </div>
       </div>
       <div class="form-group">

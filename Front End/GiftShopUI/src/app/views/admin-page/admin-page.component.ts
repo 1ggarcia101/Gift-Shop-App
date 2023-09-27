@@ -78,6 +78,12 @@ export class AdminPageComponent {
     this.router.navigate(['app-homepage']);
   }
 
+  navigateToSingleProductPage(productId: number | undefined) {
+    if (productId !== undefined) {
+      this.router.navigate(['/app-single-product-page', productId]);
+    }
+  }
+
   ngOnInit(): void {
     this.fetchProductsAndCount();
   }

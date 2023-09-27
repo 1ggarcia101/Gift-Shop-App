@@ -13,6 +13,8 @@ public class Order
     public GiftShopUser User { get; set; } // An Order belongs to one GiftShopUser
     public ICollection<OrderItem> OrderItems { get; set; }
 
+    public Payment Payment { get; set; }
+
 }
 
 public class OrderItem

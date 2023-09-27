@@ -1,5 +1,6 @@
-@media (min-width: 1025px) {
-    .h-custom {
-    height: 100vh !important;
-    }
-    }
+img {
+  max-width: 80px;
+  max-height: 80px;
+  display: block;
+  margin: 0 auto;
+}

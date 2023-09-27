@@ -71,6 +71,12 @@ export class SingleProductPageComponent implements OnInit {
 
           // Add to the database cart
           this.shoppingCartService.addToDatabaseCart(addToCartRequest);
+
+          // Show an alert message
+          window.alert('Item added to the cart!');
+
+          // Redirect to the homepage
+          this.router.navigate(['/']); // Replace '/' with your homepage route
         } else {
           console.error('userId is not defined.');
         }
