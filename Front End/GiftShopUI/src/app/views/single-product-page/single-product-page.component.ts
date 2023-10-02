@@ -92,6 +92,11 @@ export class SingleProductPageComponent implements OnInit {
   addToLocalStorage(product: AdminProduct): void {
     // User is unregistered, add to local storage
     this.shoppingCartService.addToLocalStorage(product);
+
+    window.alert('Item added to the cart!');
+
+    // Redirect to the homepage
+    this.router.navigate(['/']); // Replace '/' with your homepage route
   }
 
   addToDatabaseCart(request: AddToCartRequest): void {

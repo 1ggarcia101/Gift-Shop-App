@@ -63,7 +63,7 @@ export class ShoppingCartPageComponent {
 
   incrementQuantity(item: any): void {
     item.productQuantity++;
-    this._cartservice.addToLocalStorage(item); // Use addToLocalStorage to update the quantity
+    this._cartservice.addToLocalStorage(item);
     // Calculate the new subtotal and total based on the updated local storage items
     this.calculateSubtotalAndTotal(
       this._cartservice.getCartItemsFromLocalStorage()
@@ -74,7 +74,7 @@ export class ShoppingCartPageComponent {
     if (item.productQuantity > 1) {
       item.productQuantity--;
       console.log('Decremented item:', item);
-      this._cartservice.subtractFromLocalStorage(item); // Use subtractFromLocalStorage
+      this._cartservice.subtractFromLocalStorage(item);
       // Calculate the new subtotal and total based on all items in the cart
       const updatedItems = this._cartservice.getCartItemsFromLocalStorage();
       console.log('Updated items after decrement:', updatedItems);
@@ -115,18 +115,15 @@ export class ShoppingCartPageComponent {
   decrementQuantityDatabase(userId: number, productId: number) {
     this._cartservice
       .decrementCartItemQuantity(userId, productId)
-      .subscribe((response) => {
-        // Handle the response
-      });
+      .subscribe((response) => {});
     location.reload();
   }
 
   deleteItemDatabase(userId: number, productId: number) {
+    debugger
     this._cartservice
       .deleteCartItem(userId, productId)
-      .subscribe((response) => {
-        // Handle the response
-      });
+      .subscribe((response) => {});
     location.reload();
   }
 }

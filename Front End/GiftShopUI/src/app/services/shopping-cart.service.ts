@@ -18,10 +18,12 @@ export class ShoppingCartService {
   private url = environment.apiURL;
   private _cart = '/Cart/add-to-cart';
   private _cartItemsUrl = '/Cart/get-cart-items';
+  private _convertCart = '/Cart/convert-cart';
 
   private _incrementCart = '/Cart/increment-cart-item';
   private _decrementCart = '/Cart/decrement-cart-item';
-  private _deleteCart = '/Cart/delete-cart-item';
+  private _deleteCart = '/Cart/delete-cart';
+  private _deleteCartItem = '/Cart/delete-cart-item';
 
   constructor(private http: HttpClient) {
     const storedCartItems = localStorage.getItem(this.cartItemsKey);
@@ -150,7 +152,43 @@ export class ShoppingCartService {
   }
 
   deleteCartItem(userId: number, productId: number): Observable<any> {
-    const url = `${this.url}${this._deleteCart}/${userId}/${productId}`;
+    const url = `${this.url}${this._deleteCartItem}/${userId}/${productId}`;
     return this.http.delete(url);
   }
+
+  deleteCart(userId: number): Observable<any> {
+    const url = `${this.url}${this._deleteCart}/${userId}/`;
+    return this.http.delete(url);
+  }
+
+  clearLocalStorageCart() {
+    localStorage.removeItem(this.cartItemsKey);
+    this.cartItems$.next([]);
+  }  
+
+  convertLocalStorageCartToDatabaseCart(userId: number): Observable<any> {
+    debugger
+    let cartList: AdminProduct[] = this.getCartItemsFromLocalStorage();
+  
+    // Check if there are items in the local storage cart
+    if (cartList.length > 0) {
+      // Prepare the request body to send to the server
+      const request = {
+        userId: userId,
+        cartItems: cartList, // This assumes the structure of your cart items matches what the server expects
+      };
+
+      console.log(request);
+
+      const convertUrl = `${this.url}${this._convertCart}/${userId}`
+  
+      // Send the request to your API to convert the cart
+      return this.http.post(convertUrl, request);
+    }
+  
+    // If there are no items in the local storage cart, return an empty observable or handle it as needed
+    return new Observable<any>();
+  }
+  
+
 }

@@ -5,6 +5,7 @@ import { UserLoginService } from 'src/app/services/user-login.service';
 import { catchError } from 'rxjs';
 import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 
 @Component({
   selector: 'app-login-page',
@@ -27,7 +28,8 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private router: Router,
     private _userLoginService: UserLoginService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private cartService: ShoppingCartService
   ) {}
 
   ngOnInit(): void {}
@@ -48,5 +50,7 @@ export class LoginPageComponent implements OnInit {
 
         this.router.navigate(['app-homepage']);
       });
+
+      this.cartService.clearLocalStorageCart();
   }
 }

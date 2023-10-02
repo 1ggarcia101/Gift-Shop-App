@@ -10,7 +10,12 @@
                   Sign up
                 </p>
 
-                <form class="mx-1 mx-md-4">
+                <form
+                  class="mx-1 mx-md-4"
+                  [formGroup]="signupForm"
+                  (ngSubmit)="onRegister()"
+                >
+                  <!-- First Name Input -->
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
@@ -18,15 +23,47 @@
                         type="text"
                         id="form3Example1c"
                         class="form-control"
-                        [(ngModel)]="signupObj.firstName"
-                        name="First"
+                        formControlName="firstName"
                       />
                       <label class="form-label" for="form3Example1c"
                         >First Name</label
                       >
+                      <span
+                        class="messages"
+                        *ngIf="signupForm.controls['firstName'].invalid"
+                      >
+                        <p
+                          *ngIf="
+                            signupForm.controls['firstName'].errors?.required
+                          "
+                          class="text-danger error"
+                        >
+                          {{ "validations.REQUIRED" | translate }}
+                        </p>
+                        <p
+                          *ngIf="
+                            signupForm.controls['firstName'].errors?.maxlength
+                          "
+                          class="text-danger error"
+                        >
+                          {{
+                            "validations.MAX_LENGTH"
+                              | translate
+                                : {
+                                    requiredLength:
+                                      signupForm.controls["firstName"].errors
+                                        ?.maxlength.requiredLength,
+                                    actualLength:
+                                      signupForm.controls["firstName"].errors
+                                        ?.maxlength.actualLength
+                                  }
+                          }}
+                        </p>
+                      </span>
                     </div>
                   </div>
 
+                  <!-- Last Name Input -->
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
@@ -34,15 +71,47 @@
                         type="text"
                         id="form3Example3c"
                         class="form-control"
-                        [(ngModel)]="signupObj.lastName"
-                        name="Last"
+                        formControlName="lastName"
                       />
                       <label class="form-label" for="form3Example3c"
                         >Last Name</label
                       >
+                      <span
+                        class="messages"
+                        *ngIf="signupForm.controls['lastName'].invalid"
+                      >
+                        <p
+                          *ngIf="
+                            signupForm.controls['lastName'].errors?.required
+                          "
+                          class="text-danger error"
+                        >
+                          {{ "validations.REQUIRED" | translate }}
+                        </p>
+                        <p
+                          *ngIf="
+                            signupForm.controls['lastName'].errors?.maxlength
+                          "
+                          class="text-danger error"
+                        >
+                          {{
+                            "validations.MAX_LENGTH"
+                              | translate
+                                : {
+                                    requiredLength:
+                                      signupForm.controls["lastName"].errors
+                                        ?.maxlength.requiredLength,
+                                    actualLength:
+                                      signupForm.controls["lastName"].errors
+                                        ?.maxlength.actualLength
+                                  }
+                          }}
+                        </p>
+                      </span>
                     </div>
                   </div>
 
+                  <!-- Email Input -->
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
@@ -50,15 +119,49 @@
                         type="email"
                         id="form3Example4c"
                         class="form-control"
-                        [(ngModel)]="signupObj.email"
-                        name="Email"
+                        formControlName="email"
                       />
                       <label class="form-label" for="form3Example4c"
                         >Email</label
                       >
+                      <span
+                        class="messages"
+                        *ngIf="signupForm.controls['email'].invalid"
+                      >
+                        <p
+                          *ngIf="signupForm.controls['email'].errors?.required"
+                          class="text-danger error"
+                        >
+                          {{ "validations.REQUIRED" | translate }}
+                        </p>
+                        <p
+                          *ngIf="signupForm.controls['email'].errors?.maxlength"
+                          class="text-danger error"
+                        >
+                          {{
+                            "validations.MAX_LENGTH"
+                              | translate
+                                : {
+                                    requiredLength:
+                                      signupForm.controls["email"].errors
+                                        ?.maxlength.requiredLength,
+                                    actualLength:
+                                      signupForm.controls["email"].errors
+                                        ?.maxlength.actualLength
+                                  }
+                          }}
+                        </p>
+                        <p
+                          *ngIf="signupForm.controls['email'].errors?.pattern"
+                          class="text-danger error"
+                        >
+                          {{ "validations.INVALID_EMAIL" | translate }}
+                        </p>
+                      </span>
                     </div>
                   </div>
 
+                  <!-- Password Input -->
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
@@ -66,15 +169,47 @@
                         type="password"
                         id="form3Example4cd"
                         class="form-control"
-                        [(ngModel)]="signupObj.password"
-                        name="Password"
+                        formControlName="password"
                       />
                       <label class="form-label" for="form3Example4cd"
                         >Password</label
                       >
+                      <span
+                        class="messages"
+                        *ngIf="signupForm.controls['password'].invalid"
+                      >
+                        <p
+                          *ngIf="
+                            signupForm.controls['password'].errors?.required
+                          "
+                          class="text-danger error"
+                        >
+                          {{ "validations.REQUIRED" | translate }}
+                        </p>
+                        <p
+                          *ngIf="
+                            signupForm.controls['password'].errors?.maxlength
+                          "
+                          class="text-danger error"
+                        >
+                          {{
+                            "validations.MAX_LENGTH"
+                              | translate
+                                : {
+                                    requiredLength:
+                                      signupForm.controls["password"].errors
+                                        ?.maxlength.requiredLength,
+                                    actualLength:
+                                      signupForm.controls["password"].errors
+                                        ?.maxlength.actualLength
+                                  }
+                          }}
+                        </p>
+                      </span>
                     </div>
                   </div>
 
+                  <!-- Checkbox -->
                   <div class="form-check d-flex justify-content-center mb-5">
                     <input
                       class="form-check-input me-2"
@@ -88,11 +223,12 @@
                     </label>
                   </div>
 
+                  <!-- Register Button -->
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button
-                      type="button"
+                      type="submit"
                       class="btn btn-primary btn-lg"
-                      (click)="onRegister()"
+                      [disabled]="signupForm.invalid"
                     >
                       Register
                     </button>

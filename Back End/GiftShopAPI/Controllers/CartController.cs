@@ -76,6 +76,41 @@ namespace GiftShopAPI.Controllers
             return Ok(new { Success = true, Message = "Cart updated successfully." });
         }
 
+        [HttpPost("convert-cart/{userId}")]
+        public async Task<IActionResult> ConvertLocalCartToDbCart(int userId, [FromBody] CartDto cartDto)
+        {
+            if (cartDto == null || cartDto.CartItems == null || cartDto.CartItems.Count == 0)
+            {
+                return BadRequest("Invalid cart data.");
+            }
+
+            // Always create a new cart for the user
+            var cart = new Cart
+            {
+                UserId = userId,
+                CartItems = new List<CartItem>()
+            };
+
+            foreach (var cartItemDto in cartDto.CartItems)
+            {
+                // Add each item to the cart
+                cart.CartItems.Add(new CartItem
+                {
+                    ProductId = cartItemDto.ProductId,
+                    Quantity = cartItemDto.Quantity
+                });
+            }
+
+            // Save the new cart to the database
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true, Message = "Cart created and updated successfully." });
+        }
+
+
+
+
         [HttpGet("get-cart-items/{userId}")]
         public async Task<IActionResult> GetCartItems(int userId)
         {
@@ -95,6 +130,29 @@ namespace GiftShopAPI.Controllers
 
             return Ok(cartItemsWithProductInfo);
         }
+
+        [HttpDelete("delete-cart/{userId}")]
+        public async Task<IActionResult> DeleteCart(int userId)
+        {
+            // Find the user's cart
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cart == null)
+            {
+                return NotFound("Cart not found.");
+            }
+
+            // Remove the cart and its associated cart items
+            _context.Carts.Remove(cart);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true, Message = "Cart deleted successfully." });
+        }
+
 
         [HttpDelete("delete-cart-item/{userId}/{productId}")]
         public async Task<IActionResult> DeleteCartItem(int userId, int productId)

@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { JwtService } from '../services/jwt.service';
+import { ShoppingCartService } from '../services/shopping-cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,8 @@ export class CheckoutGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private cartService: ShoppingCartService
   ) {}
 
   unauthorizedAccess = false;
@@ -60,6 +62,7 @@ export class CheckoutGuard implements CanActivate {
       // Redirect to another page or simply return false
       this.router.navigate(['/']); // Redirect to the homepage or another page
     }
+
     return false;
   }
 }

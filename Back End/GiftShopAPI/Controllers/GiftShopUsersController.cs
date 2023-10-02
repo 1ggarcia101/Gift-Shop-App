@@ -63,14 +63,18 @@ namespace GiftShopAPI.Controllers
                 LastName = registrationDto.LastName,
                 Email = registrationDto.Email,
                 Password = registrationDto.Password,
-                UserType = UserType.Registered, 
+                UserType = UserType.Registered,
             };
 
             _context.GiftShopUsers.Add(user);
             _context.SaveChanges();
 
-            return Ok(new { Success = true, Message = "Registration successful" });
+            var token = _jwtHandler.GenerateToken(user);
+
+            // Return the token along with a success message
+            return Ok(new { Success = true, Message = "Registration successful", Token = token });
         }
+
 
 
 

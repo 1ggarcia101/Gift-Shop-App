@@ -14,8 +14,8 @@ import { PaymentService } from 'src/app/services/payment.service';
   styleUrls: ['./checkout-page.component.scss'],
 })
 export class CheckoutPageComponent {
-  cartItems: OrderItem[] = []; // Initialize with your actual cart items
-  shippingCost: number = 20; // Shipping cost
+  cartItems: OrderItem[] = []; 
+  shippingCost: number = 20; 
   taxRate: number = 0.1; // Tax rate as a decimal (e.g., 0.1 for 10%)
 
   cardNumber: string = '';
@@ -33,7 +33,7 @@ export class CheckoutPageComponent {
 
   ngOnInit(): void {
     // Fetch cart items for the current user from the service's database method
-    const userId = this.authService.getUserId(); // Get the current user's ID
+    const userId = this.authService.getUserId();
     this.cartService.getCartItemsFromDatabase(userId).subscribe(
       (cartItems) => {
         this.cartItems = cartItems;
@@ -51,25 +51,25 @@ export class CheckoutPageComponent {
       orderItems: this.cartItems,
     };
 
-    // Call the purchase service to make the purchase request
+    console.log(orderData);
+
     this.orderService.makePurchase(orderData).subscribe(
       (createdOrder) => {
-        // After a successful purchase, show a window alert
         window.alert(
           'Purchase successful! Your order ID is ' + createdOrder.orderId
         );
 
-        // Now, proceed to submit the payment
         const orderId = createdOrder.orderId;
         this.submitPayment(orderId);
 
-        // Finally, navigate to another page
         this.router.navigate(['app-homepage']);
       },
       (error) => {
         console.error('Purchase error:', error);
       }
     );
+
+    this.clearCartAfterPurchase();
   }
 
   submitPayment(orderId: number) {
@@ -79,23 +79,36 @@ export class CheckoutPageComponent {
       nameOnCard: this.nameOnCard,
       expirationDate: this.expirationDate,
       cvv: this.cvv,
-      orderId: orderId, // Add the orderId to the payment data
+      orderId: orderId,
     };
 
     this.paymentService.createPayment(paymentData).subscribe(
       (createdPayment) => {
-        // Handle success (e.g., display a success message)
         console.log('Payment created:', createdPayment);
       },
       (error) => {
-        // Handle error (e.g., display an error message)
         console.error('Error creating payment:', error);
       }
     );
   }
 
+  clearCartAfterPurchase() {
+    debugger
+    const userId = this.authService.getUserId();
+
+    this.cartService.deleteCart(userId).subscribe(
+      (response) => {
+        console.log('Cart cleared successfully:', response);
+
+        this.cartService.updateCartItems([]);
+      },
+      (error) => {
+        console.error('Error clearing cart:', error);
+      }
+    );
+  }
+
   calculateSubtotal(): number {
-    debugger;
     return this.cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0
@@ -103,7 +116,6 @@ export class CheckoutPageComponent {
   }
 
   calculateTotal(): number {
-    debugger;
     const subtotal = this.calculateSubtotal();
     const tax = subtotal * this.taxRate;
     return subtotal + tax + this.shippingCost;
