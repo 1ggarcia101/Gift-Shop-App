@@ -235,6 +235,17 @@
             {{ "validations.EXCLUDE_CHARACTER" | translate }}
           </p>
         </span>
+        <span
+          class="messages"
+          *ngIf="
+            submitted &&
+            productForm.get('ProductPrice')?.hasError('invalidPrice')
+          "
+        >
+          <p class="text-danger error">
+            {{ "validations.GREATER_THAN_ZERO" | translate }}
+          </p>
+        </span>
       </div>
       <div class="form-group">
         <label for="productcategory">Product Category</label>
@@ -250,8 +261,8 @@
           </select>
         </div>
       </div>
-      <div class="form-group">
-        <label for="productcategory">Product Quantity</label>
+      <div class="form-group" *ngIf="productForm">
+        <label for="productquantity">Product Quantity</label>
         <div class="input-group">
           <input
             id="productquantity"
@@ -260,7 +271,30 @@
             type="number"
           />
         </div>
+        <span
+          class="messages"
+          *ngIf="
+            submitted &&
+            productForm.get('ProductQuantity')?.hasError('required')
+          "
+        >
+          <p class="text-danger error">
+            {{ "validations.REQUIRED" | translate }}
+          </p>
+        </span>
+        <span
+          class="messages"
+          *ngIf="
+            submitted &&
+            productForm.get('ProductQuantity')?.hasError('invalidQuantity')
+          "
+        >
+          <p class="text-danger error">
+            {{ "validations.GREATER_THAN_ZERO" | translate }}
+          </p>
+        </span>
       </div>
+
       <div class="border text-center">
         <button
           type="submit"
@@ -354,7 +388,7 @@
           </select>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="productForm">
         <label for="productquantity">Product Quantity</label>
         <div class="input-group">
           <input
@@ -362,9 +396,30 @@
             formControlName="ProductQuantity"
             class="form-control"
             type="number"
-            placeholder="{{ product.productQuantity }}"
           />
         </div>
+        <span
+          class="messages"
+          *ngIf="
+            submitted &&
+            productForm.get('ProductQuantity')?.hasError('required')
+          "
+        >
+          <p class="text-danger error">
+            {{ "validations.REQUIRED" | translate }}
+          </p>
+        </span>
+        <span
+          class="messages"
+          *ngIf="
+            submitted &&
+            productForm.get('ProductQuantity')?.hasError('invalidQuantity')
+          "
+        >
+          <p class="text-danger error">
+            {{ "validations.GREATER_THAN_ZERO" | translate }}
+          </p>
+        </span>
       </div>
       <div class="border text-center">
         <button

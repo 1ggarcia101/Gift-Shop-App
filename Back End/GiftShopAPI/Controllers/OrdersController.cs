@@ -35,7 +35,7 @@ namespace GiftShopAPI.Controllers
                 OrderItems = orderDto.OrderItems.Select(oi => new OrderItem
                 {
                     ProductId = oi.ProductId,
-                    Quantity = oi.Quantity
+                    ProductQuantity = oi.ProductQuantity
                 }).ToList()
             };
 

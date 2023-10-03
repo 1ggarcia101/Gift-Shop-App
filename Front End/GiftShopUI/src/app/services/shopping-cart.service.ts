@@ -164,31 +164,30 @@ export class ShoppingCartService {
   clearLocalStorageCart() {
     localStorage.removeItem(this.cartItemsKey);
     this.cartItems$.next([]);
-  }  
+  }
 
   convertLocalStorageCartToDatabaseCart(userId: number): Observable<any> {
-    debugger
+    debugger;
     let cartList: AdminProduct[] = this.getCartItemsFromLocalStorage();
-  
+
     // Check if there are items in the local storage cart
     if (cartList.length > 0) {
       // Prepare the request body to send to the server
       const request = {
         userId: userId,
-        cartItems: cartList, // This assumes the structure of your cart items matches what the server expects
+        cartItems: cartList, 
       };
 
       console.log(request);
+      console.log(request.cartItems);
 
-      const convertUrl = `${this.url}${this._convertCart}/${userId}`
-  
+      const convertUrl = `${this.url}${this._convertCart}/${userId}`;
+
       // Send the request to your API to convert the cart
       return this.http.post(convertUrl, request);
     }
-  
+
     // If there are no items in the local storage cart, return an empty observable or handle it as needed
     return new Observable<any>();
   }
-  
-
 }

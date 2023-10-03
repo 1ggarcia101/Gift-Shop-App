@@ -45,7 +45,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
           ];
         this.FirstName = claims[1];
 
-        let userTypeClaim = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+        let userTypeClaim =
+          decodedToken[
+            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+          ];
         console.log('UserType:', userTypeClaim);
       } catch (error) {
         console.error('Token Decoding Error:', error);
@@ -59,7 +62,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.authSubscription.unsubscribe();
   }
 
-  onLogout(){
+  onLogout() {
     this.authService.logout();
   }
 }

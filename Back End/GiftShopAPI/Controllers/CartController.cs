@@ -52,7 +52,7 @@ namespace GiftShopAPI.Controllers
                 if (existingCartItem != null)
                 {
                     // If the product already exists in the cart, update the quantity
-                    existingCartItem.Quantity += cartItemDto.Quantity;
+                    existingCartItem.ProductQuantity += cartItemDto.ProductQuantity;
                 }
                 else
                 {
@@ -60,7 +60,7 @@ namespace GiftShopAPI.Controllers
                     cart.CartItems.Add(new CartItem
                     {
                         ProductId = cartItemDto.ProductId,
-                        Quantity = cartItemDto.Quantity
+                        ProductQuantity = cartItemDto.ProductQuantity
                     });
                 }
             }
@@ -84,7 +84,7 @@ namespace GiftShopAPI.Controllers
                 return BadRequest("Invalid cart data.");
             }
 
-            // Always create a new cart for the user
+            // create a new cart for the user
             var cart = new Cart
             {
                 UserId = userId,
@@ -97,7 +97,7 @@ namespace GiftShopAPI.Controllers
                 cart.CartItems.Add(new CartItem
                 {
                     ProductId = cartItemDto.ProductId,
-                    Quantity = cartItemDto.Quantity
+                    ProductQuantity = cartItemDto.ProductQuantity
                 });
             }
 
@@ -124,7 +124,7 @@ namespace GiftShopAPI.Controllers
                     ProductDescription = ci.Product.ProductDescription,
                     ProductImage = ci.Product.ProductImage,
                     ProductPrice = ci.Product.ProductPrice,
-                    ProductQuantity = ci.Quantity
+                    ProductQuantity = ci.ProductQuantity
                 })
                 .ToListAsync();
 
@@ -206,7 +206,7 @@ namespace GiftShopAPI.Controllers
             }
 
             // Increment the quantity of the cart item
-            cartItem.Quantity++;
+            cartItem.ProductQuantity++;
 
             // Save changes to the database
             await _context.SaveChangesAsync();
@@ -236,9 +236,9 @@ namespace GiftShopAPI.Controllers
             }
 
             // Decrement the quantity of the cart item, but ensure it doesn't go below 1
-            if (cartItem.Quantity > 1)
+            if (cartItem.ProductQuantity > 1)
             {
-                cartItem.Quantity--;
+                cartItem.ProductQuantity--;
             }
 
             // Save changes to the database

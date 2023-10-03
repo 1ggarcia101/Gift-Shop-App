@@ -30,6 +30,6 @@ public class OrderItem
     [JsonIgnore]
     public Order Order { get; set; }
 
-    public int Quantity { get; set; }
+    public int ProductQuantity { get; set; }
 }
 

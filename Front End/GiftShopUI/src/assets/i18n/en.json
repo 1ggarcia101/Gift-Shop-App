@@ -48,7 +48,8 @@
       "INVALID_EMAIL": "Please enter a valid e-mail.",
       "INVALID_PHONE": "Invalid phone number.",
       "INVALID_FILE_EXTENSION": "Invalid file extension.",
-      "INVALID_FILE_TYPE": "Invalid file type."
+      "INVALID_FILE_TYPE": "Invalid file type.",
+      "GREATER_THAN_ZERO": "Quantity must be greater than zero."
     },
     "auth": {
       "login": {

@@ -51,6 +51,6 @@ export class LoginPageComponent implements OnInit {
         this.router.navigate(['app-homepage']);
       });
 
-      this.cartService.clearLocalStorageCart();
+    this.cartService.clearLocalStorageCart();
   }
 }

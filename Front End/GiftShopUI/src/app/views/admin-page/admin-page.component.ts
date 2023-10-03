@@ -68,9 +68,23 @@ export class AdminPageComponent {
         ],
       ],
       ProductImage: ['', [Validators.required]],
-      ProductPrice: [0, [Validators.required, this.excludeCharacter('e')]],
+      ProductPrice: [
+        0,
+        [
+          Validators.required,
+          this.excludeCharacter('e'),
+          this.validateQuantityGreaterThanZero,
+        ],
+      ],
       ProductCategory: [ProductCategory.Appliances],
-      ProductQuantity: [0, [Validators.required, this.excludeCharacter('e')]],
+      ProductQuantity: [
+        0,
+        [
+          Validators.required,
+          this.excludeCharacter('e'),
+          this.validateQuantityGreaterThanZero,
+        ],
+      ],
     });
   }
 
@@ -258,5 +272,16 @@ export class AdminPageComponent {
   ): { [key: string]: any } | null {
     const isWhitespace = (control.value || '').trim().length === 0;
     return isWhitespace ? { whitespace: true } : null;
+  }
+
+  validateQuantityGreaterThanZero(
+    control: AbstractControl
+  ): { [key: string]: any } | null {
+    const quantity = control.value;
+    if (quantity > 0) {
+      return null; // Quantity is valid
+    } else {
+      return { invalidQuantity: true }; // Quantity is invalid
+    }
   }
 }

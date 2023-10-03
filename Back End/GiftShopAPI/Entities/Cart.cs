@@ -23,6 +23,6 @@ namespace GiftShopAPI.Entities
         public int CartId { get; set; } // Foreign key to Cart
         public Cart Cart { get; set; } // A CartItem belongs to one Cart
 
-        public int Quantity { get; set; } // Add this property to track the quantity of the product
+        public int ProductQuantity { get; set; } // Add this property to track the quantity of the product
     }
 }
