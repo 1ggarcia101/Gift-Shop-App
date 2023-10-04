@@ -19,25 +19,82 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
+
+    <div class="collapse navbar-collapse justify-content-end ml-auto" id="navbarSupportedContent">
+      <!-- Wrap the elements in a flex container -->
+      <a
+        href="/"
+        class="d-flex align-items-center link-dark text-decoration-none"
+      >
+        <ng-container *ngIf="isAuthenticated; else notAuthenticated">
+          <span class="fs-4 welcome-message">Welcome, {{ FirstName }}!</span>
+        </ng-container>
+        <ng-template #notAuthenticated>
+          <span class="fs-4">Welcome, Guest!</span>
+        </ng-template>
+      </a>
+
+      <div class="dropdown">
         <a
-          class="nav-link active"
-          aria-current="page"
-          routerLink="/app-login-page"
-          routerLinkActive="active"
-          >Login</a
+          href="#"
+          class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+          id="dropdownUser2"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
         >
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          routerLink="/app-signup-page"
-          routerLinkActive="active"
-          >Signup</a
+          <img
+            src="assets\images\41102-1-2.jpg"
+            alt=""
+            width="32"
+            height="32"
+            class="rounded-circle me-2"
+          />
+          <strong>My Account</strong>
+        </a>
+        <ul
+          class="dropdown-menu text-small shadow"
+          aria-labelledby="dropdownUser2"
         >
-      </li>
-      <li class="nav-item">
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/app-homepage"
+              routerLinkActive="active"
+              aria-current="page"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/app-admin-page"
+              routerLinkActive="active"
+              >Admin Page</a
+            >
+          </li>
+          <li><a class="dropdown-item" href="#">Orders</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li class="dropdown-item">
+            <a
+              class="nav-link link-dark"
+              aria-current="page"
+              routerLink="/app-login-page"
+              routerLinkActive="active"
+              >Login</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="#" (click)="onLogout()">Sign out</a>
+          </li>
+        </ul>
+      </div>
+
+      <a
+        href="/app-shopping-cart-page"
+        class="nav-link link-dark"
+        routerLink="/app-shopping-cart-page"
+        routerLinkActive="active"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -45,15 +102,12 @@
           fill="currentColor"
           class="bi bi-cart"
           viewBox="0 0 16 16"
-          routerLink="/app-shopping-cart-page"
-          routerLinkActive="active"
         >
           <path
             d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
           />
-          <a></a>
         </svg>
-      </li>
-    </ul>
+      </a>
+    </div>
   </div>
 </nav>

@@ -31,6 +31,7 @@ body {
   border: 0 solid rgba(0, 0, 0, 0.125);
   border-radius: 1rem;
   box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+  margin-top: 50px;
 }
 
 .card-body {
@@ -38,4 +39,35 @@ body {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 1.5rem 1.5rem;
+}
+
+.gradient-custom {
+  padding-top: 20px;
+  padding-bottom: 50px;
+  padding-left: 50px;
+  padding-right: 300px;
+  /* fallback for old browsers */
+  background: #a3caf7;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to top left,
+    rgb(198, 248, 245),
+    rgba(246, 243, 255, 1)
+  );
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(
+    to top left,
+    rgb(180, 242, 247),
+    rgba(246, 243, 255, 1)
+  );
+}
+.container.py-5.h-100 {
+  display: flex; /* Use flexbox to fill the height */
+  flex-direction: column; /* Stack child elements vertically */
+}
+
+.container.py-5.h-100 > * {
+  flex-grow: 1; /* Make child elements grow to fill available space */
 }

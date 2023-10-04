@@ -50,7 +50,6 @@ export class SignupPageComponent implements OnInit {
   ngOnInit(): void {}
 
   public onRegister() {
-    debugger;
     // Check if the form is valid
     if (this.signupForm.valid) {
       // Extract form values
@@ -95,7 +94,6 @@ export class SignupPageComponent implements OnInit {
   }
 
   private convertLocalStorageCart(userId: number) {
-    debugger;
     this.cartService.convertLocalStorageCartToDatabaseCart(userId).subscribe(
       (conversionResult) => {
         console.log('Cart conversion result:', conversionResult);

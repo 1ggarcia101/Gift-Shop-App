@@ -1,64 +1,72 @@
 <div class="homepage">
-  <div class="page-controls">
-    <div class="pag-container">
+  <div class="page-controls row">
+    <div class="col-md-6 col-lg-3 pag-container">
       <app-pagination
         [currentPage]="currentPage"
         [totalPages]="totalPages"
         (pageChange)="changePage($event)"
       ></app-pagination>
     </div>
-    <form class="d-flex" (submit)="onSearch()">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        [(ngModel)]="searchQuery"
-        name="searchQuery"
-      />
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+    <div class="col-md-6 col-lg-3 search-form">
+      <form class="d-flex" (submit)="onSearch()">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          [(ngModel)]="searchQuery"
+          name="searchQuery"
+        />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
 
-    <div class="category-filter">
-      <div class="dropdown">
-        <button
-          class="btn btn-outline-danger dropdown-toggle"
-          type="button"
-          id="categoryDropdown"
-          data-bs-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Filter
-        </button>
-        <div class="dropdown-menu" aria-labelledby="categoryDropdown">
-          <a
-            *ngFor="let category of productCategories"
-            class="dropdown-item"
-            (click)="onCategoryChange(category)"
-            >{{  "enums.productCategory." + category | translate  }}</a
+    <div class="col-md-6 col-lg-3">
+      <div class="category-filter">
+        <div class="dropdown">
+          <button
+            class="btn btn-outline-danger dropdown-toggle"
+            type="button"
+            id="categoryDropdown"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
           >
+            Filter
+          </button>
+          <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+            <a
+              *ngFor="let category of productCategories"
+              class="dropdown-item"
+              (click)="onCategoryChange(category)"
+              >{{ "enums.productCategory." + category | translate }}</a
+            >
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="form-group d-flex mt-0" id="perPage">
-      <label for="perPage" class="me-2">Products per Page:</label>
-      <select
-        class="form-control"
-        id="perPage"
-        [(ngModel)]="itemsPerPage"
-        (ngModelChange)="updateDisplayedProducts()"
-      >
-        <option [value]="5">5</option>
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-      </select>
+    <div class="col-md-6 col-lg-3 per-page-form">
+      <div class="form-group d-flex mt-0" id="perPage">
+        <label for="perPage" class="me-2">Products per Page:</label>
+        <select
+          class="form-control"
+          id="perPage"
+          [(ngModel)]="itemsPerPage"
+          (ngModelChange)="updateDisplayedProducts()"
+        >
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+        </select>
+      </div>
     </div>
 
-    <button class="btn btn-outline-secondary" (click)="clearFilters()">
-      Clear Filters
-    </button>
+    <div class="col-12 clear-filters">
+      <button class="btn btn-outline-secondary" (click)="clearFilters()">
+        Clear Filters
+      </button>
+    </div>
   </div>
 
   <div class="card-container">

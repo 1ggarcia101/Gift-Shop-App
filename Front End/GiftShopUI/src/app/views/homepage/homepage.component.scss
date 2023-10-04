@@ -1,92 +1,92 @@
-.card-deck{
-    display: inline-flex;
-    justify-content: space-evenly;margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
+.card-deck {
+  display: inline-flex;
+  justify-content: space-evenly;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
 }
 
-.card{
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
+.card {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
 }
 
-.navbar-brand{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: oblique;
-    color: azure;
+.navbar-brand {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-style: oblique;
+  color: azure;
 }
 
 .card-container {
-    background-color: whitesmoke;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; 
-  }
-  
-  .card-column {
-    flex: 1; 
-    min-width: 250px;
-  }
+  background-color: whitesmoke;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 
-  .card {
-    box-shadow: 10px 10px 5px lightblue;
-    display: flex; /* Use flex layout */
-    flex-direction: column; /* Arrange children vertically */
-    justify-content: space-between; /* Distribute space between children */
-    height: 100%; /* Fill the available height */
-  }
-  
-  .card-img-top {
-    max-width: 100%; /* Ensure the image doesn't exceed the card width */
-  }
-  
-  .card-body {
-    flex: 1; /* Allow the body to take up remaining space */
-  }
-  
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .card-text {
-    flex: 1; /* Allow the text content to take up remaining space */
-  }
-  
-  .card-buttons {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-  
+.card-column {
+  flex: 1;
+  min-width: 250px;
+}
+
+.card {
+  box-shadow: 10px 10px 5px lightblue;
+  display: flex; /* Use flex layout */
+  flex-direction: column; /* Arrange children vertically */
+  justify-content: space-between; /* Distribute space between children */
+  height: 100%; /* Fill the available height */
+}
+
+.card-img-top {
+  max-width: 100%; /* Ensure the image doesn't exceed the card width */
+}
+
+.card-body {
+  flex: 1; /* Allow the body to take up remaining space */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  flex: 1; /* Allow the text content to take up remaining space */
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 
 .gg-shopping-bag {
-    transform: scale(var(--ggs,1.2))
+  transform: scale(var(--ggs, 1.2));
 }
 .gg-shopping-bag,
 .gg-shopping-bag::after {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid;
-    border-radius: 3px
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 3px;
 }
 .gg-shopping-bag::after {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 6px;
-    border-bottom-left-radius: 120px;
-    border-bottom-right-radius: 120px;
-    border-top: 0;
-    top: 2px;
-    left: 3px
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 6px;
+  border-bottom-left-radius: 120px;
+  border-bottom-right-radius: 120px;
+  border-top: 0;
+  top: 2px;
+  left: 3px;
 }
-.homepage{
+.homepage {
   background-color: whitesmoke;
 }
 .page-controls {

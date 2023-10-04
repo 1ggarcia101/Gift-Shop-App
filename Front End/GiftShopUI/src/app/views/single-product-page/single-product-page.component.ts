@@ -58,7 +58,7 @@ export class SingleProductPageComponent implements OnInit {
         // User is registered or admin, create a CartItem
         const cartItem = {
           productId: product.productId,
-          quantity: 1, // Adjust the quantity as needed
+          productQuantity: 1, // Adjust the quantity as needed
         };
 
         // Make sure this.userId is defined before using it

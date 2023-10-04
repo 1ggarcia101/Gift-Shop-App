@@ -15,7 +15,6 @@ export class UserSignupService {
   constructor(private http: HttpClient) { }
 
   addUser(user:GiftShopUser): Observable<any> {
-    debugger
     const headers = { 'content-type': 'application/json'}  
     return this.http.post(this.url + this._register, user, {'headers':headers})
   }

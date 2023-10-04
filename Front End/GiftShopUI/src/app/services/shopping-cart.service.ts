@@ -167,7 +167,6 @@ export class ShoppingCartService {
   }
 
   convertLocalStorageCartToDatabaseCart(userId: number): Observable<any> {
-    debugger;
     let cartList: AdminProduct[] = this.getCartItemsFromLocalStorage();
 
     // Check if there are items in the local storage cart

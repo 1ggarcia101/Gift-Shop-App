@@ -93,7 +93,6 @@ export class CheckoutPageComponent {
   }
 
   clearCartAfterPurchase() {
-    debugger
     const userId = this.authService.getUserId();
 
     this.cartService.deleteCart(userId).subscribe(

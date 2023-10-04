@@ -1,58 +1,66 @@
-.card-deck{
-    display: inline-flex;
-    justify-content: space-evenly;margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
+.card-deck {
+  display: inline-flex;
+  justify-content: space-evenly;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
 }
 
-.card{
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
+.card {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
 }
 
-.navbar-brand{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: oblique;
-    color: azure;
+.navbar-brand {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-style: oblique;
+  color: azure;
 }
 
-.card{
-    box-shadow: 10px 10px 5px lightblue;
+.card {
+  box-shadow: 10px 10px 5px lightblue;
 }
 
-.card-container{
-    background-color: whitesmoke;
+.card-container {
+  background-color: whitesmoke;
 }
 
 .gg-shopping-bag {
-    transform: scale(var(--ggs,1.2))
+  transform: scale(var(--ggs, 1.2));
 }
 .gg-shopping-bag,
 .gg-shopping-bag::after {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid;
-    border-radius: 3px
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 3px;
 }
 .gg-shopping-bag::after {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 6px;
-    border-bottom-left-radius: 120px;
-    border-bottom-right-radius: 120px;
-    border-top: 0;
-    top: 2px;
-    left: 3px
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 6px;
+  border-bottom-left-radius: 120px;
+  border-bottom-right-radius: 120px;
+  border-top: 0;
+  top: 2px;
+  left: 3px;
 }
-.perPage{
-    display: inline-flex;
-    justify-content: space-evenly;margin-left: 10px;
-    margin-right: 70px;
-    margin-top: 20px;
-    width: .5%;
+.perPage {
+  display: inline-flex;
+  justify-content: space-evenly;
+  margin-left: 10px;
+  margin-right: 70px;
+  margin-top: 20px;
+  width: 0.5%;
+}
+.welcome-message {
+  margin-right: 30px;
+}
+.dropdown {
+  padding: 20px;
 }

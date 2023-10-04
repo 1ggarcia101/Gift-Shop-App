@@ -120,7 +120,6 @@ export class ShoppingCartPageComponent {
   }
 
   deleteItemDatabase(userId: number, productId: number) {
-    debugger;
     this._cartservice
       .deleteCartItem(userId, productId)
       .subscribe((response) => {});
