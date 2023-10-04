@@ -3,7 +3,8 @@ import { OrderItem } from './orderItem'; // Import the OrderItem class if you ha
 export class CreateOrderRequest {
   constructor(
     public userId: number,
-    public orderItems: OrderItem[]
-  ) // Add other order-related properties here if needed
+    public orderItems: OrderItem[],
+    public totalAmount: number
+  ) 
   {}
 }

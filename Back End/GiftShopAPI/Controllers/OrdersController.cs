@@ -32,6 +32,7 @@ namespace GiftShopAPI.Controllers
             var order = new Order
             {
                 UserId = orderDto.UserId,
+                TotalAmount = orderDto.TotalAmount, // Set the TotalAmount property
                 OrderItems = orderDto.OrderItems.Select(oi => new OrderItem
                 {
                     ProductId = oi.ProductId,
@@ -46,6 +47,7 @@ namespace GiftShopAPI.Controllers
             // Return the newly created order as a response
             return CreatedAtAction(nameof(CreateOrder), new { orderId = order.OrderId }, order);
         }
+
 
     }
 }

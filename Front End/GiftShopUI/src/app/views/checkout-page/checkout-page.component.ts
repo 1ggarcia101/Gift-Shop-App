@@ -14,14 +14,17 @@ import { PaymentService } from 'src/app/services/payment.service';
   styleUrls: ['./checkout-page.component.scss'],
 })
 export class CheckoutPageComponent {
-  cartItems: OrderItem[] = []; 
-  shippingCost: number = 20; 
-  taxRate: number = 0.1; // Tax rate as a decimal (e.g., 0.1 for 10%)
+  cartItems: OrderItem[] = [];
+  
 
   cardNumber: string = '';
   nameOnCard: string = '';
   expirationDate: string = '';
   cvv: string = '';
+
+  subtotal: number = 0;
+  shipping: number = 5;
+  total: number = 0;
 
   constructor(
     private router: Router,
@@ -37,6 +40,8 @@ export class CheckoutPageComponent {
     this.cartService.getCartItemsFromDatabase(userId).subscribe(
       (cartItems) => {
         this.cartItems = cartItems;
+        // Calculate subtotal and total after cartItems have been received
+        this.calculateSubtotalAndTotal();
       },
       (error) => {
         console.error('Error fetching cart items from database:', error);
@@ -49,6 +54,7 @@ export class CheckoutPageComponent {
     const orderData: CreateOrderRequest = {
       userId: this.authService.getUserId(),
       orderItems: this.cartItems,
+      totalAmount: this.total,
     };
 
     console.log(orderData);
@@ -107,17 +113,14 @@ export class CheckoutPageComponent {
     );
   }
 
-  calculateSubtotal(): number {
-    return this.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+  private calculateSubtotalAndTotal(): void {
+    // Calculate subtotal based on cart items
+    this.subtotal = this.cartItems.reduce(
+      (acc, item) => acc + item.productPrice * item.productQuantity,
       0
     );
-  }
 
-  calculateTotal(): number {
-    const subtotal = this.calculateSubtotal();
-    const tax = subtotal * this.taxRate;
-    return subtotal + tax + this.shippingCost;
+    this.total = this.subtotal + this.shipping;
   }
 
   navigateToCheckoutPage() {

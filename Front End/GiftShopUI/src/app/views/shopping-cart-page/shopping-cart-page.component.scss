@@ -34,9 +34,8 @@ img {
   flex-grow: 1; /* Make child elements grow to fill available space */
 }
 
-// .card-body{
-//   padding-left: 50px;
-//   padding-right: 50px;
-//   padding-top: 50px;
-//   padding-bottom: 50px;
-// }
+
+
+.card-body{
+  box-shadow: 10px 10px 5px lightblue;
+}

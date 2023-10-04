@@ -71,3 +71,8 @@ body {
 .container.py-5.h-100 > * {
   flex-grow: 1; /* Make child elements grow to fill available space */
 }
+
+
+.card-body{
+  box-shadow: 10px 10px 5px lightblue;
+}

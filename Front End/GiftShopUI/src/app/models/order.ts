@@ -8,8 +8,8 @@ export interface Order {
 
 export interface OrderItem {
   productId: number;
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
+  productName: string;
+  productImage: string;
+  productPrice: number;
+  productQuantity: number;
 }

@@ -5,6 +5,8 @@ namespace GiftShopAPI.Models
         public int UserId { get; set; }
 
         public List<OrderItemDto> OrderItems { get; set; }
+
+        public decimal TotalAmount { get; set; }
     }
 
     public class OrderItemDto
