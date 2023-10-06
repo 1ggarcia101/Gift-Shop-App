@@ -58,8 +58,7 @@ export class SignupPageComponent implements OnInit {
       // Call the service to add the user
       this.userSignupService.addUser(formValues).subscribe(
         (res) => {
-          // Ensure that the user ID is correctly retrieved from the registration response
-          const token = res.token; // Assuming the token is returned as "Token" in the response
+          const token = res.token; 
 
           if (token) {
             // Store the token in local storage
@@ -73,7 +72,6 @@ export class SignupPageComponent implements OnInit {
               ];
             const userId = parseInt(userClaims[2], 10);
 
-            // Now, you have the user ID and can proceed with other operations, such as cart conversion
             this.convertLocalStorageCart(userId);
             this.cartService.clearLocalStorageCart();
             this.router.navigate(['app-homepage']);

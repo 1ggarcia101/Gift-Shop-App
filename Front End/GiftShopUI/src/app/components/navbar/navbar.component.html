@@ -20,20 +20,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse justify-content-end ml-auto" id="navbarSupportedContent">
-      <!-- Wrap the elements in a flex container -->
-      <a
-        href="/"
-        class="d-flex align-items-center link-dark text-decoration-none"
-      >
-        <ng-container *ngIf="isAuthenticated; else notAuthenticated">
-          <span class="fs-4 welcome-message">Welcome, {{ FirstName }}!</span>
-        </ng-container>
-        <ng-template #notAuthenticated>
-          <span class="fs-4">Welcome, Guest!</span>
-        </ng-template>
-      </a>
-
+    <div
+      class="collapse navbar-collapse justify-content-end ml-auto"
+      id="navbarSupportedContent"
+    >
       <div class="dropdown">
         <a
           href="#"
@@ -49,7 +39,12 @@
             height="32"
             class="rounded-circle me-2"
           />
-          <strong>My Account</strong>
+          <ng-container *ngIf="isAuthenticated; else notAuthenticated">
+            <span class="fs-5 welcome-message">Welcome, {{ FirstName }}!</span>
+          </ng-container>
+          <ng-template #notAuthenticated>
+            <span class="fs-5">Welcome, Guest!</span>
+          </ng-template>
         </a>
         <ul
           class="dropdown-menu text-small shadow"
@@ -66,13 +61,21 @@
           </li>
           <li>
             <a
+              *ngIf="isAuthenticated"
               class="dropdown-item"
               routerLink="/app-admin-page"
               routerLinkActive="active"
               >Admin Page</a
             >
           </li>
-          <li><a class="dropdown-item" href="#">Orders</a></li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/app-order-page"
+              routerLinkActive="active"
+              >Orders</a
+            >
+          </li>
           <li><hr class="dropdown-divider" /></li>
           <li class="dropdown-item">
             <a

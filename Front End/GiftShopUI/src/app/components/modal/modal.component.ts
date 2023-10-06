@@ -47,14 +47,12 @@ export class ModalComponent {
 
   onEdit() {
     if (!this.productForm.valid) {
-      console.log(this.productForm.errors);
       return;
     }
   
     const editedProductData = this.productForm.value;
     this._adminService.editAdminProduct(editedProductData).subscribe(
       res => {
-        console.log(res);
         this.modalService.dismissAll(); // Dismiss the modal
   
         // Update the products array with the edited product

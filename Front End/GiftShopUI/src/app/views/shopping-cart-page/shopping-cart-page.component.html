@@ -1,4 +1,5 @@
-<section class="h-100 gradient-custom">
+<!-- h-100 gradient-custom -->
+<section class="mt-1">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg">
@@ -62,9 +63,8 @@
                         </div>
                         <div class="ms-3">
                           <h5>{{ item.productName }}</h5>
-                          <p class="small mb-0">
-                            {{ item.productDescription }}
-                          </p>
+                          <p> {{ item.productPrice | currency}} </p>
+                          <span class="badge text-bg-secondary">{{ "enums.productCategory." + item.productCategory | translate  }}</span>
                         </div>
                       </div>
                       <div class="d-flex flex-row align-items-center">
@@ -74,20 +74,21 @@
                           </h5>
                         </div>
                         <button
-                          class="btn btn-success btn-sm"
-                          (click)="incrementQuantity(item)"
-                        >
-                          +
-                        </button>
-                        <button
                           class="btn btn-secondary btn-sm"
                           (click)="decrementQuantity(item)"
                         >
                           -
                         </button>
+                        <button
+                          class="btn btn-success btn-sm"
+                          (click)="incrementQuantity(item)"
+                        >
+                          +
+                        </button>
+                        
                         <div style="width: 80px">
                           <h5 class="mb-0">
-                            {{ item.productPrice | currency }}
+                            {{ (item.productPrice * item.productQuantity) | currency }}
                           </h5>
                         </div>
                         <button
@@ -117,9 +118,8 @@
                           </div>
                           <div class="ms-3">
                             <h5>{{ item.productName }}</h5>
-                            <p class="small mb-0">
-                              {{ item.productDescription }}
-                            </p>
+                            <p> {{ item.productPrice | currency}} </p>
+                            <span class="badge text-bg-secondary">{{ "enums.productCategory." + item.productCategory | translate  }}</span>
                           </div>
                         </div>
                         <div class="d-flex flex-row align-items-center">
@@ -129,14 +129,6 @@
                             </h5>
                           </div>
                           <button
-                            class="btn btn-success btn-sm"
-                            (click)="
-                              incrementQuantityDatabase(userId, item.productId)
-                            "
-                          >
-                            +
-                          </button>
-                          <button
                             class="btn btn-secondary btn-sm"
                             (click)="
                               decrementQuantityDatabase(userId, item.productId)
@@ -144,9 +136,19 @@
                           >
                             -
                           </button>
+
+                          <button
+                            class="btn btn-success btn-sm"
+                            (click)="
+                              incrementQuantityDatabase(userId, item.productId)
+                            "
+                          >
+                            +
+                          </button>
+                          
                           <div style="width: 80px">
                             <h5 class="mb-0">
-                              {{ item.productPrice | currency }}
+                              {{ (item.productPrice * item.productQuantity) | currency }}
                             </h5>
                           </div>
                           <button

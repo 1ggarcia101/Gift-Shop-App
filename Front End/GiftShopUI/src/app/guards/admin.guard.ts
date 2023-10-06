@@ -34,7 +34,6 @@ export class AdminGuard implements CanActivate {
           decodedToken[
             'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
           ];
-        console.log(rolesClaim);
 
         // Check if the user is an admin
         if (rolesClaim && rolesClaim.length >= 3) {

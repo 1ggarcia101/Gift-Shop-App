@@ -35,12 +35,10 @@ export class NavbarComponent {
 
   updateFirstName() {
     const token = this.authService.getToken();
-    console.log('Token:', token);
 
     if (token) {
       try {
         const decodedToken = this.jwtService.decodeToken(token);
-        console.log('Decoded Token:', decodedToken);
         let claims =
           decodedToken[
             'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
@@ -51,7 +49,6 @@ export class NavbarComponent {
           decodedToken[
             'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
           ];
-        console.log('UserType:', userTypeClaim);
       } catch (error) {
         console.error('Token Decoding Error:', error);
       }

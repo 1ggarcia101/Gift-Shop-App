@@ -19,7 +19,6 @@
 }
 
 .card-container {
-  background-color: whitesmoke;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -32,18 +31,18 @@
 
 .card {
   box-shadow: 10px 10px 5px lightblue;
-  display: flex; /* Use flex layout */
-  flex-direction: column; /* Arrange children vertically */
-  justify-content: space-between; /* Distribute space between children */
-  height: 100%; /* Fill the available height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  height: 100%; 
 }
 
 .card-img-top {
-  max-width: 100%; /* Ensure the image doesn't exceed the card width */
+  max-width: 100%; 
 }
 
 .card-body {
-  flex: 1; /* Allow the body to take up remaining space */
+  flex: 1; 
 }
 
 .card-title {
@@ -53,7 +52,7 @@
 }
 
 .card-text {
-  flex: 1; /* Allow the text content to take up remaining space */
+  flex: 1; 
 }
 
 .card-buttons {
@@ -86,17 +85,9 @@
   top: 2px;
   left: 3px;
 }
-.homepage {
-  background-color: whitesmoke;
-}
 .page-controls {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin-bottom: 10px;
-  background-color: aliceblue;
-}
-.products-per-page {
-  flex: 1;
-  margin-right: 10px; /* Adjust the margin as needed */
 }

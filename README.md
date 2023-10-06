@@ -1,5 +1,5 @@
 # GiftShop_Ggarcia
-Full Stack Web Application
+
 
 
 ## Getting started

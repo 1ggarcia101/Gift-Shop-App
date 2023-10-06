@@ -152,7 +152,6 @@ export class AdminPageComponent {
 
     this._adminService.submitNewProduct(productData).subscribe(
       (res) => {
-        console.log(res);
         this.products.push(res);
         this.modalService.dismissAll();
         this.submitted = false;
@@ -179,7 +178,6 @@ export class AdminPageComponent {
 
     this._adminService.editAdminProduct(editedProductData).subscribe(
       (res) => {
-        console.log(res);
         this.modalService.dismissAll();
         const editedProductIndex = this.products.findIndex(
           (product) => product.productId === editedProductData.productId
@@ -224,7 +222,6 @@ export class AdminPageComponent {
   deleteProducts(productId: number | any) {
     this._adminService.deleteAdminProduct(productId).subscribe(
       (res) => {
-        console.log(res);
         this.products = this.products.filter(
           (product) => product.id !== productId
         );

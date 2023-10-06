@@ -24,6 +24,7 @@ import { AdminPageComponent } from './views/admin-page/admin-page.component';
 import { CardComponent } from './components/card/card.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OrderPageComponent } from './views/order-page/order-page.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -49,6 +50,7 @@ export function tokenGetter() {
     AdminPageComponent,
     CardComponent,
     ModalComponent,
+    OrderPageComponent,
   ],
   imports: [
     BrowserModule,

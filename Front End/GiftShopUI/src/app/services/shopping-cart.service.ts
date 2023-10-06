@@ -33,8 +33,11 @@ export class ShoppingCartService {
     }
   }
 
+  ngOnInit(): void{
+    console.log(this.cartItems$);
+  }
+
   updateLocalStorage() {
-    console.log(this.cartItems);
     localStorage.setItem(this.cartItemsKey, JSON.stringify(this.cartItems));
   }
 
@@ -177,8 +180,6 @@ export class ShoppingCartService {
         cartItems: cartList, 
       };
 
-      console.log(request);
-      console.log(request.cartItems);
 
       const convertUrl = `${this.url}${this._convertCart}/${userId}`;
 

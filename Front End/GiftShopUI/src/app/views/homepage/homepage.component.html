@@ -1,13 +1,13 @@
-<div class="homepage">
-  <div class="page-controls row">
-    <div class="col-md-6 col-lg-3 pag-container">
+<div class="container-fluid homepage">
+  <div class="page-controls row justify-content-start">
+    <div class="col-sm-1 col-md-6 col-lg-2 pag-container">
       <app-pagination
         [currentPage]="currentPage"
         [totalPages]="totalPages"
         (pageChange)="changePage($event)"
       ></app-pagination>
     </div>
-    <div class="col-md-6 col-lg-3 search-form">
+    <div class="col-sm-1 col-md-6 col-lg-6 search-form">
       <form class="d-flex" (submit)="onSearch()">
         <input
           class="form-control me-2"
@@ -21,7 +21,7 @@
       </form>
     </div>
 
-    <div class="col-md-6 col-lg-3">
+    <div class="col-sm-1 col-md-6 col-lg-1">
       <div class="category-filter">
         <div class="dropdown">
           <button
@@ -46,9 +46,15 @@
       </div>
     </div>
 
-    <div class="col-md-6 col-lg-3 per-page-form">
+    <div class="col clear-filters mt-2">
+      <button class="btn btn-outline-secondary" (click)="clearFilters()">
+        Clear Filters
+      </button>
+    </div>
+
+    <div class="col-sm-1 col-md-6 col-lg-2 per-page-form">
       <div class="form-group d-flex mt-0" id="perPage">
-        <label for="perPage" class="me-2">Products per Page:</label>
+        <label for="perPage" class="me-1">Products per Page:</label>
         <select
           class="form-control"
           id="perPage"
@@ -60,12 +66,6 @@
           <option [value]="20">20</option>
         </select>
       </div>
-    </div>
-
-    <div class="col-12 clear-filters">
-      <button class="btn btn-outline-secondary" (click)="clearFilters()">
-        Clear Filters
-      </button>
     </div>
   </div>
 

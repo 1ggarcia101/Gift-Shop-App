@@ -124,7 +124,8 @@ namespace GiftShopAPI.Controllers
                     ProductDescription = ci.Product.ProductDescription,
                     ProductImage = ci.Product.ProductImage,
                     ProductPrice = ci.Product.ProductPrice,
-                    ProductQuantity = ci.ProductQuantity
+                    ProductQuantity = ci.ProductQuantity,
+                    ProductCategory = ci.Product.ProductCategory
                 })
                 .ToListAsync();
 

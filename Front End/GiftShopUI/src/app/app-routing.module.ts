@@ -10,8 +10,10 @@ import { CheckoutPageComponent } from './views/checkout-page/checkout-page.compo
 import { AdminPageComponent } from './views/admin-page/admin-page.component';
 import { AdminGuard } from './guards/admin.guard';
 import { CheckoutGuard } from './guards/checkout.guard';
+import { OrderPageComponent } from './views/order-page/order-page.component';
 
 const routes: Routes = [
+  { path: '', component: HomepageComponent },
   { path: 'app-root', component: AppComponent },
   { path: 'app-homepage', component: HomepageComponent },
   { path: 'app-login-page', component: LoginPageComponent },
@@ -23,7 +25,8 @@ const routes: Routes = [
   { path: 'app-shopping-cart-page', component: ShoppingCartPageComponent },
   { path: 'app-checkout-page', component: CheckoutPageComponent, canActivate: [CheckoutGuard] },
   { path: 'app-admin-page', component: AdminPageComponent, canActivate: [AdminGuard] },
-  { path: '', redirectTo: 'app-homepage', pathMatch: 'full' },
+  { path: 'app-order-page', component: OrderPageComponent},
+  //{ path: '', redirectTo: 'app-homepage', pathMatch: 'full' },
 ];
 
 @NgModule({

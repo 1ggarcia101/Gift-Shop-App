@@ -2,7 +2,7 @@ export interface Order {
   OrderId: number;
   CustomerId: number;
   TotalAmount: number;
-  OrderItems: OrderItem[];
+  OrderItems: any[];
   OrderDate: Date;
 }
 

@@ -1,10 +1,36 @@
 <div class="card">
-  <img class="card-img-top" [src]="product.productImage" alt="Card image cap" width="100" height="300">
+  <img
+    class="card-img-top"
+    [src]="product.productImage"
+    alt="Card image cap"
+    width="100"
+    height="300"
+  />
   <div class="card-body">
     <h5 class="card-title">{{ product.productName }}</h5>
-    <p class="card-text">{{ product.productDescription }}</p>
-    <button class="btn btn-primary" (click)="navigateToSingleProductPage(product.productId)">Button</button>
+    <div class="d-flex justify-content-between">
+      <p class="card-text">{{ product.productPrice | currency }}</p>
+      <p class="card-text">
+        <span class="badge text-bg-secondary">{{
+          "enums.productCategory." + product.productCategory | translate
+        }}</span>
+      </p>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <button
+        class="btn btn-primary"
+        (click)="navigateToSingleProductPage(product.productId)"
+      >
+        Show Product
+      </button>
+      <button
+        class="btn btn-warning me-1"
+        title="Add to Cart"
+        (click)="addToCart(product)"
+      >
+        <i class="bx bxs-cart"></i>
+      </button>
+    </div>
   </div>
 </div>
-
-

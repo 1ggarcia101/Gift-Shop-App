@@ -50,6 +50,8 @@ export class ShoppingCartPageComponent {
         this.calculateSubtotalAndTotal(items);
       });
     }
+
+    console.log(this.cartItems$);
   }
 
   navigateToShoppingCartPage() {
@@ -73,11 +75,9 @@ export class ShoppingCartPageComponent {
   decrementQuantity(item: any): void {
     if (item.productQuantity > 1) {
       item.productQuantity--;
-      console.log('Decremented item:', item);
       this._cartservice.subtractFromLocalStorage(item);
       // Calculate the new subtotal and total based on all items in the cart
       const updatedItems = this._cartservice.getCartItemsFromLocalStorage();
-      console.log('Updated items after decrement:', updatedItems);
       this.calculateSubtotalAndTotal(updatedItems);
     } else {
       // If the quantity is already 1, remove the item from the cart

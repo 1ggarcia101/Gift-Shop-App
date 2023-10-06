@@ -15,6 +15,28 @@ export class SingleProductPageComponent implements OnInit {
   product: AdminProduct = {};
   isUserRegisteredOrAdmin: boolean = false;
   userId: number | undefined;
+  currentProductIndex: number = 0;
+
+  suggestedProducts: AdminProduct[] = [
+    {
+      productId: 1,
+      productName: 'Product 1',
+      productImage: '\\assets\\images\\81J4TvhJx1L.jpg',
+      productDescription: 'Description 1',
+    },
+    {
+      productId: 2,
+      productName: 'Product 2',
+      productImage: '\\assets\\images\\12128.jpg',
+      productDescription: 'Description 2',
+    },
+    {
+      productId: 3,
+      productName: 'Product 3',
+      productImage: '\\assets\\images\\12128.jpg',
+      productDescription: 'Description 3',
+    },
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +55,12 @@ export class SingleProductPageComponent implements OnInit {
     this.checkUserStatus();
 
     this.userId = this.authService.getUserId() ?? -1;
+
+    this.adminService.getAdminProductsAndCount().subscribe((data) => {
+      this.suggestedProducts = data.products;
+    });
+
+    console.log(this.suggestedProducts);
   }
 
   fetchProductDetails(productId: number): void {
@@ -58,7 +86,7 @@ export class SingleProductPageComponent implements OnInit {
         // User is registered or admin, create a CartItem
         const cartItem = {
           productId: product.productId,
-          productQuantity: 1, // Adjust the quantity as needed
+          productQuantity: 1,
         };
 
         // Make sure this.userId is defined before using it
@@ -72,11 +100,10 @@ export class SingleProductPageComponent implements OnInit {
           // Add to the database cart
           this.shoppingCartService.addToDatabaseCart(addToCartRequest);
 
-          // Show an alert message
           window.alert('Item added to the cart!');
 
           // Redirect to the homepage
-          this.router.navigate(['/']); // Replace '/' with your homepage route
+          this.router.navigate(['/']);
         } else {
           console.error('userId is not defined.');
         }
@@ -95,8 +122,7 @@ export class SingleProductPageComponent implements OnInit {
 
     window.alert('Item added to the cart!');
 
-    // Redirect to the homepage
-    this.router.navigate(['/']); // Replace '/' with your homepage route
+    this.router.navigate(['/']);
   }
 
   addToDatabaseCart(request: AddToCartRequest): void {
@@ -108,5 +134,20 @@ export class SingleProductPageComponent implements OnInit {
   private checkUserStatus(): void {
     // Use your authentication service to check if the user is registered or an admin
     this.isUserRegisteredOrAdmin = this.authService.isUserRegisteredOrAdmin();
+  }
+
+  nextProduct() {
+    this.currentProductIndex++;
+    if (this.currentProductIndex >= this.suggestedProducts.length) {
+      this.currentProductIndex = 0; // Cycle back to the first product
+    }
+  }
+
+  // Function to go to the previous product
+  previousProduct() {
+    this.currentProductIndex--;
+    if (this.currentProductIndex < 0) {
+      this.currentProductIndex = this.suggestedProducts.length - 1; // Cycle to the last product
+    }
   }
 }

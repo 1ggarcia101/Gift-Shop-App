@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Cors;
 using GiftShopAPI.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using GiftShopAPI.models;
 
 namespace GiftShopAPI.Controllers
 {
@@ -47,6 +49,66 @@ namespace GiftShopAPI.Controllers
             // Return the newly created order as a response
             return CreatedAtAction(nameof(CreateOrder), new { orderId = order.OrderId }, order);
         }
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<List<Order>>> GetOrders(int userId)
+        {
+            // Retrieve the order and its associated order items from the database
+            var order = await _context.Orders.Where(x => x.UserId == userId)
+                .ToListAsync();
+
+            if (order == null)
+            {
+                return NotFound(); // Order not found
+            }
+
+            // Create an OrderDetails object to combine order and order items information
+            //var orderDetails = new OrderDetails
+            //{
+            //    OrderId = order.OrderId,
+            //    TotalAmount = order.TotalAmount,
+            //    UserId = order.UserId,
+            //    OrderItems = order.OrderItems.Select(oi => new OrderItemDto
+            //    {
+            //        ProductId = oi.ProductId,
+            //        ProductQuantity = oi.ProductQuantity,
+            //        // Include additional properties from OrderItem as needed
+            //    }).ToList()
+            //};
+
+            return Ok(order);
+        }
+
+        [HttpGet("{orderId}")]
+        public async Task<ActionResult<OrderDetails>> GetOrder(int orderId)
+        {
+            // Retrieve the order and its associated order items from the database
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .SingleOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return NotFound(); // Order not found
+            }
+
+            // Create an OrderDetails object to combine order and order items information
+            var orderDetails = new OrderDetails
+            {
+                OrderId = order.OrderId,
+                TotalAmount = order.TotalAmount,
+                UserId = order.UserId,
+                OrderItems = order.OrderItems.Select(oi => new OrderItemDto
+                {
+                    ProductId = oi.ProductId,
+                    ProductQuantity = oi.ProductQuantity,
+                    // Include additional properties from OrderItem as needed
+                }).ToList()
+            };
+
+            return Ok(orderDetails);
+        }
+
 
 
     }
