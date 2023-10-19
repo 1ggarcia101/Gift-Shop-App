@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import { AddToCartRequest } from 'src/app/models/addToCartRequest';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-card',
@@ -25,10 +26,11 @@ export class CardComponent {
   constructor(
     private router: Router,
     private shoppingCartService: ShoppingCartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.checkUserStatus();
 
     this.userId = this.authService.getUserId() ?? -1;
@@ -61,10 +63,15 @@ export class CardComponent {
           // Add to the database cart
           this.shoppingCartService.addToDatabaseCart(addToCartRequest);
 
-          window.alert('Item added to the cart!');
-
-          // Redirect to the homepage
-          this.router.navigate(['/']);
+          this.snackBar
+            .open('Item added to the cart!', 'Login', {
+              panelClass: ['my-custom-snackbar'],
+              verticalPosition: 'top'
+            })
+            .onAction()
+            .subscribe(() => {
+              this.router.navigate(['/']);
+            });
         } else {
           console.error('userId is not defined.');
         }
@@ -81,9 +88,16 @@ export class CardComponent {
     // User is unregistered, add to local storage
     this.shoppingCartService.addToLocalStorage(product);
 
-    window.alert('Item added to the cart!');
-
-    this.router.navigate(['/']);
+    this.snackBar
+      .open('Item added to the cart!', 'Login', {
+        panelClass: ['my-custom-snackbar'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      })
+      .onAction()
+      .subscribe(() => {
+        this.router.navigate(['/']);
+      });
   }
 
   private checkUserStatus(): void {

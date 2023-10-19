@@ -18,7 +18,7 @@ export class HomepageComponent implements OnInit {
   ];
   searchQuery: string = '';
   currentPage = 1;
-  itemsPerPage = 8;
+  itemsPerPage = 10;
   totalPages = 5;
   totalProducts: number = 0;
 

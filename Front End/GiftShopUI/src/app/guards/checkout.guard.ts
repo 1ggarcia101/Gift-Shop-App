@@ -9,6 +9,7 @@ import {
 import { AuthService } from '../services/auth.service';
 import { JwtService } from '../services/jwt.service';
 import { ShoppingCartService } from '../services/shopping-cart.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ export class CheckoutGuard implements CanActivate {
     private authService: AuthService,
     private router: Router,
     private jwtService: JwtService,
-    private cartService: ShoppingCartService
+    private cartService: ShoppingCartService,
+    private snackBar: MatSnackBar
   ) {}
 
   unauthorizedAccess = false;
@@ -50,17 +52,12 @@ export class CheckoutGuard implements CanActivate {
       }
     }
 
-    const confirmation = window.confirm(
-      'You need to create an account to access this page. Do you want to sign up now?'
-    );
-
-    if (confirmation) {
-      // Redirect to the signup page
-      this.router.navigate(['/app-signup-page']); // Adjust the actual route
-    } else {
-      // Redirect to another page or simply return false
-      this.router.navigate(['/']); // Redirect to the homepage or another page
-    }
+    this.snackBar
+        .open('You must be logged in to access this page', 'Login', {})
+        .onAction()
+        .subscribe(() => {
+          this.router.navigate(['/app-signup-page']);
+        });
 
     return false;
   }

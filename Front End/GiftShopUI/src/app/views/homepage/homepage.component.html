@@ -1,5 +1,5 @@
 <div class="container-fluid homepage">
-  <div class="page-controls row justify-content-start">
+  <div class="page-controls py-2 container-fluid justify-content-start">
     <div class="col-sm-1 col-md-6 col-lg-2 pag-container">
       <app-pagination
         [currentPage]="currentPage"
@@ -17,7 +17,7 @@
           [(ngModel)]="searchQuery"
           name="searchQuery"
         />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-light mx-1" type="submit">Search</button>
       </form>
     </div>
 
@@ -25,7 +25,7 @@
       <div class="category-filter">
         <div class="dropdown">
           <button
-            class="btn btn-outline-danger dropdown-toggle"
+            class="btn btn-outline-light dropdown-toggle"
             type="button"
             id="categoryDropdown"
             data-bs-toggle="dropdown"
@@ -46,8 +46,8 @@
       </div>
     </div>
 
-    <div class="col clear-filters mt-2">
-      <button class="btn btn-outline-secondary" (click)="clearFilters()">
+    <div class="col clear-filters">
+      <button class="btn btn-outline-light" (click)="clearFilters()">
         Clear Filters
       </button>
     </div>

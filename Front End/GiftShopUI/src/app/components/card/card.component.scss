@@ -1,21 +1,30 @@
-.card-deck{
-    display: inline-flex;
-    justify-content: space-evenly;margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
+.card-deck {
+  display: inline-flex;
+  justify-content: space-evenly;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
 }
 
-.card{
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
+.card {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
 }
 
-.card{
-    box-shadow: 10px 10px 5px lightblue;
+.card {
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
-.card-container{
-    background-color: whitesmoke;
+.card-container {
+  background-color: whitesmoke;
 }
 
+.my-custom-snackbar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(153, 50, 50);
+  color:lightgoldenrodyellow;
+}

@@ -1,0 +1,12 @@
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.my-custom-snackbar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(153, 50, 50);
+  color:lightgoldenrodyellow;
+}

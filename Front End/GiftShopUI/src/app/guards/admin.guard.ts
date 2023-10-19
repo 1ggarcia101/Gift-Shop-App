@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { JwtService } from '../services/jwt.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,8 @@ export class AdminGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private jwtService: JwtService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   unauthorizedAccess = false;
@@ -51,10 +53,14 @@ export class AdminGuard implements CanActivate {
     this.unauthorizedAccess = true;
 
     // If not authenticated or not an admin, redirect to a different route (e.g., login)
-    this.router.navigate(['/app-homepage']); // Change this route as needed
-    if (this.unauthorizedAccess == true) {
-      console.log('You must be an admin to access this page.');
-    }
+    this.snackBar
+        .open('You must be an admin to access this page', 'Login', {
+          panelClass: 'my-custom-snackbar'
+        })
+        .onAction()
+        .subscribe(() => {
+          this.router.navigate(['/app-homepage']);
+        });
     return false;
   }
 }

@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-page',
@@ -46,7 +47,8 @@ export class AdminPageComponent {
     protected _adminService: AdminService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private _editModal: ModalComponent
+    private _editModal: ModalComponent,
+    private snackBar: MatSnackBar
   ) {
     this.productForm = this.formBuilder.group({
       ProductName: [
